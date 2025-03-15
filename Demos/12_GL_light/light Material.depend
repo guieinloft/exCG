@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1721758511 source:d:\ufsm\disciplinas\computacao grafica\demos\12_gl_light\src\material.cpp
+	"GL/glut.h"
+	<math.h>
+	<stdio.h>
+
+1632060799 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+

@@ -1,0 +1,45 @@
+# depslib dependency file v1.0
+1531745385 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_15_bumpmap\src\lighting_sem_gl.cpp
+	<GL/glut.h>
+	"lighting_sem_gl_vector.h"
+	<stdio.h>
+
+1426358040 d:\ufsm\disciplinas\computacao grafica\programas\gl_15_bumpmap\include\gl\glut.h
+	"freeglut_std.h"
+
+1437565542 d:\ufsm\disciplinas\computacao grafica\programas\gl_15_bumpmap\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1184335126 d:\ufsm\disciplinas\computacao grafica\programas\gl_15_bumpmap\src\lighting_sem_gl_vector.h
+	<math.h>
+
+1531759785 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_15_bumpmap\src\lighting_sem_gl.cpp
+	<GL/glut.h>
+	"lighting_sem_gl_vector.h"
+	<stdio.h>
+
+1426372440 d:\ufsm\disciplinas\computacao grafica\demos\gl_15_bumpmap\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 d:\ufsm\disciplinas\computacao grafica\demos\gl_15_bumpmap\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1184349526 d:\ufsm\disciplinas\computacao grafica\demos\gl_15_bumpmap\src\lighting_sem_gl_vector.h
+	<math.h>
+

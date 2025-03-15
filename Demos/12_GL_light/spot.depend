@@ -1,0 +1,92 @@
+# depslib dependency file v1.0
+1434981477 source:c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_1_ligthing\src\spot.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<ctype.h>
+
+924727706 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_1_ligthing\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1254353242 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_1_ligthing\include\gl\gl.h
+
+1254353242 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_1_ligthing\include\gl\glu.h
+	<GL/gl.h>
+
+1461584093 source:c:\tmp\codeblocks\gl_11_ligthing\src\spot.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<ctype.h>
+
+1426358040 c:\tmp\codeblocks\gl_11_ligthing\include\gl\glut.h
+	"freeglut_std.h"
+
+1437565542 c:\tmp\codeblocks\gl_11_ligthing\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1461584093 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_11_ligth\src\spot.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<ctype.h>
+
+1426358040 d:\ufsm\disciplinas\computacao grafica\programas\gl_11_ligth\include\gl\glut.h
+	"freeglut_std.h"
+
+1437565542 d:\ufsm\disciplinas\computacao grafica\programas\gl_11_ligth\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1461584093 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_11_light\src\spot.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<ctype.h>
+
+1426358040 d:\ufsm\disciplinas\computacao grafica\programas\gl_11_light\include\gl\glut.h
+	"freeglut_std.h"
+
+1437565542 d:\ufsm\disciplinas\computacao grafica\programas\gl_11_light\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1531759147 source:d:\ufsm\disciplinas\computacao grafica\demos\12_gl_light\src\spot.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<ctype.h>
+
+1632060799 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+

@@ -1,0 +1,66 @@
+# depslib dependency file v1.0
+1452511594 source:c:\tmp\codeblocks\gl_6_viewport\src\viewport.cpp
+	<GL/glut.h>
+
+1426358040 c:\tmp\codeblocks\gl_6_viewport\include\gl\glut.h
+	"freeglut_std.h"
+
+1437565542 c:\tmp\codeblocks\gl_6_viewport\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1495538003 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_12_viewport\src\viewport.cpp
+	<GL/glut.h>
+
+1426358040 d:\ufsm\disciplinas\computacao grafica\programas\gl_12_viewport\include\gl\glut.h
+	"freeglut_std.h"
+
+1437565542 d:\ufsm\disciplinas\computacao grafica\programas\gl_12_viewport\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1495552647 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_12_viewport\src\viewport.cpp
+	<GL/glut.h>
+
+1426372440 d:\ufsm\disciplinas\computacao grafica\demos\gl_12_viewport\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 d:\ufsm\disciplinas\computacao grafica\demos\gl_12_viewport\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1632060799 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+

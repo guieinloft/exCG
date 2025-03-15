@@ -1,0 +1,75 @@
+# depslib dependency file v1.0
+1582233168 source:c:\tmp\___novo glut opengl\gl_9_transforms\src\superdiff.cpp
+	<windows.h>
+	<GL/glut.h>
+	<math.h>
+	<stdio.h>
+	<ctype.h>
+	"cilindro.h"
+	"gear.h"
+
+1632060799 c:\tmp\___novo glut opengl\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 c:\tmp\___novo glut opengl\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1371575680 c:\tmp\___novo glut opengl\gl_9_transforms\src\cilindro.h
+	<gl/glut.h>
+	<gl/gl.h>
+	<math.h>
+	"vetor.h"
+
+1369255502 c:\tmp\___novo glut opengl\gl_9_transforms\src\vetor.h
+	<math.h>
+
+1371575690 c:\tmp\___novo glut opengl\gl_9_transforms\src\gear.h
+	<gl/glut.h>
+	<gl/gl.h>
+	<math.h>
+
+1582233168 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_9_transforms\src\superdiff.cpp
+	<windows.h>
+	<GL/glut.h>
+	<math.h>
+	<stdio.h>
+	<ctype.h>
+	"cilindro.h"
+	"gear.h"
+
+1632060799 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1371575680 d:\ufsm\disciplinas\computacao grafica\demos\gl_9_transforms\src\cilindro.h
+	<gl/glut.h>
+	<gl/gl.h>
+	<math.h>
+	"vetor.h"
+
+1369255502 d:\ufsm\disciplinas\computacao grafica\demos\gl_9_transforms\src\vetor.h
+	<math.h>
+
+1371575690 d:\ufsm\disciplinas\computacao grafica\demos\gl_9_transforms\src\gear.h
+	<gl/glut.h>
+	<gl/gl.h>
+	<math.h>
+

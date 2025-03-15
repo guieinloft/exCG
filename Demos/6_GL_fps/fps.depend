@@ -1,0 +1,241 @@
+# depslib dependency file v1.0
+1380309569 source:c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_2_fps\src\fps.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
+1380312746 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_2_fps\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1107020120 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_2_fps\include\gl\gl.h
+
+1107020120 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_2_fps\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1252585296 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_2_fps\src\frames.h
+	<stdio.h>
+	<time.h>
+
+1182352128 c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_2_fps\src\glfont.h
+	<GL/gl.h>
+	<GL/glut.h>
+
+1380309706 source:c:\ufsm\disciplinas\computacao grafica avancada\programas\gl_2_fps\src\glfont.cpp
+	<stdio.h>
+	<stdarg.h>
+	"GLFont.h"
+
+1380312784 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_12_fps\src\fps.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"Frames.h"
+	"GLFont.h"
+
+1380312748 d:\ufsm\disciplinas\computacao grafica\programas\gl_12_fps\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1107020120 d:\ufsm\disciplinas\computacao grafica\programas\gl_12_fps\include\gl\gl.h
+
+1107020120 d:\ufsm\disciplinas\computacao grafica\programas\gl_12_fps\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1252585296 d:\ufsm\disciplinas\computacao grafica\programas\gl_12_fps\src\frames.h
+	<stdio.h>
+	<time.h>
+
+1182352128 d:\ufsm\disciplinas\computacao grafica\programas\gl_12_fps\src\glfont.h
+	<GL/gl.h>
+	<GL/glut.h>
+
+1380309708 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_12_fps\src\glfont.cpp
+	<stdio.h>
+	<stdarg.h>
+	"GLFont.h"
+
+1380312784 source:c:\tmp\codeblocks\gl_12_fps\src\fps.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"Frames.h"
+	"GLFont.h"
+
+1380312748 c:\tmp\codeblocks\gl_12_fps\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1107020120 c:\tmp\codeblocks\gl_12_fps\include\gl\gl.h
+
+1107020120 c:\tmp\codeblocks\gl_12_fps\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1252585296 c:\tmp\codeblocks\gl_12_fps\src\frames.h
+	<stdio.h>
+	<time.h>
+
+1182352128 c:\tmp\codeblocks\gl_12_fps\src\glfont.h
+	<GL/gl.h>
+	<GL/glut.h>
+
+1380309708 source:c:\tmp\codeblocks\gl_12_fps\src\glfont.cpp
+	<stdio.h>
+	<stdarg.h>
+	"GLFont.h"
+
+1531745154 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\src\fps.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"Frames.h"
+	"GLFont.h"
+
+1426358040 d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\include\gl\glut.h
+	"freeglut_std.h"
+
+1107020120 d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\include\gl\gl.h
+
+1107020120 d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1531744995 d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\src\frames.h
+	<stdio.h>
+	<time.h>
+
+1182352128 d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\src\glfont.h
+	<GL/gl.h>
+	<GL/glut.h>
+
+1380309708 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\src\glfont.cpp
+	<stdio.h>
+	<stdarg.h>
+	"GLFont.h"
+
+1437565542 d:\ufsm\disciplinas\computacao grafica\programas\gl_13_fps\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1380324108 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_13_fps\src\glfont.cpp
+	<stdio.h>
+	<stdarg.h>
+	"GLFont.h"
+
+1182366528 d:\ufsm\disciplinas\computacao grafica\demos\gl_13_fps\src\glfont.h
+	<GL/gl.h>
+	<GL/glut.h>
+
+1107041720 d:\ufsm\disciplinas\computacao grafica\demos\gl_13_fps\include\gl\gl.h
+
+1426372440 d:\ufsm\disciplinas\computacao grafica\demos\gl_13_fps\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 d:\ufsm\disciplinas\computacao grafica\demos\gl_13_fps\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1107041720 d:\ufsm\disciplinas\computacao grafica\demos\gl_13_fps\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1626785854 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\src\fps.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"Frames.h"
+	"GLFont.h"
+
+1426372440 d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1107041720 d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\include\gl\gl.h
+
+1107041720 d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1531759395 d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\src\frames.h
+	<stdio.h>
+	<time.h>
+
+1182366528 d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\src\glfont.h
+	<GL/gl.h>
+	<GL/glut.h>
+
+1380324108 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_3_fps\src\glfont.cpp
+	<stdio.h>
+	<stdarg.h>
+	"GLFont.h"
+
+1626785854 source:c:\tmp\___novo glut opengl\gl_3_fps\src\fps.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	"Frames.h"
+	"GLFont.h"
+
+1632060799 c:\tmp\___novo glut opengl\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 c:\tmp\___novo glut opengl\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1531759395 c:\tmp\___novo glut opengl\gl_3_fps\src\frames.h
+	<stdio.h>
+	<time.h>
+
+1182366528 c:\tmp\___novo glut opengl\gl_3_fps\src\glfont.h
+	<GL/gl.h>
+	<GL/glut.h>
+
+1380324108 source:c:\tmp\___novo glut opengl\gl_3_fps\src\glfont.cpp
+	<stdio.h>
+	<stdarg.h>
+	"GLFont.h"
+

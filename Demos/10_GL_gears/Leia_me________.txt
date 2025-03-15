@@ -1,0 +1,2 @@
+SuperDiff: Programa gráfico 3D desenvolvido em OpenGL para simular o diferencial de um veículo. 
+Possui vários recursos de interação que permitem compreender o funcionamento desta magnífica invenção humana. 

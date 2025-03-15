@@ -1,0 +1,59 @@
+# depslib dependency file v1.0
+1530738709 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_8_rotacaogl\src\lookat.cpp
+	<GL/glut.h>
+	<math.h>
+
+1426372440 d:\ufsm\disciplinas\computacao grafica\demos\gl_8_rotacaogl\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 d:\ufsm\disciplinas\computacao grafica\demos\gl_8_rotacaogl\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1530738709 source:c:\tmp\___novo glut opengl\gl_8_rotacaogl\src\lookat.cpp
+	<GL/glut.h>
+	<math.h>
+
+1632060799 c:\tmp\___novo glut opengl\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 c:\tmp\___novo glut opengl\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1632060799 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1530738709 source:d:\ufsm\disciplinas\computacao grafica\demos\9_rotacaogl\src\lookat.cpp
+	<GL/glut.h>
+	<math.h>
+
+1530738709 source:d:\ufsm\disciplinas\computacao grafica\demos\9_gl_rotacaogl\src\lookat.cpp
+	<GL/glut.h>
+	<math.h>
+

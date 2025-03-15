@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1550667615 source:d:\ufsm\disciplinas\computacao grafica avancada\demos\ray tracing\ray tracing tiny\tinyraytracer.cpp
+	<cmath>
+	<limits>
+	<iostream>
+	<fstream>
+	<vector>
+	<algorithm>
+	"geometry.h"
+
+1550667615 d:\ufsm\disciplinas\computacao grafica avancada\demos\ray tracing\ray tracing tiny\geometry.h
+	<cmath>
+	<vector>
+	<cassert>
+	<iostream>
+
+1550667615 source:c:\tmp\___novo glut opengl\xx_17_ray tracing\ray tracing tiny\tinyraytracer.cpp
+	<cmath>
+	<limits>
+	<iostream>
+	<fstream>
+	<vector>
+	<algorithm>
+	"geometry.h"
+
+1550667615 c:\tmp\___novo glut opengl\xx_17_ray tracing\ray tracing tiny\geometry.h
+	<cmath>
+	<vector>
+	<cassert>
+	<iostream>
+

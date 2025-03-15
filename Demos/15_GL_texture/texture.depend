@@ -1,0 +1,66 @@
+# depslib dependency file v1.0
+1650887927 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_14_texture\src\bmp.cpp
+	"Bmp.h"
+	<string.h>
+
+1531759698 d:\ufsm\disciplinas\computacao grafica\demos\gl_14_texture\src\bmp.h
+	<stdio.h>
+	<stdlib.h>
+
+1627989845 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_14_texture\src\texture.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	"Bmp.h"
+
+1426372440 d:\ufsm\disciplinas\computacao grafica\demos\gl_14_texture\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 d:\ufsm\disciplinas\computacao grafica\demos\gl_14_texture\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1254367642 d:\ufsm\disciplinas\computacao grafica\demos\gl_14_texture\include\gl\gl.h
+
+1254367642 d:\ufsm\disciplinas\computacao grafica\demos\gl_14_texture\include\gl\glu.h
+	<GL/gl.h>
+
+1650887927 source:d:\ufsm\disciplinas\computacao grafica\demos\15_texture\src\bmp.cpp
+	"Bmp.h"
+	<string.h>
+
+1531759698 d:\ufsm\disciplinas\computacao grafica\demos\15_texture\src\bmp.h
+	<stdio.h>
+	<stdlib.h>
+
+1710362958 source:d:\ufsm\disciplinas\computacao grafica\demos\15_texture\src\texture.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	"Bmp.h"
+
+1632060799 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060797 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+

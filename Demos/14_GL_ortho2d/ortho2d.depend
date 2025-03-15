@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1452511106 source:d:\ufsm\disciplinas\computacao grafica\programas\gl_6_ortho2d\src\ortho2d.cpp
+	<GL/glut.h>
+
+1426358040 d:\ufsm\disciplinas\computacao grafica\programas\gl_6_ortho2d\include\gl\glut.h
+	"freeglut_std.h"
+
+1437565542 d:\ufsm\disciplinas\computacao grafica\programas\gl_6_ortho2d\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
