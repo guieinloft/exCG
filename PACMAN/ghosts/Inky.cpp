@@ -72,10 +72,6 @@ void Inky::move(char map[32][30], Pacman *pac, Ghost *ghost) {
     }
     r_pos.x = g_pos.x * 16 + 8;
     r_pos.y = g_pos.y * 16 + 8;
-    //g_pos.x = (int)(r_pos.x)/16;
-    //g_pos.y = (int)(r_pos.y)/16;
-
-    printf("\nINKY: %lf %lf %lf %lf", g_pos.x, g_pos.y, t_pos.x, t_pos.y);
 
     if (g_pos.x == t_pos.x && g_pos.y == t_pos.y) {
         calc_target(map, pac, ghost);

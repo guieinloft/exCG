@@ -98,7 +98,10 @@ void Ghost::Render() {
 
 void Ghost::set_state(int s) {
     int prev_state = state;
-    if (s < 2)
+    if (state == 3 && s == 0) {
+        return;
+    }
+    else if (s < 2)
         state = (timer_i + 1) & 1;
     else state = s;
     int x_inc = 0, y_inc = 0;
@@ -327,14 +330,17 @@ void Ghost::collide_pacman(Pacman *pac) {
         printf("\nACERTOU");
         switch (state) {
             case 0:
-            pac->set_state(-1);
+            if (pac->get_invincibility() <= 0) pac->set_state(-1);
+            else pac->set_invincibility(INVINCIBILITY);
             break;
 
             case 1:
-            pac->set_state(-1);
+            if (pac->get_invincibility() <= 0) pac->set_state(-1);
+            else pac->set_invincibility(INVINCIBILITY);
             break;
 
             case 2:
+            pac->ghost_capture();
             set_state(3);
             sleep(1);
             break;
@@ -399,4 +405,17 @@ void Ghost::set_times(int t1, int t2, int t3, int t4, int t5, int t6, int t7) {
     timers[5] = t6;
     timers[6] = t7;
     timer_i = 0;
+}
+
+void Ghost::reset(int init_x, int init_y) {
+    g_pos.x = init_x - 0.5;
+    g_pos.y = init_y;
+    t_pos.x = init_x;
+    t_pos.y = init_y;
+    r_pos.x = g_pos.x * 16 + 8;
+    r_pos.y = g_pos.x * 16 + 8;
+    a_dir = 3;
+    t_dir = 3;
+    state = 4;
+    speed = GHOST_SPEED;
 }

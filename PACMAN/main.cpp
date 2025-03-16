@@ -120,25 +120,54 @@ void render()
     inky->move(map, pac, blinky);
     pinky->move(map, pac);
     clyde->move(map, pac);
-
-    if (pac->get_super() == 299) {
+    
+    int super = pac->get_super();
+    if (super == 300) {
         blinky->set_state(2);
         inky->set_state(2);
         pinky->set_state(2);
         clyde->set_state(2);
     }
-    else if (pac->get_super() == 1) {
+    else if (super == 1) {
+        printf("\nACABOU");
         blinky->set_state(0);
         inky->set_state(0);
         pinky->set_state(0);
         clyde->set_state(0);
+        pac->set_invincibility(INVINCIBILITY);
+    }
+    if (pac->get_state() == -1) {
+        if (pac->get_lives() > 0) {
+            sleep(1);
+            pac->reset(15, 24, false);
+        }
+        else {
+            CV::text(300, 12, "PRESSIONE ENTER");
+        }
+    }
+    else {
+        CV::text(300, 12, "VIDAS:");
+        sprintf(str_pontos, "%d", pac->get_lives());
+        CV::text(372, 12, str_pontos);
     }
 }
 
 //funcao chamada toda vez que uma tecla for pressionada.
 void keyboard(int key)
 {
-   pac->handle_input(key);
+    pac->handle_input(key);
+    if (key == 13) {
+        read_map(map);
+        pac->reset(15, 24, true);
+        blinky->reset(15, 12);
+        blinky->set_times(420, 1200, 420, 1200, 300, 1200, 300);
+        inky->reset(13, 15);
+        inky->set_times(420, 1200, 420, 1200, 300, 1200, 300);
+        pinky->reset(15, 15);
+        pinky->set_times(420, 1200, 420, 1200, 300, 1200, 300);
+        clyde->reset(17, 15);
+        clyde->set_times(420, 1200, 420, 1200, 300, 1200, 300);
+    }
 }
 
 //funcao chamada toda vez que uma tecla for liberada

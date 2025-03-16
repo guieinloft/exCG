@@ -14,6 +14,7 @@ class Ghost {
     Vector2 get_position();
     void set_times(int t1, int t2, int t3, int t4, int t5, int t6, int t7);
     void set_state(int s);
+    void reset(int init_x, int init_y);
 
     protected:
     Vector2 r_pos;
@@ -34,7 +35,6 @@ class Ghost {
     void RenderTop();
     void RenderBottom();
     void RenderEyes();
-    void set_position(int init_x, int init_y);
 };
 
 #endif
