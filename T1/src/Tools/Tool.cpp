@@ -3,6 +3,7 @@
 #include "../gl_canvas2d.h"
 #include "../Mouse.h"
 #include "../Canvas.h"
+#include "../colors.h"
 
 Tool::Tool() {
     params[0] = 0;
@@ -18,7 +19,7 @@ void Tool::renderOptions(int sw, int sh) {
 void Tool::checkOptions(int sw, int sh, Mouse mouse) {
 }
 
-void Tool::execute(Mouse mouse, Canvas *canvas) {
+void Tool::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color fg, rgb_color bg) {
     printf("\nEXECUTE");
 }
 

@@ -5,6 +5,8 @@ typedef struct mouse_t {
     bool l, m, r;
     int x, y;
     int xp, yp;
+    int button, state;
+    int wheel, direction;
 } Mouse;
 
 #endif

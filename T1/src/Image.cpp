@@ -9,6 +9,7 @@
 
 #define sign(a) ((a > 0) - (a < 0))
 #define min(a, b) ((a > b) * b + (a <= b) * a)
+#define max(a, b) ((a < b) * b + (a >= b) * a)
 
 Image::Image() {
     w = 0;
@@ -190,11 +191,11 @@ void Image::paint_circle(int x, int y, int d, int r, int g, int b, int a, bool b
     }
 }
 
-void Image::blend(Image src) {
-    for (int i = 0; i < min(this->h, src.h); i++) {
-        for (int j = 0; j < min(this->w, src.w); j++) {
+void Image::blend(Image src, int x, int y) {
+    for (int i = max(0, y); i < min(this->h, src.h + y); i++) {
+        for (int j = max(0, x); j < min(this->w, src.w + x); j++) {
             int b1 = (i * this->w + j) * 4;
-            int b2 = (i * src.w + j) * 4;
+            int b2 = ((i - y) * src.w + (j - x)) * 4;
             this->img[b1] = src.img[b2] * src.img[b2+3]/255.0 + this->img[b1] * (255 - src.img[b2+3])/255.0;
             this->img[b1+1] = src.img[b2+1] * src.img[b2+3]/255.0 + this->img[b1+1] * (255 - src.img[b2+3])/255.0;
             this->img[b1+2] = src.img[b2+2] * src.img[b2+3]/255.0 + this->img[b1+2] * (255 - src.img[b2+3])/255.0;

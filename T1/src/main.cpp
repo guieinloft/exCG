@@ -24,9 +24,11 @@
 #include "gl_canvas2d.h"
 #include "Button.h"
 #include "ToolList.h"
+#include "LayerList.h"
 #include "Canvas.h"
 #include "Mouse.h"
 #include "ColorPicker.h"
+#include "colors.h"
 
 //largura e altura inicial da tela . Alteram com o redimensionamento de tela.
 int screenWidth = 500, screenHeight = 500;
@@ -34,6 +36,7 @@ int screenWidth = 500, screenHeight = 500;
 Mouse smouse; //variaveis globais do mouse para poder exibir dentro da render().
 
 ToolList *tool_list;
+LayerList *layer_list;
 ColorPicker *color_picker;
 Canvas *canvas;
 
@@ -44,9 +47,14 @@ uint8_t active_layer;
 //Deve-se manter essa função com poucas linhas de codigo.
 void render()
 {
-    canvas->Render(screenWidth, screenHeight);
+    canvas->Render(screenWidth, screenHeight, layer_list->getLayers(), layer_list->getNLayers());
+    CV::color(0.25, 0.25, 0.25);
+    CV::rectFill(screenWidth-272, 0, screenWidth, screenHeight);
     tool_list->Render();
     color_picker->Render();
+    color_picker->changePosition(screenWidth - 272, 0);
+    layer_list->RenderList();
+    layer_list->changePosition(screenWidth - 264, 272);
 
    usleep(10); //nao eh controle de FPS. Somente um limitador de FPS.
 }
@@ -55,11 +63,6 @@ void render()
 void keyboard(int key)
 {
    printf("\nTecla: %d" , key);
-   switch (key) {
-       case '+':
-       active_layer++;
-       canvas->switchActiveLayer(active_layer);
-   }
 }
 
 //funcao chamada toda vez que uma tecla for liberada
@@ -75,6 +78,10 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
     smouse.yp = smouse.y;
     smouse.x = x;
     smouse.y = y;
+    smouse.button = button;
+    smouse.state = state;
+    smouse.wheel = wheel;
+    smouse.direction = direction;
     switch (button) {
         case 0:
         smouse.l = !state;
@@ -88,15 +95,17 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
     }
 
    //printf("\nmouse %d %d %d %d %d %d", button, state, wheel, direction,  x, y);
-   tool_list->checkMouse(smouse, canvas);
+   tool_list->checkMouse(smouse, canvas, layer_list->getActiveLayer(), color_picker->getFGColor(), color_picker->getBGColor());
    color_picker->checkMouse(smouse);
+   layer_list->checkMouse(smouse);
 }
 
 int main(void)
 {
    tool_list = new ToolList();
    canvas = new Canvas(640, 480);
-   color_picker = new ColorPicker(64, 0);
+   color_picker = new ColorPicker(screenWidth - 272, 0);
+   layer_list = new LayerList(screenWidth - 264, 272);
    CV::init(&screenWidth, &screenHeight, "PROJETO EM BRANCO");
    CV::run();
 }

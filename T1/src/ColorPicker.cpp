@@ -86,8 +86,8 @@ void ColorPicker::changePosition(int x, int y) {
     this->x = x;
     this->y = y;
     for (int i = 0; i < 4; i++) {
-        sliders[i]->changePosition(x + 8, y + 8 + 40 * i);
+        sliders[i]->changePosition(x + 8, y + 40 + 40 * i);
     }
-    buttons[0]->changePosition(x + 8, y + 128);
-    buttons[1]->changePosition(x + 136, y + 128);
+    buttons[0]->changePosition(x + 8, y + 200);
+    buttons[1]->changePosition(x + 136, y + 200);
 }

@@ -26,7 +26,7 @@ class Button {
     Image icon1;
     Image icon2;
     bool iconCur;
-    char *text;
+    char text[256];
     bool selected;
     bool pressed;
     bool hovered;

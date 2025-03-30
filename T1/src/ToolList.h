@@ -20,7 +20,7 @@ class ToolList {
     public:
     ToolList();
     void Render();
-    void checkMouse(Mouse mouse, Canvas *canvas);
+    void checkMouse(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color fg, rgb_color bg);
     int getSelectedTool();
 
     private:

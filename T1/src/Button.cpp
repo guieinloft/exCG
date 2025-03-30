@@ -10,7 +10,7 @@ Button::Button(int x, int y, int w, int h) {
     this->y = y;
     this->w = w;
     this->h = h;
-    this->text = "";
+    strcpy(this->text, "");
     this->pressed = false;
     this->selected = false;
     this->hovered = false;
@@ -24,14 +24,14 @@ int Button::checkClick(Mouse mouse) {
     if (mouse.y < this->y) this->hovered = false;
     if (mouse.y > this->y + this->h) this->hovered = false;
 
-    if (mouse.l && !this->selected) {
+    if (mouse.l && mouse.state == 0) {
         if (this->hovered) {
             this->pressed = true;
             return 1; //click in button
         }
         else return -1; //click not in button
     }
-    else if (!mouse.l && this->selected) {
+    else if (mouse.state == 1) {
         return 0; //click released
     }
     else return -2; //not clicked
@@ -49,7 +49,7 @@ void Button::Render() {
         this->icon2.render(this->x, this->y, 255);
     else
         this->icon1.render(this->x, this->y, 255);
-    CV::text(this->x, this->y, this->text);
+    CV::text(this->x + 4, this->y + this->h - 4, this->text);
 }
 
 bool Button::isPressed() {
@@ -77,7 +77,7 @@ void Button::changeIcon() {
 }
 
 void Button::changeText(char *text) {
-    this->text = text;
+    strcpy(this->text, text);
 }
 
 void Button::changePosition(int x, int y) {

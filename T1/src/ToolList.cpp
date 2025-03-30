@@ -1,6 +1,7 @@
 #include "ToolList.h"
 #include "Button.h"
 #include "Mouse.h"
+#include "colors.h"
 #include "gl_canvas2d.h"
 
 #include "Tools/Tool.h"
@@ -45,7 +46,7 @@ void ToolList::Render() {
     tools[bt_selected]->renderOptions(screenWidth, screenHeight);
 }
 
-void ToolList::checkMouse(Mouse mouse, Canvas *canvas) {
+void ToolList::checkMouse(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color fg, rgb_color bg) {
     extern int screenWidth, screenHeight;
     for (int i = 0; i < TOOL_NUM; i++) {
         int bt_status = bt_list[i]->checkClick(mouse);
@@ -56,7 +57,8 @@ void ToolList::checkMouse(Mouse mouse, Canvas *canvas) {
     }
     printf("\nTOOLS");
     tools[bt_selected]->checkOptions(screenWidth, screenHeight, mouse);
-    (tools[bt_selected])->execute(mouse, canvas);
+    if (layer != NULL)
+        tools[bt_selected]->execute(mouse, canvas, layer, fg, bg);
 }
 
 int ToolList::getSelectedTool() {

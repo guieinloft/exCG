@@ -19,7 +19,7 @@ class Image {
     void paint_square(int x, int y, int d, int r, int g, int b, int a, bool blend);
     void paint_circle(int x, int y, int d, int r, int g, int b, int a, bool blend);
     void clear_image(int new_w, int new_h);
-    void blend(Image src);
+    void blend(Image src, int x, int y);
 
     private:
     uint32_t w;
