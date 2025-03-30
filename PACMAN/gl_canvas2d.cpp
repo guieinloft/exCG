@@ -280,6 +280,8 @@ void reshape (int w, int h)
 void inicializa()
 {
    glClearColor(1,1,1,1);
+   glEnable(GL_BLEND);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
    glPolygonMode(GL_FRONT, GL_FILL);
 }
 

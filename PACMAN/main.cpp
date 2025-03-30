@@ -107,6 +107,12 @@ void render()
     inky->Render();
     pinky->Render();
     clyde->Render();
+    CV::color(0, 0, 0, 1);
+    CV::rectFill(0, 224, 32, 272);
+    CV::rectFill(448, 224, 512, 272);
+    CV::color(0, 0, 0, 0.5);
+    CV::rectFill(32, 224, 48, 272);
+    CV::rectFill(432, 224, 448, 272);
 
     CV::color(1, 1, 1);
     CV::text(12, 12, "PONTOS:");

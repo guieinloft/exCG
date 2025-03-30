@@ -35,6 +35,16 @@ void Pinky::calc_target_chase(char map[32][30], Pacman *pac) {
 }
 
 void Pinky::calc_target(char map[32][30], Pacman *pac) {
+    //checar se foi para um dos cantos da tela
+    if (t_pos.x <= 0) {
+        g_pos.x = 29;
+        t_pos.x = 28;
+    }
+    else if (t_pos.x >= 29) {
+        g_pos.x = 0;
+        t_pos.x = 1;
+    }
+
     switch (state) {
         case 0:
         calc_target_chase(map, pac);
@@ -56,16 +66,6 @@ void Pinky::calc_target(char map[32][30], Pacman *pac) {
         calc_target_ghost_house(map);
         break;
     }
-    //checar se foi para um dos cantos da tela
-    if (t_pos.x <= 0) {
-        g_pos.x = 29;
-        t_pos.x = 28;
-    }
-    else if (t_pos.x >= 29) {
-        g_pos.x = 0;
-        t_pos.x = 1;
-    }
-
 }
 
 void Pinky::move(char map[32][30], Pacman *pac) {

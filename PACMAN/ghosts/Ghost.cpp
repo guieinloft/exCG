@@ -27,7 +27,7 @@ Ghost::Ghost(int init_x, int init_y, int scatter_x, int scatter_y, float rr, flo
 }
 
 void Ghost::RenderTop() {
-    for (int i = 0; i <= 180; i++) {
+    for (int i = 0; i <= 180; i+=2) {
         CV::line(r_pos.x, r_pos.y, r_pos.x + 16 * cos(i*M_PI/180), r_pos.y - 16 * sin(i*M_PI/180));
     }
 }
@@ -37,7 +37,7 @@ void Ghost::RenderBottom() {
     for (int i = 0; i <= 32; i++) {
         CV::line(r_pos.x + i - 16, r_pos.y, r_pos.x + i - 16, r_pos.y + 14 + 2 * sin((i+offset)*M_PI/8));
     }
-    offset = (offset + 1) * (offset < 15);
+    offset += 1;
 }
 
 void Ghost::RenderEyes() {
@@ -84,7 +84,7 @@ void Ghost::Render() {
         break;
 
         case 3:
-        CV::color(0, 0, 0);
+        CV::color(0, 0, 0, 0);
         break;
         
         default:
@@ -145,7 +145,7 @@ void Ghost::set_state(int s) {
         break;
 
         case 3:
-        speed = GHOST_SPEED*2;
+        speed = GHOST_SPEED*4;
         break;
 
         default:

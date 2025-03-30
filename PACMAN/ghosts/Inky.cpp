@@ -16,6 +16,16 @@ void Inky::calc_target_chase(char map[32][30], Pacman *pac, Ghost *ghost) {
 }
 
 void Inky::calc_target(char map[32][30], Pacman *pac, Ghost *ghost) {
+    //checar se foi para um dos cantos da tela
+    if (t_pos.x <= 0) {
+        g_pos.x = 29;
+        t_pos.x = 28;
+    }
+    else if (t_pos.x >= 29) {
+        g_pos.x = 0;
+        t_pos.x = 1;
+    }
+
     switch (state) {
         case 0:
         calc_target_chase(map, pac, ghost);
@@ -37,16 +47,6 @@ void Inky::calc_target(char map[32][30], Pacman *pac, Ghost *ghost) {
         calc_target_ghost_house(map);
         break;
     }
-    //checar se foi para um dos cantos da tela
-    if (t_pos.x <= 0) {
-        g_pos.x = 29;
-        t_pos.x = 28;
-    }
-    else if (t_pos.x >= 29) {
-        g_pos.x = 0;
-        t_pos.x = 1;
-    }
-
 }
 
 void Inky::move(char map[32][30], Pacman *pac, Ghost *ghost) {

@@ -1,0 +1,26 @@
+OBRIGATÓRIOS:
+[ ] Leitor de BMP
+[ ] Menu lateral
+[ ] Camadas com transparência binária
+[ ] Plano de fundo
+[ ] Pincel
+[ ] Troca de ordem de camadas
+[ ] Trocar cor do pincel
+[ ] Botão, checkbox, slider
+[ ] Manager de botões
+[ ] Efeitos:
+    [ ] Flip horizontal/vertical
+    [ ] Brilho
+[ ] Botões que carregam as imagens
+[ ] Imagens na pasta images
+
+OPCIONAIS:
+[ ] Efeitos:
+    [ ] Tons de cinza (0.5)
+    [ ] Correção de gama (0.5)
+    [ ] Contraste (0.5)
+    [ ] Desfoque gaussiano (2.0)
+[ ] Redimensionamento e movimentação (2.0)
+[ ] Rotação (2.0)
+[ ] Tipos diferentes de pincel (2.0)
+[ ] Salvar e carregar arquivos (3.0)

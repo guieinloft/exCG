@@ -113,15 +113,15 @@ void Pacman::collide_adir(char map[32][30]) {
 
 void Pacman::collide(char map[32][30]) {
     //checar se foi para um dos cantos da tela
-    if (g_pos.x == 0) {
+    if (t_pos.x == 0) {
         g_pos.x = 29;
-        t_pos.x = 29;
+        t_pos.x = 28;
     }
-    else if (g_pos.x == 29) {
+    else if (t_pos.x == 29) {
         g_pos.x = 0;
-        t_pos.x = 0;
+        t_pos.x = 1;
     }
-
+    
     //checar se comeu pastilha
     if (map[(int)t_pos.y][(int)t_pos.x] == '.') {
         map[(int)t_pos.y][(int)t_pos.x] = ' ';
@@ -183,7 +183,7 @@ void Pacman::move(char map[32][30]) {
         g_pos.y += PAC_SPEED;
         break;
 
-        default:
+    default:
         break;
     }
     r_pos.x = g_pos.x * 16 + 8;
