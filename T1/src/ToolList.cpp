@@ -26,13 +26,6 @@ ToolList::ToolList() {
     int bt_selected = 0;
     bt_list[0]->select(true);
 
-    tools[TOOL_PENCIL] = new Pencil();
-    tools[TOOL_ERASER] = new Pencil();
-    tools[TOOL_MOVE] = new Pencil();
-    tools[TOOL_RESIZE] = new Pencil();
-    tools[TOOL_ROTATE] = new Pencil();
-    tools[TOOL_FLIP] = new Pencil();
-    tools[TOOL_PICKER] = new Pencil();
 }
 
 void ToolList::Render() {
@@ -43,10 +36,9 @@ void ToolList::Render() {
     for (int i = 0; i < TOOL_NUM; i++) {
         bt_list[i]->Render();
     }
-    tools[bt_selected]->renderOptions(screenWidth, screenHeight);
 }
 
-void ToolList::checkMouse(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color fg, rgb_color bg) {
+void ToolList::checkMouse(Mouse mouse) {
     extern int screenWidth, screenHeight;
     for (int i = 0; i < TOOL_NUM; i++) {
         int bt_status = bt_list[i]->checkClick(mouse);
@@ -55,10 +47,6 @@ void ToolList::checkMouse(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color f
     for (int i = 0; i < TOOL_NUM; i++) {
         bt_list[i]->select(i == bt_selected);
     }
-    printf("\nTOOLS");
-    tools[bt_selected]->checkOptions(screenWidth, screenHeight, mouse);
-    if (layer != NULL)
-        tools[bt_selected]->execute(mouse, canvas, layer, fg, bg);
 }
 
 int ToolList::getSelectedTool() {

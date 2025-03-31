@@ -30,6 +30,10 @@
 #include "ColorPicker.h"
 #include "colors.h"
 
+#include "Tools/Pencil.h"
+#include "Tools/Eraser.h"
+#include "Tools/Move.h"
+
 //largura e altura inicial da tela . Alteram com o redimensionamento de tela.
 int screenWidth = 500, screenHeight = 500;
 
@@ -39,6 +43,8 @@ ToolList *tool_list;
 LayerList *layer_list;
 ColorPicker *color_picker;
 Canvas *canvas;
+Tool *tools[TOOL_NUM];
+int tool_sel;
 
 uint8_t active_layer;
 
@@ -51,10 +57,12 @@ void render()
     CV::color(0.25, 0.25, 0.25);
     CV::rectFill(screenWidth-272, 0, screenWidth, screenHeight);
     tool_list->Render();
-    color_picker->Render();
     color_picker->changePosition(screenWidth - 272, 0);
-    layer_list->RenderList();
+    color_picker->Render();
     layer_list->changePosition(screenWidth - 264, 272);
+    layer_list->RenderList();
+    tools[tool_sel]->changePosition(screenWidth, screenHeight);
+    tools[tool_sel]->renderOptions(screenWidth, screenHeight);
 
    usleep(10); //nao eh controle de FPS. Somente um limitador de FPS.
 }
@@ -95,9 +103,13 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
     }
 
    //printf("\nmouse %d %d %d %d %d %d", button, state, wheel, direction,  x, y);
-   tool_list->checkMouse(smouse, canvas, layer_list->getActiveLayer(), color_picker->getFGColor(), color_picker->getBGColor());
+   tool_list->checkMouse(smouse);
+   tool_sel = tool_list->getSelectedTool();
    color_picker->checkMouse(smouse);
    layer_list->checkMouse(smouse);
+   tools[tool_sel]->checkOptions(screenWidth, screenHeight, smouse);
+   if (layer_list->getActiveLayer() != NULL)
+       tools[tool_sel]->execute(smouse, canvas, layer_list->getActiveLayer(), color_picker->getFGColor(), color_picker->getBGColor());
 }
 
 int main(void)
@@ -106,6 +118,13 @@ int main(void)
    canvas = new Canvas(640, 480);
    color_picker = new ColorPicker(screenWidth - 272, 0);
    layer_list = new LayerList(screenWidth - 264, 272);
+   tools[TOOL_PENCIL] = new Pencil(screenWidth, screenHeight);
+   tools[TOOL_ERASER] = new Eraser(screenWidth, screenHeight);
+   tools[TOOL_MOVE] = new Move(screenWidth, screenHeight);
+   tools[TOOL_RESIZE] = new Pencil(screenWidth, screenHeight);
+   tools[TOOL_ROTATE] = new Pencil(screenWidth, screenHeight);
+   tools[TOOL_FLIP] = new Pencil(screenWidth, screenHeight);
+   tools[TOOL_PICKER] = new Pencil(screenWidth, screenHeight);
    CV::init(&screenWidth, &screenHeight, "PROJETO EM BRANCO");
    CV::run();
 }

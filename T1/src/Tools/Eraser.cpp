@@ -1,4 +1,5 @@
 #include "Tool.h"
+#include "Eraser.h"
 #include "Pencil.h"
 
 #include "../gl_canvas2d.h"
@@ -8,7 +9,7 @@
 #include "../Button.h"
 #include "../Slider.h"
 
-Pencil::Pencil(int sw, int sh) {
+Eraser::Eraser(int sw, int sh) {
     sl_size = new Slider(16, sh - 32);
     sl_quality = new Slider(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)
@@ -16,7 +17,7 @@ Pencil::Pencil(int sw, int sh) {
     bt_formats[0]->select(true);
 }
 
-void Pencil::renderOptions(int sw, int sh) {
+void Eraser::renderOptions(int sw, int sh) {
     CV::color(0.25, 0.25, 0.25);
     CV::rectFill(0, sh - 80, sw, sh);
     sl_size->Render();
@@ -28,7 +29,7 @@ void Pencil::renderOptions(int sw, int sh) {
     CV::text(560, sh - 52, "Formato:");
 }
 
-void Pencil::checkOptions(int sw, int sh, Mouse mouse) {
+void Eraser::checkOptions(int sw, int sh, Mouse mouse) {
     sl_size->checkMouse(mouse);
     params[1] = sl_size->getParam();
     sl_quality->checkMouse(mouse);
@@ -42,25 +43,25 @@ void Pencil::checkOptions(int sw, int sh, Mouse mouse) {
     }
 }
 
-void paintCircle(int x, int y, int rad, Image *image, rgb_color c) {
+void eraseCircle(int x, int y, int rad, Image *image, rgb_color c) {
     for (int i = -rad; i <= rad; i++) {
         for (int j = -rad; j <= rad; j++) {
             if (i * i + j * j <= rad * rad + rad) {
-                image->put_pixel(x + j, y + i, c.r, c.g, c.b, 255, false);
+                image->put_pixel(x + j, y + i, c.r, c.g, c.b, 0, false);
             }
         }
     }
 }
 
-void paintSquare(int x, int y, int d, Image *image, rgb_color c) {
+void eraseSquare(int x, int y, int d, Image *image, rgb_color c) {
     for (int i = 0; i < d; i++) {
         for (int j = 0; j < d; j++) {
-            image->put_pixel(x - j + d/2, y - i + d/2, c.r, c.g, c.b, 255, false);
+            image->put_pixel(x - j + d/2, y - i + d/2, c.r, c.g, c.b, 0, false);
         }
     }
 }
 
-void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg) {
+void Eraser::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg) {
     Image *image = layer->getImage();
     int real_x = mouse.x - canvas->get_x() - layer->get_x();
     int real_y = mouse.y - canvas->get_y() - layer->get_y();
@@ -70,29 +71,19 @@ void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
     int rad = (diameter + 1)/2;
     int quality = params[2] + 1;
     //int rad = 3;
-    if (mouse.l) {
+    if (mouse.l || mouse.r) {
         for (int i = 0; i < quality; i++) {
             int cx = (real_xp * i + real_x * (quality - i))/quality;
             int cy = (real_yp * i + real_y * (quality - i))/quality;
             if (params[0] == FORMAT_SQUARE)
-                paintSquare(cx, cy, diameter, image, *fg);
+                eraseSquare(cx, cy, diameter, image, *fg);
             else
-                paintCircle(cx, cy, rad, image, *fg);
-        }
-    }
-    else if (mouse.r) {
-        for (int i = 0; i < quality; i++) {
-            int cx = (real_xp * i + real_x * (quality - i))/quality;
-            int cy = (real_yp * i + real_y * (quality - i))/quality;
-            if (params[0] == FORMAT_SQUARE)
-                paintSquare(cx, cy, params[1] + 1, image, *fg);
-            else
-                paintCircle(cx, cy, rad, image, *fg);
+                eraseCircle(cx, cy, rad, image, *fg);
         }
     }
 }
 
-void Pencil::changePosition(int sw, int sh) {
+void Eraser::changePosition(int sw, int sh) {
     sl_size->changePosition(16, sh - 32);
     sl_quality->changePosition(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)

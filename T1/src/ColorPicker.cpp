@@ -70,12 +70,12 @@ void ColorPicker::Render() {
     //buttons[1]->Render();
 }
 
-rgb_color ColorPicker::getFGColor() {
-    return colors[0];
+rgb_color *ColorPicker::getFGColor() {
+    return &colors[0];
 }
 
-rgb_color ColorPicker::getBGColor() {
-    return colors[1];
+rgb_color *ColorPicker::getBGColor() {
+    return &colors[1];
 }
 
 void ColorPicker::changeCurColor(rgb_color color) {

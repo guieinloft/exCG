@@ -10,8 +10,8 @@ class ColorPicker {
     ColorPicker(int x, int y);
     void Render();
     void checkMouse(Mouse mouse);
-    rgb_color getFGColor();
-    rgb_color getBGColor();
+    rgb_color *getFGColor();
+    rgb_color *getBGColor();
     void changeCurColor(rgb_color color);
     void changePosition(int x, int y);
 

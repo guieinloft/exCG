@@ -36,6 +36,14 @@ int Layer::get_y() {
     return y;
 }
 
+void Layer::set_x(int x) {
+    this->x = x;
+}
+
+void Layer::set_y(int y) {
+    this->y = y;
+}
+
 Image *Layer::getImage() {
     return this->image;
 }
