@@ -9,7 +9,7 @@
 //
 //  Versao 2.1
 //
-//  Instruções:
+//  InstruÃ§Ãµes:
 //	  Para alterar a animacao, digite numeros entre 1 e 3
 // *********************************************************************/
 
@@ -30,9 +30,13 @@
 #include "ColorPicker.h"
 #include "colors.h"
 
+#include "Tools/Tool.h"
 #include "Tools/Pencil.h"
 #include "Tools/Eraser.h"
 #include "Tools/Move.h"
+#include "Tools/Resize.h"
+#include "Tools/Flip.h"
+#include "Tools/Picker.h"
 
 //largura e altura inicial da tela . Alteram com o redimensionamento de tela.
 int screenWidth = 500, screenHeight = 500;
@@ -50,10 +54,12 @@ uint8_t active_layer;
 
 //funcao chamada continuamente. Deve-se controlar o que desenhar por meio de variaveis globais
 //Todos os comandos para desenho na canvas devem ser chamados dentro da render().
-//Deve-se manter essa função com poucas linhas de codigo.
+//Deve-se manter essa funÃ§Ã£o com poucas linhas de codigo.
 void render()
 {
     canvas->Render(screenWidth, screenHeight, layer_list->getLayers(), layer_list->getNLayers());
+    if (layer_list->getActiveLayer() != NULL)
+        tools[tool_sel]->renderBorder(canvas, layer_list->getActiveLayer());
     CV::color(0.25, 0.25, 0.25);
     CV::rectFill(screenWidth-272, 0, screenWidth, screenHeight);
     tool_list->Render();
@@ -121,10 +127,10 @@ int main(void)
    tools[TOOL_PENCIL] = new Pencil(screenWidth, screenHeight);
    tools[TOOL_ERASER] = new Eraser(screenWidth, screenHeight);
    tools[TOOL_MOVE] = new Move(screenWidth, screenHeight);
-   tools[TOOL_RESIZE] = new Pencil(screenWidth, screenHeight);
-   tools[TOOL_ROTATE] = new Pencil(screenWidth, screenHeight);
-   tools[TOOL_FLIP] = new Pencil(screenWidth, screenHeight);
-   tools[TOOL_PICKER] = new Pencil(screenWidth, screenHeight);
-   CV::init(&screenWidth, &screenHeight, "PROJETO EM BRANCO");
+   tools[TOOL_RESIZE] = new Resize(screenWidth, screenHeight);
+   tools[TOOL_ROTATE] = new Tool();
+   tools[TOOL_FLIP] = new Flip(screenWidth, screenHeight);
+   tools[TOOL_PICKER] = new Picker(screenWidth, screenHeight);
+   CV::init(&screenWidth, &screenHeight, "CANVAS PAINT");
    CV::run();
 }

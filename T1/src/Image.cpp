@@ -142,6 +142,22 @@ void Image::put_pixel(int x, int y, int r, int g, int b, int a, bool blend) {
     }
 }
 
+void Image::get_pixel(int x, int y, uint8_t *r, uint8_t *g, uint8_t *b, uint8_t *a) {
+    if (x >= 0 && x < this->w && y >= 0 && y < this->h) {
+        int base = (y * this->w + x) * 4;
+        *r = this->img[base+2];
+        *g = this->img[base+1];
+        *b = this->img[base+0];
+        *a = this->img[base+3];
+    }
+    else {
+        *r = 0;
+        *g = 0;
+        *b = 0;
+        *a = 0;
+    }
+}
+
 void Image::paint_square(int x, int y, int d, int r, int g, int b, int a, bool blend) {
     int d2 = d/2;
     for (int i = 0; i < d; i++) {
@@ -191,11 +207,11 @@ void Image::paint_circle(int x, int y, int d, int r, int g, int b, int a, bool b
     }
 }
 
-void Image::blend(Image src, int x, int y) {
+void Image::blend(Image src, int x, int y, int sx, int sy) {
     for (int i = max(0, y); i < min(this->h, src.h + y); i++) {
         for (int j = max(0, x); j < min(this->w, src.w + x); j++) {
             int b1 = (i * this->w + j) * 4;
-            int b2 = ((i - y) * src.w + (j - x)) * 4;
+            int b2 = ((i - y + sy) * src.w + (j - x + sx)) * 4;
             this->img[b1] = src.img[b2] * src.img[b2+3]/255.0 + this->img[b1] * (255 - src.img[b2+3])/255.0;
             this->img[b1+1] = src.img[b2+1] * src.img[b2+3]/255.0 + this->img[b1+1] * (255 - src.img[b2+3])/255.0;
             this->img[b1+2] = src.img[b2+2] * src.img[b2+3]/255.0 + this->img[b1+2] * (255 - src.img[b2+3])/255.0;

@@ -10,6 +10,8 @@ class Canvas {
     void Render(int sw, int sh, Layer **layers, int n_layers);
     int get_x();
     int get_y();
+    int get_w();
+    int get_h();
 
     private:
     int x, y;

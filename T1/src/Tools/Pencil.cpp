@@ -85,9 +85,9 @@ void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
             int cx = (real_xp * i + real_x * (quality - i))/quality;
             int cy = (real_yp * i + real_y * (quality - i))/quality;
             if (params[0] == FORMAT_SQUARE)
-                paintSquare(cx, cy, params[1] + 1, image, *fg);
+                paintSquare(cx, cy, params[1] + 1, image, *bg);
             else
-                paintCircle(cx, cy, rad, image, *fg);
+                paintCircle(cx, cy, rad, image, *bg);
         }
     }
 }

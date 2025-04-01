@@ -25,6 +25,10 @@ ColorPicker::ColorPicker(int x, int y) {
 }
 
 void ColorPicker::checkMouse(Mouse mouse) {
+    sliders[0]->changeParam(colors[currentColor].r);
+    sliders[1]->changeParam(colors[currentColor].g);
+    sliders[2]->changeParam(colors[currentColor].b);
+    sliders[3]->changeParam(colors[currentColor].a);
     for (int i = 0; i < 4; i++) {
         sliders[i]->checkMouse(mouse);
     }

@@ -35,3 +35,11 @@ int Canvas::get_x() {
 int Canvas::get_y() {
     return y;
 }
+
+int Canvas::get_w() {
+    return w;
+}
+
+int Canvas::get_h() {
+    return h;
+}

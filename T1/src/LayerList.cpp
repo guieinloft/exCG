@@ -108,7 +108,8 @@ void LayerList::checkMouse(Mouse mouse) {
     else if (optionButtons[OPT_LAYERMRG]->isPressed() && active_layer > 0) {
         layers[active_layer - 1]->getImage()->blend(
             *(layers[active_layer]->getImage()),
-            layers[active_layer]->get_x(), layers[active_layer]->get_y());
+            layers[active_layer]->get_x(), layers[active_layer]->get_y(),
+            layers[active_layer-1]->get_x(), layers[active_layer-1]->get_y());
         removeLayer();
     }
 }

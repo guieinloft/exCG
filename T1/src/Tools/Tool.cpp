@@ -13,7 +13,7 @@ Tool::Tool() {
 }
 
 void Tool::renderOptions(int sw, int sh) {
-    CV::color(0.25, 0.25, 0.25);
+    CV::color(0.25f, 0.25f, 0.25f);
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
@@ -24,5 +24,16 @@ void Tool::changePosition(int sw, int sh) {
 }
 
 void Tool::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg) {
+    printf("\nNAO IMPLEMENTADO");
 }
 
+void Tool::renderBorder(Canvas *canvas, Layer *layer) {
+    int real_x = canvas->get_x() + layer->get_x();
+    int real_y = canvas->get_y() + layer->get_y();
+    int w = layer->getImage()->get_w();
+    int h = layer->getImage()->get_h();
+    CV::color(0.0f, 0.0f, 0.0f);
+    CV::rect(real_x - 1, real_y - 1, real_x + w, real_y + h);
+    CV::color(1.0f, 1.0f, 1.0f);
+    CV::rect(real_x - 2, real_y - 2, real_x + w + 1, real_y + h + 1);
+}
