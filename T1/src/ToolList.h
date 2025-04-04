@@ -26,8 +26,6 @@ class ToolList {
     private:
     Button *bt_list[TOOL_NUM];
     int bt_selected;
-
-    Tool *tools[TOOL_NUM];
 };
 
 #endif

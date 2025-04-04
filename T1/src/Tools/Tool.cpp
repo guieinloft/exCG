@@ -33,7 +33,7 @@ void Tool::renderBorder(Canvas *canvas, Layer *layer) {
     int w = layer->getImage()->get_w();
     int h = layer->getImage()->get_h();
     CV::color(0.0f, 0.0f, 0.0f);
-    CV::rect(real_x - 1, real_y - 1, real_x + w, real_y + h);
+    CV::rect(real_x, real_y - 1, real_x + w + 1, real_y + h);
     CV::color(1.0f, 1.0f, 1.0f);
-    CV::rect(real_x - 2, real_y - 2, real_x + w + 1, real_y + h + 1);
+    CV::rect(real_x - 1, real_y - 2, real_x + w + 2, real_y + h + 1);
 }

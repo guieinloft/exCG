@@ -208,8 +208,11 @@ void Image::paint_circle(int x, int y, int d, int r, int g, int b, int a, bool b
 }
 
 void Image::blend(Image src, int x, int y, int sx, int sy) {
-    for (int i = max(0, y); i < min(this->h, src.h + y); i++) {
-        for (int j = max(0, x); j < min(this->w, src.w + x); j++) {
+    printf("\n%d %d %d %d", max(0, (y - sy)), min(this->h, (src.h - sy + y)),
+        max(0, (x - sx)), min(this->w, (src.w - sx + x)));
+    for (int i = max(0, (y - sy)); i < min(this->h, (src.h - sy + y)); i++) {
+        for (int j = max(0, (x - sx)); j < min(this->w, (src.w - sx + x)); j++) {
+            printf("\n%d %d", j, i);
             int b1 = (i * this->w + j) * 4;
             int b2 = ((i - y + sy) * src.w + (j - x + sx)) * 4;
             this->img[b1] = src.img[b2] * src.img[b2+3]/255.0 + this->img[b1] * (255 - src.img[b2+3])/255.0;
@@ -234,4 +237,102 @@ void Image::clear_image(int new_w, int new_h) {
             }
         }
     }
+}
+
+void Image::rotate(float rad, int *offx, int *offy) {
+    int x1 = 0, y1 = 0;
+    int x2 = w * cos(rad), y2 = w * sin(rad);
+    int x3 = -(h * sin(rad)), y3 = h * cos(rad);
+    int x4 = w * cos(rad) - h * sin(rad), y4 = w * sin(rad) + h * cos(rad);
+    int x_min = min(x1, min(x2, min(x3, x4)));
+    int y_min = min(y1, min(y2, min(y3, y4)));
+    int x_max = max(x1, max(x2, max(x3, x4)));
+    int y_max = max(y1, max(y2, max(y3, y4)));
+    int nw = x_max - x_min, nh = y_max - y_min;
+    int old_cx = w / 2, old_cy = h / 2;
+    int new_cx = nw / 2, new_cy = nh / 2;
+    uint8_t *new_img = (uint8_t*)malloc(sizeof(uint8_t) * nw * nh * 4);
+    for (int i = y_min; i < y_max; i++) {
+        for (int j = x_min; j < x_max; j++) {
+            int base_x = (int)(j * cos(-rad) - i * sin(-rad));
+            int base_y = (int)(j * sin(-rad) + i * cos(-rad));
+            int b1 = ((i - y_min) * nw + (j - x_min)) * 4;
+            //printf("%d\n", b1);
+            if (base_x >= 0 && base_x < w && base_y >= 0 && base_y < h) {
+                int b2 = (base_y * w + base_x) * 4;
+                new_img[b1+0] = img[b2+0];
+                new_img[b1+1] = img[b2+1];
+                new_img[b1+2] = img[b2+2];
+                new_img[b1+3] = img[b2+3];
+            }
+            else {
+                new_img[b1+0] = 0;
+                new_img[b1+1] = 0;
+                new_img[b1+2] = 0;
+                new_img[b1+3] = 0;
+            }
+        }
+    }
+    free(this->img);
+    this->img = new_img;
+    this->w = nw;
+    this->h = nh;
+    *offx = old_cx - new_cx;
+    *offy = old_cy - new_cy;
+}
+
+void Image::blur(int radius) {
+    float sigma = fmax(radius/2.0, 1.0);
+    float expden = 2 * sigma * sigma;
+    int ksize = radius * 2 + 1;
+    float sum = 0.0;
+    float *img_kernel = (float*)malloc(sizeof(float) * ksize * ksize);
+    if (img_kernel == NULL) return;
+    uint8_t *new_img = (uint8_t*)malloc(sizeof(uint8_t) * this->w * this->h * 4);
+    if (new_img == NULL) return;
+    printf("\n\n%p %p\n", img_kernel, new_img);
+    //define img_kernel values
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
+            float expnum = -(i * i + j * j);
+            float eexpr = pow(M_E, expnum/expden);
+            img_kernel[(i + radius) * ksize + (j + radius)] = eexpr / (expden * M_PI);
+            sum += img_kernel[(i + radius) * ksize + (j + radius)];
+        }
+    }
+    //normalize img_kernel values
+    for (int i = 0; i < ksize; i++) {
+        for (int j = 0; j < ksize; j++) {
+            img_kernel[i * ksize + j] /= sum;
+        }
+    }
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            float r = 0.f, g = 0.f, b = 0.f, a = 0.f;
+            
+            for (int ki = -radius; ki <= radius; ki++) {
+                for (int kj = -radius; kj <= radius; kj++) {
+                    float kvalue = img_kernel[(ki + radius) * ksize + (kj + radius)];
+                    if (j + kj >= 0 && j + kj < w && i + ki >= 0 && i + ki < h) {
+                        int base = ((i + ki) * w + j + kj) * 4;
+                        r += img[base + 2] * kvalue;
+                        g += img[base + 1] * kvalue;
+                        b += img[base + 0] * kvalue;
+                        a += img[base + 3] * kvalue;
+                    }
+                }
+            }
+            int base_n = (i * w + j) * 4;
+            new_img[base_n + 2] = (uint8_t)r; 
+            new_img[base_n + 1] = (uint8_t)g; 
+            new_img[base_n + 0] = (uint8_t)b; 
+            new_img[base_n + 3] = (uint8_t)a; 
+        }
+    }
+    printf("\n%p %p\n", img_kernel, new_img);
+    printf("\n%p %p\n", img_kernel, new_img);
+    printf("\n%p %p\n", img_kernel, new_img);
+    free(img_kernel);
+    free(this->img);
+    this->img = new_img;
 }

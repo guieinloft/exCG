@@ -13,6 +13,8 @@ class Layer {
     int get_y();
     void set_x(int x);
     void set_y(int y);
+    void setVisibility(bool v);
+    bool getVisibility();
     Image *getImage();
 
     private:

@@ -27,7 +27,7 @@
 #include "LayerList.h"
 #include "Canvas.h"
 #include "Mouse.h"
-#include "ColorPicker.h"
+#include "RightMenu.h"
 #include "colors.h"
 
 #include "Tools/Tool.h"
@@ -35,6 +35,7 @@
 #include "Tools/Eraser.h"
 #include "Tools/Move.h"
 #include "Tools/Resize.h"
+#include "Tools/Rotate.h"
 #include "Tools/Flip.h"
 #include "Tools/Picker.h"
 
@@ -45,7 +46,7 @@ Mouse smouse; //variaveis globais do mouse para poder exibir dentro da render().
 
 ToolList *tool_list;
 LayerList *layer_list;
-ColorPicker *color_picker;
+RightMenu *right_menu;
 Canvas *canvas;
 Tool *tools[TOOL_NUM];
 int tool_sel;
@@ -63,9 +64,9 @@ void render()
     CV::color(0.25, 0.25, 0.25);
     CV::rectFill(screenWidth-272, 0, screenWidth, screenHeight);
     tool_list->Render();
-    color_picker->changePosition(screenWidth - 272, 0);
-    color_picker->Render();
-    layer_list->changePosition(screenWidth - 264, 272);
+    right_menu->changePosition(screenWidth - 264, 0);
+    right_menu->Render();
+    layer_list->changePosition(screenWidth - 264, 304);
     layer_list->RenderList();
     tools[tool_sel]->changePosition(screenWidth, screenHeight);
     tools[tool_sel]->renderOptions(screenWidth, screenHeight);
@@ -111,24 +112,24 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
    //printf("\nmouse %d %d %d %d %d %d", button, state, wheel, direction,  x, y);
    tool_list->checkMouse(smouse);
    tool_sel = tool_list->getSelectedTool();
-   color_picker->checkMouse(smouse);
+   right_menu->checkMouse(smouse, layer_list->getActiveLayer());
    layer_list->checkMouse(smouse);
    tools[tool_sel]->checkOptions(screenWidth, screenHeight, smouse);
-   if (layer_list->getActiveLayer() != NULL)
-       tools[tool_sel]->execute(smouse, canvas, layer_list->getActiveLayer(), color_picker->getFGColor(), color_picker->getBGColor());
+   if (layer_list->getActiveLayer() != NULL && layer_list->getActiveLayer()->getVisibility())
+       tools[tool_sel]->execute(smouse, canvas, layer_list->getActiveLayer(), right_menu->getFGColor(), right_menu->getBGColor());
 }
 
 int main(void)
 {
    tool_list = new ToolList();
    canvas = new Canvas(640, 480);
-   color_picker = new ColorPicker(screenWidth - 272, 0);
-   layer_list = new LayerList(screenWidth - 264, 272);
+   right_menu = new RightMenu(screenWidth - 264, 0);
+   layer_list = new LayerList(screenWidth - 264, 304);
    tools[TOOL_PENCIL] = new Pencil(screenWidth, screenHeight);
    tools[TOOL_ERASER] = new Eraser(screenWidth, screenHeight);
    tools[TOOL_MOVE] = new Move(screenWidth, screenHeight);
    tools[TOOL_RESIZE] = new Resize(screenWidth, screenHeight);
-   tools[TOOL_ROTATE] = new Tool();
+   tools[TOOL_ROTATE] = new Rotate(screenWidth, screenHeight);
    tools[TOOL_FLIP] = new Flip(screenWidth, screenHeight);
    tools[TOOL_PICKER] = new Picker(screenWidth, screenHeight);
    CV::init(&screenWidth, &screenHeight, "CANVAS PAINT");

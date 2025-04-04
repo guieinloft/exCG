@@ -21,6 +21,8 @@ class Image {
     void paint_circle(int x, int y, int d, int r, int g, int b, int a, bool blend);
     void clear_image(int new_w, int new_h);
     void blend(Image src, int x, int y, int sx, int sy);
+    void rotate(float rad, int *offx, int *offy);
+    void blur(int radius);
 
     private:
     uint32_t w;

@@ -7,10 +7,10 @@ ColorPicker::ColorPicker(int x, int y) {
     this->x = x;
     this->y = y;
     for (int i = 0; i < 4; i++) {
-        sliders[i] = new Slider(x + 8, y + 40 + 40 * i);
+        sliders[i] = new Slider(x, y + 32 + 40 * i);
     }
-    buttons[0] = new Button(x + 8, y + 200, 128, 32);
-    buttons[1] = new Button(x + 136, y + 200, 128, 32);
+    buttons[0] = new Button(x, y + 192, 128, 32);
+    buttons[1] = new Button(x + 128, y + 192, 128, 32);
 
     colors[0].r = 0;
     colors[0].g = 0;
@@ -54,21 +54,19 @@ void ColorPicker::checkMouse(Mouse mouse) {
 }
 
 void ColorPicker::Render() {
-    CV::color(0.25, 0.25, 0.25);
-    CV::rectFill(x, y, x + 272, y + 272);
     for (int i = 0; i < 4; i++) {
         sliders[i]->Render();
     }
     for (int i = 0; i < 2; i++) {
         CV::color(colors[i].r/255.0, colors[i].g/255.0, colors[i].b/255.0);
-        CV::rectFill(x + 8 + i * 128, y + 200, x + 72 + i * 128, y + 232);
+        CV::rectFill(x + i * 128, y + 192, x + 64 + i * 128, y + 224);
         CV::color(colors[i].r/255.0*colors[i].a/255.0, colors[i].g/255.0*colors[i].a/255.0, colors[i].b/255.0*colors[i].a/255.0);
-        CV::rectFill(x + 72 + i * 128, y + 200, x + 136 + i * 128, y + 232);
+        CV::rectFill(x + 64 + i * 128, y + 192, x + 128 + i * 128, y + 224);
     }
     
     CV::color(0.5, 0.5, 0.5);
-    CV::rect(x + 7 + 128 * currentColor, y + 199, x + 137 + 128 * currentColor, y + 233);
-    CV::rect(x + 6 + 128 * currentColor, y + 198, x + 138 + 128 * currentColor, y + 234);
+    CV::rect(x - 1 + 128 * currentColor, y + 191, x + 129 + 128 * currentColor, y + 225);
+    CV::rect(x - 2 + 128 * currentColor, y + 190, x + 130 + 128 * currentColor, y + 226);
     
     //buttons[0]->Render();
     //buttons[1]->Render();
@@ -90,8 +88,8 @@ void ColorPicker::changePosition(int x, int y) {
     this->x = x;
     this->y = y;
     for (int i = 0; i < 4; i++) {
-        sliders[i]->changePosition(x + 8, y + 40 + 40 * i);
+        sliders[i]->changePosition(x, y + 32 + 40 * i);
     }
-    buttons[0]->changePosition(x + 8, y + 200);
-    buttons[1]->changePosition(x + 136, y + 200);
+    buttons[0]->changePosition(x, y + 192);
+    buttons[1]->changePosition(x + 128, y + 192);
 }

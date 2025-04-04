@@ -47,3 +47,11 @@ void Layer::set_y(int y) {
 Image *Layer::getImage() {
     return this->image;
 }
+
+void Layer::setVisibility(bool v) {
+    this->visible = v;
+}
+
+bool Layer::getVisibility() {
+    return this->visible;
+}

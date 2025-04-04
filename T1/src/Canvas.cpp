@@ -20,7 +20,8 @@ void Canvas::Render(int sw, int sh, Layer **layers, int n_layers) {
         }
     }
     for (int i = 0; i < n_layers; i++)
-        layers[i]->Render(this->x, this->y);
+        if (layers[i]->getVisibility())
+            layers[i]->Render(this->x, this->y);
     CV::color(0.15, 0.15, 0.15);
     CV::rectFill(0, 0, x, sh);
     CV::rectFill(x + w, 0, sw, sh);

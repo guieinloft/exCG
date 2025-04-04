@@ -34,6 +34,7 @@ class LayerList {
     int n_layers;
     uint8_t active_layer;
     Button *layerButtons[MAX_LAYERS];
+    Button *layerOpButtons[MAX_LAYERS];
     Button *optionButtons[8];
     int newest_layer;
     void createLayer();
