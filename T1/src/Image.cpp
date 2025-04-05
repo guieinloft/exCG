@@ -22,10 +22,10 @@ void Image::close_image() {
     free(this->img);
 }
 
-void Image::bmp_load(char *path) {
+bool Image::bmp_load(char *path) {
     //open file
     FILE *file = fopen(path, "rb");
-    if (file == NULL) return;
+    if (file == NULL) return false;
     
     this->close_image();
 
@@ -51,6 +51,7 @@ void Image::bmp_load(char *path) {
 
     //create and read data array
     this->img = (uint8_t*)malloc(sizeof(uint8_t) * this->w * this->h * 4);
+    if (this->img == NULL) return false;
     fseek(file, offset, SEEK_SET);
     int padding = (4 - this->w * bpp) % 4;
     for (int i = this->h - 1; i > -1; i--) {
@@ -64,6 +65,61 @@ void Image::bmp_load(char *path) {
 
     //close file
     fclose(file);
+    return true;
+}
+
+void Image::bmp_save(char *path) {
+    //open file
+    FILE *file = fopen(path, "wb");
+    if (file == NULL) return;
+
+    //write bmp header
+    fwrite("BM", sizeof(char), 2, file);
+    uint32_t fsize = 54 + w * h * 4;
+    fwrite(&fsize, sizeof(uint32_t), 1, file);
+    uint32_t temp_zero = 0;
+    uint16_t temp_one = 1;
+    uint16_t temp_32 = 32;
+    fwrite(&temp_zero, sizeof(uint32_t), 1, file);
+    uint32_t offset = 54;
+    fwrite(&offset, sizeof(uint32_t), 1, file);
+
+    //write dib header
+    uint32_t hsize = 40;
+    fwrite(&hsize, sizeof(uint32_t), 1, file);
+    fwrite(&w, sizeof(uint32_t), 1, file);
+    fwrite(&h, sizeof(uint32_t), 1, file);
+    fwrite(&temp_one, sizeof(uint16_t), 1, file);
+    fwrite(&temp_32, sizeof(uint16_t), 1, file);
+    fwrite(&temp_zero, sizeof(uint32_t), 1, file);
+    fsize = w * h * 4;
+    fwrite(&fsize, sizeof(uint32_t), 1, file);
+    fwrite(&w, sizeof(uint32_t), 1, file);
+    fwrite(&h, sizeof(uint32_t), 1, file);
+    fwrite(&temp_zero, sizeof(uint32_t), 1, file);
+    fwrite(&temp_zero, sizeof(uint32_t), 1, file);
+    
+    //write image
+    for (int i = h - 1; i >= 0; i--) {
+        fwrite(&(img[i * w * 4]), sizeof(uint8_t), 4 * w, file);
+    }
+
+    //close file
+    fclose(file);
+}
+
+void Image::file_save(FILE *file) {
+    fwrite(&w, sizeof(uint32_t), 1, file);
+    fwrite(&h, sizeof(uint32_t), 1, file);
+    fwrite(img, sizeof(uint8_t), 4 * w * h, file);
+}
+
+void Image::file_load(FILE *file) {
+    close_image();
+    fread(&w, sizeof(uint32_t), 1, file);
+    fread(&h, sizeof(uint32_t), 1, file);
+    img = (uint8_t*)malloc(sizeof(uint8_t) * 4 * w * h);
+    fread(img, sizeof(uint8_t), 4 * w * h, file);
 }
 
 void Image::render(float x, float y, int o) {
@@ -135,10 +191,10 @@ int Image::get_h() {
 void Image::put_pixel(int x, int y, int r, int g, int b, int a, bool blend) {
     if (x >= 0 && x < this->w && y >= 0 && y < this->h) {
         int base = (y * this->w + x) * 4;
-        this->img[base] = b * (a * blend + 255 * !blend)/255.0 + this->img[base] * (255 - a)/255.0 * blend;
-        this->img[base+1] = g * (a * blend + 255 * !blend)/255.0 + this->img[base+1] * (255 - a)/255.0 * blend;
-        this->img[base+2] = r * (a * blend + 255 * !blend)/255.0 + this->img[base+2] * (255 - a)/255.0 * blend;
-        this->img[base+3] = a * !blend + 255 * (blend && (this->img[base+3] >= 255 - a)) + (this->img[base+3] + a) * (blend && (this->img[base+3] < 255 - a));
+        if (b >= 0) this->img[base] = b * (a * blend + 255 * !blend)/255.0 + this->img[base] * (255 - a)/255.0 * blend;
+        if (g >= 0) this->img[base+1] = g * (a * blend + 255 * !blend)/255.0 + this->img[base+1] * (255 - a)/255.0 * blend;
+        if (r >= 0) this->img[base+2] = r * (a * blend + 255 * !blend)/255.0 + this->img[base+2] * (255 - a)/255.0 * blend;
+        if (a >= 0) this->img[base+3] = a * !blend + 255 * (blend && (this->img[base+3] >= 255 - a)) + (this->img[base+3] + a) * (blend && (this->img[base+3] < 255 - a));
     }
 }
 
@@ -207,20 +263,26 @@ void Image::paint_circle(int x, int y, int d, int r, int g, int b, int a, bool b
     }
 }
 
-void Image::blend(Image src, int x, int y, int sx, int sy) {
-    printf("\n%d %d %d %d", max(0, (y - sy)), min(this->h, (src.h - sy + y)),
-        max(0, (x - sx)), min(this->w, (src.w - sx + x)));
+void Image::blend(Image src, int x, int y, int sx, int sy, int o) {
     for (int i = max(0, (y - sy)); i < min(this->h, (src.h - sy + y)); i++) {
         for (int j = max(0, (x - sx)); j < min(this->w, (src.w - sx + x)); j++) {
-            printf("\n%d %d", j, i);
             int b1 = (i * this->w + j) * 4;
             int b2 = ((i - y + sy) * src.w + (j - x + sx)) * 4;
-            this->img[b1] = src.img[b2] * src.img[b2+3]/255.0 + this->img[b1] * (255 - src.img[b2+3])/255.0;
-            this->img[b1+1] = src.img[b2+1] * src.img[b2+3]/255.0 + this->img[b1+1] * (255 - src.img[b2+3])/255.0;
-            this->img[b1+2] = src.img[b2+2] * src.img[b2+3]/255.0 + this->img[b1+2] * (255 - src.img[b2+3])/255.0;
-            this->img[b1+3] = 255 * (this->img[b1+3] >= 255 - src.img[b2+3]) + (this->img[b1+3] + src.img[b2+3]) * (this->img[b1+3] < 255 - src.img[b2+3]);
+            float a = src.img[b2+3] * o/255.0;
+            this->img[b1] = src.img[b2] * a/255.0 + this->img[b1] * (255 - a)/255.0;
+            this->img[b1+1] = src.img[b2+1] * a/255.0 + this->img[b1+1] * (255 - a)/255.0;
+            this->img[b1+2] = src.img[b2+2] * a/255.0 + this->img[b1+2] * (255 - a)/255.0;
+            this->img[b1+3] = 255 * (this->img[b1+3] >= 255 - a) + (this->img[b1+3] + a) * (this->img[b1+3] < 255 - a);
         }
     }
+}
+
+void Image::copy(Image src) {
+    this->close_image();
+    this->w = src.w;
+    this->h = src.h;
+    this->img = (uint8_t*)malloc(sizeof(uint8_t) * src.w * src.h * 4);
+    memcpy(this->img, src.img, sizeof(uint8_t) * src.w * src.h * 4);
 }
 
 void Image::clear_image(int new_w, int new_h) {
@@ -273,7 +335,7 @@ void Image::rotate(float rad, int *offx, int *offy) {
             }
         }
     }
-    free(this->img);
+    close_image();
     this->img = new_img;
     this->w = nw;
     this->h = nh;

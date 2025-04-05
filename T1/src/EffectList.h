@@ -3,6 +3,7 @@
 
 #include "Button.h"
 #include "Layer.h"
+#include "Canvas.h"
 
 #include "Effects/Effect.h"
 
@@ -20,7 +21,7 @@ class EffectList {
     public:
     EffectList(int x, int y);
     void Render();
-    void checkMouse(Mouse mouse, Layer *layer);
+    void checkMouse(Mouse mouse, Layer *layer, Canvas *canvas);
     void changePosition(int x, int y);
 
     private:

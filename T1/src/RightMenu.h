@@ -6,12 +6,13 @@
 #include "Button.h"
 #include "colors.h"
 #include "Layer.h"
+#include "Canvas.h"
 
 class RightMenu {
     public:
     RightMenu(int x, int y);
     void Render();
-    void checkMouse(Mouse mouse, Layer *layer);
+    void checkMouse(Mouse mouse, Layer *layer, Canvas *canvas);
     void changePosition(int x, int y);
     rgb_color *getFGColor();
     rgb_color *getBGColor();

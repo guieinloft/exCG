@@ -44,7 +44,7 @@ void EffectList::Render() {
     else effects[selectedEffect]->renderMenu();
 }
 
-void EffectList::checkMouse(Mouse mouse, Layer *layer) {
+void EffectList::checkMouse(Mouse mouse, Layer *layer, Canvas *canvas) {
     if (selectedEffect == -1 || layer == NULL) {
         for (int i = 0; i < EFF_NUM; i++) {
             int bt_status = effectButtons[i]->checkClick(mouse);
@@ -52,8 +52,10 @@ void EffectList::checkMouse(Mouse mouse, Layer *layer) {
                 selectedEffect = i;
         }
     }
-    else if (effects[selectedEffect]->checkMouse(mouse, layer->getImage()))
+    else if (effects[selectedEffect]->checkMouse(mouse, layer->getImage())) {
         selectedEffect = -1;
+        canvas->update();
+    }
 }
 
 void EffectList::changePosition(int x, int y) {

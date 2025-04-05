@@ -77,13 +77,14 @@ void render()
 //funcao chamada toda vez que uma tecla for pressionada.
 void keyboard(int key)
 {
-   printf("\nTecla: %d" , key);
+   //printf("\nTecla: %d" , key);
+   layer_list->checkKeyboard(key, canvas);
 }
 
 //funcao chamada toda vez que uma tecla for liberada
 void keyboardUp(int key)
 {
-   printf("\nLiberou: %d" , key);
+   //printf("\nLiberou: %d" , key);
 }
 
 //funcao para tratamento de mouse: cliques, movimentos e arrastos
@@ -110,13 +111,14 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
     }
 
    //printf("\nmouse %d %d %d %d %d %d", button, state, wheel, direction,  x, y);
-   tool_list->checkMouse(smouse);
-   tool_sel = tool_list->getSelectedTool();
-   right_menu->checkMouse(smouse, layer_list->getActiveLayer());
-   layer_list->checkMouse(smouse);
-   tools[tool_sel]->checkOptions(screenWidth, screenHeight, smouse);
-   if (layer_list->getActiveLayer() != NULL && layer_list->getActiveLayer()->getVisibility())
-       tools[tool_sel]->execute(smouse, canvas, layer_list->getActiveLayer(), right_menu->getFGColor(), right_menu->getBGColor());
+   if (!layer_list->checkMouse(smouse, canvas)) {
+       tool_list->checkMouse(smouse);
+       tool_sel = tool_list->getSelectedTool();
+       right_menu->checkMouse(smouse, layer_list->getActiveLayer(), canvas);
+       tools[tool_sel]->checkOptions(screenWidth, screenHeight, smouse);
+       if (layer_list->getActiveLayer() != NULL && layer_list->getActiveLayer()->getVisibility())
+           tools[tool_sel]->execute(smouse, canvas, layer_list->getActiveLayer(), right_menu->getFGColor(), right_menu->getBGColor());
+   }
 }
 
 int main(void)
@@ -132,6 +134,6 @@ int main(void)
    tools[TOOL_ROTATE] = new Rotate(screenWidth, screenHeight);
    tools[TOOL_FLIP] = new Flip(screenWidth, screenHeight);
    tools[TOOL_PICKER] = new Picker(screenWidth, screenHeight);
-   CV::init(&screenWidth, &screenHeight, "CANVAS PAINT");
+   CV::init(&screenWidth, &screenHeight, "PRO CANVAS COLOR");
    CV::run();
 }

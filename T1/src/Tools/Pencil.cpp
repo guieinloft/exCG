@@ -13,6 +13,9 @@ Pencil::Pencil(int sw, int sh) {
     sl_quality = new Slider(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)
         bt_formats[i] = new Button(560 + i * 32, sh - 48, 32, 32);
+    bt_formats[FORMAT_CIRCLE]->loadIcons("images/icons/pencil_circle.bmp");
+    bt_formats[FORMAT_SQUARE]->loadIcons("images/icons/pencil_square.bmp");
+    bt_formats[FORMAT_DIAMOND]->loadIcons("images/icons/pencil_diamond.bmp");
     bt_formats[0]->select(true);
 }
 
@@ -60,6 +63,16 @@ void paintSquare(int x, int y, int d, Image *image, rgb_color c) {
     }
 }
 
+void paintDiamond(int x, int y, int rad, Image *image, rgb_color c) {
+    for (int i = -rad; i <= rad; i++) {
+        for (int j = -rad; j <= rad; j++) {
+            if (abs(i) + abs(j) <= rad) {
+                image->put_pixel(x + j, y + i, c.r, c.g, c.b, 255, false);
+            }
+        }
+    }
+}
+
 void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg) {
     Image *image = layer->getImage();
     int real_x = mouse.x - canvas->get_x() - layer->get_x();
@@ -76,9 +89,12 @@ void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
             int cy = (real_yp * i + real_y * (quality - i))/quality;
             if (params[0] == FORMAT_SQUARE)
                 paintSquare(cx, cy, diameter, image, *fg);
+            else if (params[0] == FORMAT_DIAMOND)
+                paintDiamond(cx, cy, rad, image, *fg);
             else
                 paintCircle(cx, cy, rad, image, *fg);
         }
+        canvas->update();
     }
     else if (mouse.r) {
         for (int i = 0; i < quality; i++) {
@@ -89,6 +105,7 @@ void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
             else
                 paintCircle(cx, cy, rad, image, *bg);
         }
+        canvas->update();
     }
 }
 

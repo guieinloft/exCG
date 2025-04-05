@@ -1,18 +1,18 @@
 OBRIGATÓRIOS:
-[ ] Leitor de BMP
-[ ] Menu lateral
-[ ] Camadas com transparência binária
-[ ] Plano de fundo
-[ ] Pincel
-[ ] Troca de ordem de camadas
-[ ] Trocar cor do pincel
-[ ] Botão, checkbox, slider
-[ ] Manager de botões
-[ ] Efeitos:
-    [ ] Flip horizontal/vertical
-    [ ] Brilho
-[ ] Botões que carregam as imagens
-[ ] Imagens na pasta images
+[x] Leitor de BMP
+[x] Menu lateral
+[x] Camadas com transparência binária (AGORA COM ALPHA DE 8 BITS)
+[x] Plano de fundo
+[x] Pincel
+[x] Troca de ordem de camadas
+[x] Trocar cor do pincel
+[x] Botão, checkbox, slider
+[x] Manager de botões
+[x] Efeitos:
+    [x] Flip horizontal/vertical
+    [x] Brilho
+[x] Botões que carregam as imagens
+[x] Imagens na pasta images
 
 OPCIONAIS:
 [ ] Efeitos:

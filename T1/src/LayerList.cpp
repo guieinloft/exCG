@@ -1,7 +1,12 @@
 #include "LayerList.h"
 #include "Layer.h"
 #include "Button.h"
+#include "Slider.h"
+#include "Textbox.h"
 #include "gl_canvas2d.h"
+
+#include <stdlib.h>
+#include <stdio.h>
 
 LayerList::LayerList(int x, int y) {
     this->x = x;
@@ -17,25 +22,45 @@ LayerList::LayerList(int x, int y) {
     for (int i = 0; i < 8; i++)
         optionButtons[i] = new Button(x + i * 32, y + 32 * MAX_LAYERS, 32, 32);
     optionButtons[OPT_NEWLAYER]->loadIcons("images/icons/newlayer.bmp");
-    optionButtons[OPT_IMGLAYER]->loadIcons("images/icons/imglayer.bmp");
     optionButtons[OPT_LAYERUP]->loadIcons("images/icons/layerup.bmp");
     optionButtons[OPT_LAYERDOWN]->loadIcons("images/icons/layerdown.bmp");
     optionButtons[OPT_LAYERDEL]->loadIcons("images/icons/layerdel.bmp");
+    optionButtons[OPT_LAYERCOPY]->loadIcons("images/icons/layercopy.bmp");
     optionButtons[OPT_LAYERMRG]->loadIcons("images/icons/layermrg.bmp");
     optionButtons[OPT_SAVEFILE]->loadIcons("images/icons/savefile.bmp");
     optionButtons[OPT_LOADFILE]->loadIcons("images/icons/loadfile.bmp");
     this->newest_layer = 0;
+    popup = 0;
+    textbox = new Textbox(x, y + 32);
+    btOk = new Button(x, y + 96, 128, 32);
+    btCancel = new Button(x+128, y + 96, 128, 32);
+    btOk->changeText("OK");
+    btCancel->changeText("CANCELAR");
+    sl_opacity = new Slider(x, y + 32 * MAX_LAYERS + 64);
 }
 
 void LayerList::RenderList() {
-    CV::color(0.15, 0.15, 0.15);
-    CV::rectFill(x, y, x + 255, y + 32 * MAX_LAYERS - 1);
-    for (int i = 0; i < n_layers; i++) {
-        layerButtons[i]->Render();
-        layerOpButtons[i]->Render();
+    if (popup) {
+        CV::color(0.5, 0.5, 0.5);
+        if (popupType == 0)
+            CV::text(x, y+30, "SALVAR ARQUIVO:");
+        else CV::text(x, y+30, "CARREGAR ARQUIVO:");
+        textbox->Render();
+        btOk->Render();
+        btCancel->Render();
     }
-    for (int i = 0; i < 8; i++)
-        optionButtons[i]->Render();
+    else {
+        CV::color(0.15, 0.15, 0.15);
+        CV::rectFill(x, y, x + 255, y + 32 * MAX_LAYERS - 1);
+        for (int i = 0; i < n_layers; i++) {
+            layerButtons[i]->Render();
+            layerOpButtons[i]->Render();
+        }
+        for (int i = 0; i < 8; i++)
+            optionButtons[i]->Render();
+        CV::text(x, y + 32 * MAX_LAYERS + 46, "Opacidade:");
+        sl_opacity->Render();
+    }
 }
 
 void LayerList::createLayer() {
@@ -92,7 +117,87 @@ void LayerList::removeLayer() {
     active_layer -= (active_layer != 0);
 }
 
-void LayerList::checkMouse(Mouse mouse) {
+void LayerList::loadProject() {
+    char path[300] = "projects/";
+    strcat(path, textbox->getText());
+    if (strstr(path, ".pcc") == NULL)
+        strcat(path, ".pcc");
+    FILE *file = fopen(path, "rb");
+    if (file == NULL) return;
+    while (n_layers > 0) removeLayer();
+    fseek(file, 0x4, SEEK_SET);
+    int layer_num;
+    fread(&layer_num, sizeof(int), 1, file);
+    for (int i = 0; i < layer_num; i++) {
+        createLayer();
+        layers[i]->loadFile(file);
+    }
+    fclose(file);
+}
+
+void LayerList::loadImage() {
+    char path[280] = "images/";
+    strcat(path, textbox->getText());
+    if (path == NULL) return;
+    if (n_layers >= MAX_LAYERS) return;
+    createLayer();
+    if (!layers[active_layer]->getImage()->bmp_load(path))
+        removeLayer();
+}
+
+void LayerList::saveProject() {
+    char path[300] = "projects/";
+    strcat(path, textbox->getText());
+    if (strstr(path, ".pcc") == NULL)
+        strcat(path, ".pcc");
+    FILE *file = fopen(path, "wb");
+    if (file == NULL) return;
+    fwrite("PCC_", sizeof(char), 4, file);
+    fwrite(&n_layers, sizeof(int), 1, file);
+    for (int i = 0; i < n_layers; i++)
+        layers[i]->saveFile(file);
+    fclose(file);
+}
+
+void LayerList::saveImage() {
+    char path[280] = "images/";
+    strcat(path, textbox->getText());
+    if (path == NULL) return;
+    Image *img = new Image();
+    img->clear_image(640, 480);
+    for (int i = 0; i < n_layers; i++)
+        img->blend(*(layers[i]->getImage()), layers[i]->get_x(),
+            layers[i]->get_y(), 0, 0, layers[i]->getOpacity());
+    img->bmp_save(path);
+    img->close_image();
+    delete img;
+}
+
+bool LayerList::checkMouse(Mouse mouse, Canvas *canvas) {
+    if (popup) {
+        textbox->checkMouse(mouse);
+        if (btOk->checkClick(mouse) == 1) {
+            if (popupType == 1) {
+                if (strstr(textbox->getText(), ".bmp") != NULL)
+                    loadImage();
+                else
+                    loadProject();
+                canvas->update();
+            }
+            else {
+                if (strstr(textbox->getText(), ".bmp") != NULL)
+                    saveImage();
+                else
+                    saveProject();
+            }
+            popup = 0;
+            textbox->reset();
+        }
+        if (btCancel->checkClick(mouse) == 1) {
+            popup = 0;
+        }
+        return popup;
+    }
     int bt_status;
     for (int i = 0; i < n_layers; i++) {
         bt_status = layerButtons[i]->checkClick(mouse);
@@ -102,6 +207,7 @@ void LayerList::checkMouse(Mouse mouse) {
             layerOpButtons[i]->select(true);
             layerOpButtons[i]->changeIcon();
             layers[i]->setVisibility(!layers[i]->getVisibility());
+            canvas->update();
         }
         else if (bt_status == 0)
             layerOpButtons[i]->select(false);
@@ -117,23 +223,63 @@ void LayerList::checkMouse(Mouse mouse) {
     if (optionButtons[OPT_NEWLAYER]->isPressed() && n_layers < MAX_LAYERS) {
         createLayer();
         layers[active_layer]->createBlank(640, 480);
+        canvas->update();
     }
-    else if (optionButtons[OPT_IMGLAYER]->isPressed() && n_layers < MAX_LAYERS) {
+    else if (optionButtons[OPT_LAYERCOPY]->isPressed() && n_layers < MAX_LAYERS && n_layers > 0) {
+        int old_layer = active_layer;
         createLayer();
-        layers[active_layer]->loadImage("images/testimg.bmp");
+        layers[active_layer]->getImage()->copy(*(layers[old_layer]->getImage()));
+        layers[active_layer]->set_x(layers[old_layer]->get_x());
+        layers[active_layer]->set_y(layers[old_layer]->get_y());
+        canvas->update();
     }
-    else if (optionButtons[OPT_LAYERUP]->isPressed())
+    else if (optionButtons[OPT_LAYERUP]->isPressed()) {
         moveLayer(1);
-    else if (optionButtons[OPT_LAYERDOWN]->isPressed())
+        canvas->update();
+    }
+    else if (optionButtons[OPT_LAYERDOWN]->isPressed()) {
         moveLayer(-1);
-    else if (optionButtons[OPT_LAYERDEL]->isPressed())
+        canvas->update();
+    }
+    else if (optionButtons[OPT_LAYERDEL]->isPressed()) {
         removeLayer();
+        canvas->update();
+    }
     else if (optionButtons[OPT_LAYERMRG]->isPressed() && active_layer > 0) {
         layers[active_layer - 1]->getImage()->blend(
             *(layers[active_layer]->getImage()),
             layers[active_layer]->get_x(), layers[active_layer]->get_y(),
-            layers[active_layer-1]->get_x(), layers[active_layer-1]->get_y());
+            layers[active_layer-1]->get_x(), layers[active_layer-1]->get_y(),
+            layers[active_layer]->getOpacity());
         removeLayer();
+        canvas->update();
+    }
+    else if (optionButtons[OPT_SAVEFILE]->isPressed()) {
+        popup = 1;
+        popupType = 0;
+    }
+    else if (optionButtons[OPT_LOADFILE]->isPressed()) {
+        popup = 1;
+        popupType = 1;
+    }
+    if (layers[active_layer] != NULL) {
+        sl_opacity->changeParam(layers[active_layer]->getOpacity());
+        sl_opacity->checkMouse(mouse);
+        layers[active_layer]->setOpacity(sl_opacity->getParam());
+    }
+    return popup;
+}
+
+void LayerList::checkKeyboard(int key, Canvas *canvas) {
+    if (textbox->checkKeyboard(key)) {
+        if (popupType == 1) {
+            loadImage();
+            canvas->update();
+        }
+        else
+            saveImage();
+        popup = 0;
+        textbox->reset();
     }
 }
 
@@ -150,6 +296,10 @@ void LayerList::changePosition(int x, int y) {
     }
     for (int i = 0; i < 8; i++)
         optionButtons[i]->changePosition(x + i * 32, y + 32 * MAX_LAYERS);
+    textbox->changePosition(x, y+32);
+    btOk->changePosition(x, y+96);
+    btCancel->changePosition(x+128, y+96);
+    sl_opacity->changePosition(x, y + 32 * MAX_LAYERS + 64);
 }
 
 Layer **LayerList::getLayers() {

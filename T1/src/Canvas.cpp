@@ -5,6 +5,11 @@
 Canvas::Canvas(int w, int h) {
     this->w = w;
     this->h = h;
+    this->up = true;
+    canvas_bg = new Image();
+    canvas = new Image();
+    canvas_bg->bmp_load("images/canvas_bg/canvas_bg.bmp");
+    canvas->copy(*canvas_bg);
 }
 
 void Canvas::Render(int sw, int sh, Layer **layers, int n_layers) {
@@ -19,9 +24,22 @@ void Canvas::Render(int sw, int sh, Layer **layers, int n_layers) {
             CV::rectFill(j, i, j+8, i+8);
         }
     }
+#if FAST_RENDER == 0
+    if (up) {
+        canvas->copy(*canvas_bg);
+        for (int i = 0; i < n_layers; i++)
+            if (layers[i]->getVisibility())
+                canvas->blend(*(layers[i]->getImage()), layers[i]->get_x(),
+                layers[i]->get_y(), 0, 0, layers[i]->getOpacity());
+        up = false;
+    }
+    canvas->render(x, y, 255);
+#else
     for (int i = 0; i < n_layers; i++)
         if (layers[i]->getVisibility())
-            layers[i]->Render(this->x, this->y);
+            layers[i]->getImage()->render(this->x + layers[i]->get_x(),
+                this->y + layers[i]->get_y(), layers[i]->getOpacity());
+#endif
     CV::color(0.15, 0.15, 0.15);
     CV::rectFill(0, 0, x, sh);
     CV::rectFill(x + w, 0, sw, sh);
@@ -43,4 +61,8 @@ int Canvas::get_w() {
 
 int Canvas::get_h() {
     return h;
+}
+
+void Canvas::update() {
+    up = true;
 }

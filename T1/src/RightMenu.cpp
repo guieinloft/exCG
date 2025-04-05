@@ -4,6 +4,7 @@
 #include "Button.h"
 #include "colors.h"
 #include "Layer.h"
+#include "Canvas.h"
 
 RightMenu::RightMenu(int x, int y) {
     for (int i = 0; i < 2; i++)
@@ -23,7 +24,7 @@ void RightMenu::Render() {
     else effect_list->Render();
 }
 
-void RightMenu::checkMouse(Mouse mouse, Layer *layer) {
+void RightMenu::checkMouse(Mouse mouse, Layer *layer, Canvas *canvas) {
     for (int i = 0; i < 2; i++) {
         int bt_status = menuButtons[i]->checkClick(mouse);
         if (bt_status == 1) selectedMenu = i;
@@ -31,7 +32,7 @@ void RightMenu::checkMouse(Mouse mouse, Layer *layer) {
     menuButtons[0]->select(!selectedMenu);
     menuButtons[1]->select(selectedMenu);
     if (!selectedMenu) color_picker->checkMouse(mouse);
-    else effect_list->checkMouse(mouse, layer);
+    else effect_list->checkMouse(mouse, layer, canvas);
 }
 
 void RightMenu::changePosition(int x, int y) {

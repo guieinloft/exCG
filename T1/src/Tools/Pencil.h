@@ -6,9 +6,12 @@
 #include "../Slider.h"
 #include "../Button.h"
 
+#define abs(x) (x * (x >= 0) - x * (x < 0))
+
 enum PencilFormats {
-    FORMAT_SQUARE,
     FORMAT_CIRCLE,
+    FORMAT_SQUARE,
+    FORMAT_DIAMOND,
     FORMAT_NUM
 };
 

@@ -41,6 +41,7 @@ void Rotate::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
         layer->getImage()->rotate((params[2] - params[1]) * M_PI/180, &offx, &offy);
         layer->set_x(layer->get_x() + offx);
         layer->set_y(layer->get_y() + offy);
+        canvas->update();
     }
 }
 

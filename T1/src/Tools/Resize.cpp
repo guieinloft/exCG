@@ -57,6 +57,7 @@ void Resize::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
         if ((params[0] & RESIZE_MY) == RESIZE_MY)
             layer->set_y(mouse.y - canvas->get_y());
         params[0] = RESIZE_NO;
+        canvas->update();
     }
 }
 

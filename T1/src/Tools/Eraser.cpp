@@ -14,6 +14,9 @@ Eraser::Eraser(int sw, int sh) {
     sl_quality = new Slider(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)
         bt_formats[i] = new Button(560 + i * 32, sh - 48, 32, 32);
+    bt_formats[FORMAT_CIRCLE]->loadIcons("images/icons/pencil_circle.bmp");
+    bt_formats[FORMAT_SQUARE]->loadIcons("images/icons/pencil_square.bmp");
+    bt_formats[FORMAT_DIAMOND]->loadIcons("images/icons/pencil_diamond.bmp");
     bt_formats[0]->select(true);
 }
 
@@ -47,7 +50,7 @@ void eraseCircle(int x, int y, int rad, Image *image, rgb_color c) {
     for (int i = -rad; i <= rad; i++) {
         for (int j = -rad; j <= rad; j++) {
             if (i * i + j * j <= rad * rad + rad) {
-                image->put_pixel(x + j, y + i, c.r, c.g, c.b, 0, false);
+                image->put_pixel(x + j, y + i, -1, -1, -1, 0, false);
             }
         }
     }
@@ -56,7 +59,17 @@ void eraseCircle(int x, int y, int rad, Image *image, rgb_color c) {
 void eraseSquare(int x, int y, int d, Image *image, rgb_color c) {
     for (int i = 0; i < d; i++) {
         for (int j = 0; j < d; j++) {
-            image->put_pixel(x - j + d/2, y - i + d/2, c.r, c.g, c.b, 0, false);
+            image->put_pixel(x - j + d/2, y - i + d/2, -1, -1, -1, 0, false);
+        }
+    }
+}
+
+void eraseDiamond(int x, int y, int rad, Image *image, rgb_color c) {
+    for (int i = -rad; i <= rad; i++) {
+        for (int j = -rad; j <= rad; j++) {
+            if (abs(i) + abs(j) <= rad) {
+                image->put_pixel(x + j, y + i, -1, -1, -1, 0, false);
+            }
         }
     }
 }
@@ -77,9 +90,12 @@ void Eraser::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
             int cy = (real_yp * i + real_y * (quality - i))/quality;
             if (params[0] == FORMAT_SQUARE)
                 eraseSquare(cx, cy, diameter, image, *fg);
+            else if (params[0] == FORMAT_DIAMOND)
+                eraseDiamond(cx, cy, rad, image, *fg);
             else
                 eraseCircle(cx, cy, rad, image, *fg);
         }
+        canvas->update();
     }
 }
 

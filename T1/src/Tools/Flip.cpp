@@ -42,6 +42,7 @@ void Flip::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb
     if (mouse.y < real_y || mouse.y > real_y + h) return;
     if (params[0]) layer->getImage()->flip_v();
     else layer->getImage()->flip_h();
+    canvas->update();
 }
 
 void Flip::changePosition(int sw, int sh) {
