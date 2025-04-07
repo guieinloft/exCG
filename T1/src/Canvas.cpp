@@ -13,8 +13,8 @@ Canvas::Canvas(int w, int h) {
 }
 
 Canvas::~Canvas() {
-    //delete canvas_bg;
-    //delete canvas;
+    delete canvas_bg;
+    delete canvas;
 }
 
 void Canvas::Render(int sw, int sh, Layer **layers, int n_layers) {
