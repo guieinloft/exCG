@@ -10,6 +10,10 @@
 
 #include <math.h>
 
+#ifndef M_PI
+#define M_PI 3.14159
+#endif
+
 Rotate::Rotate(int sw, int sh) {
 }
 

@@ -136,7 +136,6 @@ int main(void)
    tools[TOOL_PICKER] = new Picker(screenWidth, screenHeight);
    CV::init(&screenWidth, &screenHeight, "PRO CANVAS COLOR");
    CV::run();
-   printf("\nACABOU?\nACABOU?\nACABOU?");
    delete tool_list;
    delete right_menu;
    delete layer_list;

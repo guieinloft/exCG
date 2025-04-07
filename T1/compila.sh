@@ -1,1 +1,1 @@
-g++ src/*.cpp src/Tools/*.cpp src/Effects/*.cpp src/*.c -lGL -lGLU -lglut -lm -Wno-narrowing -Wno-write-strings -std=c++11 -g
+g++ src/*.cpp src/Tools/*.cpp src/Effects/*.cpp src/*.c -lGL -lGLU -lglut -lm -std=c++11 -Wno-unused-parameter -Wno-write-strings -Wextra -Wall -g

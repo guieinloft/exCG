@@ -8,6 +8,7 @@
 class Tool {
     public:
     Tool();
+    virtual ~Tool();
     virtual void renderOptions(int sw, int sh);
     virtual void changePosition(int sw, int sh);
     virtual void checkOptions(int sw, int sh, Mouse mouse);

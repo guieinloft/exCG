@@ -73,7 +73,7 @@ void paintSquare(int x, int y, int d, Image *image, rgb_color c) {
 void paintDiamond(int x, int y, int rad, Image *image, rgb_color c) {
     for (int i = -rad; i <= rad; i++) {
         for (int j = -rad; j <= rad; j++) {
-            if (abs(i) + abs(j) <= rad) {
+            if (abslt(i) + abslt(j) <= rad) {
                 image->put_pixel(x + j, y + i, c.r, c.g, c.b, 255, false);
             }
         }

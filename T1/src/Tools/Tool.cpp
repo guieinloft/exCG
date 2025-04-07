@@ -12,6 +12,9 @@ Tool::Tool() {
     params[3] = 0;
 }
 
+Tool::~Tool() {
+}
+
 void Tool::renderOptions(int sw, int sh) {
     CV::color(0.25f, 0.25f, 0.25f);
     CV::rectFill(0, sh - 80, sw, sh);

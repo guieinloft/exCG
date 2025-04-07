@@ -14,6 +14,8 @@ EffGamma::EffGamma(int x, int y) : Effect(x, y) {
 }
 
 EffGamma::~EffGamma() {
+    delete btOK;
+    delete btCancel;
     delete sl_gamma;
 }
 

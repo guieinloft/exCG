@@ -12,13 +12,14 @@ float hue_to_rgb(float t1, float t2, float h) {
 
 rgb_color hsl_to_rgb(hsl_color hsl) {
     if (hsl.s == 0) {
-        rgb_color rgb = {hsl.l * 255, hsl.l * 255, hsl.l * 255, hsl.a * 255};
+        rgb_color rgb = {(uint8_t)(hsl.l * 255), (uint8_t)(hsl.l * 255), (uint8_t)(hsl.l * 255), (uint8_t)(hsl.a * 255)};
         return rgb;
     }
 
     float t1 = ((hsl.l * (1 + hsl.s)) * (hsl.l < 0.5)) + ((hsl.l + hsl.s - hsl.l * hsl.s) * (hsl.l >= 0.5));
     float t2 = 2 * hsl.l - t1;
-    rgb_color rgb = {hue_to_rgb(t1, t2, hsl.h + 120) * 255, hue_to_rgb(t1, t2, hsl.h) * 255, hue_to_rgb(t1, t2, hsl.h - 120) * 255, hsl.a * 255};
+    rgb_color rgb = {(uint8_t)(hue_to_rgb(t1, t2, hsl.h + 120) * 255),
+        (uint8_t)(hue_to_rgb(t1, t2, hsl.h) * 255), (uint8_t)(hue_to_rgb(t1, t2, hsl.h - 120) * 255), (uint8_t)(hsl.a * 255)};
     //printf("\n%d %d %d", rgb.r, rgb.g, rgb.b);
     return rgb;
 }

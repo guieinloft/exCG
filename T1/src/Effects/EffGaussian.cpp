@@ -8,11 +8,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef M_PI
+#define M_PI 3.14159
+#endif
+#ifndef M_E
+#define M_E 2.71828
+#endif
+
 EffGaussian::EffGaussian(int x, int y) : Effect(x, y) {
     sl_radius = new Slider(x, y + 64);
 }
 
 EffGaussian::~EffGaussian() {
+    delete btOK;
+    delete btCancel;
     delete sl_radius;
 }
 

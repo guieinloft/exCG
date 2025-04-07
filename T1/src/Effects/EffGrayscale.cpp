@@ -20,6 +20,8 @@ EffGrayscale::EffGrayscale(int x, int y) : Effect(x, y) {
 }
 
 EffGrayscale::~EffGrayscale() {
+    delete btOK;
+    delete btCancel;
     delete sl_r;
     delete sl_g;
     delete sl_b;

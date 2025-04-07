@@ -2,10 +2,6 @@
 #include "../Image.h"
 #include "../Button.h"
 
-float truncate(float a, float l, float r) {
-    return (l * (a < l) + r * (a > r) + a * (a >= l && a <= r));
-}
-
 Effect::Effect(int x, int y) {
     this->x = x;
     this->y = y;
@@ -20,7 +16,6 @@ Effect::Effect(int x, int y) {
 }
 
 Effect::~Effect() {
-    printf("\nAPAGANDO EFEITO");
     delete btOK;
     delete btCancel;
 }

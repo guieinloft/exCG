@@ -16,6 +16,8 @@ EffInvert::EffInvert(int x, int y) : Effect(x, y) {
 }
 
 EffInvert::~EffInvert() {
+    delete btOK;
+    delete btCancel;
     delete sl_thres;
     delete btType[0];
     delete btType[1];
@@ -28,11 +30,11 @@ void EffInvert::apply(Image *image) {
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
             image->get_pixel(j, i, &(pixel.r), &(pixel.g), &(pixel.b), &(pixel.a));
-            if (params[1] && pixel.r >= params[0] || !params[1] && pixel.r <= params[0])
+            if ((params[1] && pixel.r >= params[0]) || (!params[1] && pixel.r <= params[0]))
                 pixel.r = 255 - pixel.r;
-            if (params[1] && pixel.g >= params[0] || !params[1] && pixel.g <= params[0])
+            if ((params[1] && pixel.g >= params[0]) || (!params[1] && pixel.g <= params[0]))
                 pixel.g = 255 - pixel.g;
-            if (params[1] && pixel.b >= params[0] || !params[1] && pixel.b <= params[0])
+            if ((params[1] && pixel.b >= params[0]) || (!params[1] && pixel.b <= params[0]))
                 pixel.b = 255 - pixel.b;
             image->put_pixel(j, i, pixel.r, pixel.g, pixel.b, pixel.a, false);
         }

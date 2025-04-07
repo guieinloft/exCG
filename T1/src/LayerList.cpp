@@ -148,7 +148,6 @@ void LayerList::loadProject() {
 void LayerList::loadImage() {
     char path[280] = "images/";
     strcat(path, textbox->getText());
-    if (path == NULL) return;
     if (n_layers >= MAX_LAYERS) return;
     createLayer();
     if (!layers[active_layer]->getImage()->bmp_load(path))
@@ -172,7 +171,6 @@ void LayerList::saveProject() {
 void LayerList::saveImage() {
     char path[280] = "images/";
     strcat(path, textbox->getText());
-    if (path == NULL) return;
     Image *img = new Image();
     img->clear_image(640, 480);
     for (int i = 0; i < n_layers; i++)

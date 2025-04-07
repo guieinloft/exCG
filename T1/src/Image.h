@@ -22,8 +22,6 @@ class Image {
     int get_h();
     void put_pixel(int x, int y, int r, int g, int b, int a, bool blend);
     void get_pixel(int x, int y, uint8_t *r, uint8_t *g, uint8_t *b, uint8_t *a);
-    void paint_square(int x, int y, int d, int r, int g, int b, int a, bool blend);
-    void paint_circle(int x, int y, int d, int r, int g, int b, int a, bool blend);
     void clear_image(int new_w, int new_h);
     void blend(Image *src, int x, int y, int sx, int sy, int o);
     void copy(Image *src);

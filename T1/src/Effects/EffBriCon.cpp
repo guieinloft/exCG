@@ -15,6 +15,8 @@ EffBriCon::EffBriCon(int x, int y) : Effect(x, y) {
 }
 
 EffBriCon::~EffBriCon() {
+    delete btOK;
+    delete btCancel;
     delete sl_bri;
     delete sl_con;
 }

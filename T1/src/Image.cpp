@@ -7,9 +7,19 @@
 
 #include "Image.h"
 
-#define sign(a) ((a > 0) - (a < 0))
-#define min(a, b) ((a > b) * b + (a <= b) * a)
-#define max(a, b) ((a < b) * b + (a >= b) * a)
+#ifndef M_PI
+#define M_PI 3.14159
+#endif
+
+inline int sign(double a) {
+    return (a > 0) - (a < 0);
+}
+inline double min(double a, double b) {
+    return (a > b) * b + (a <= b) * a;
+}
+inline double max(double a, double b) {
+    return (a < b) * b + (a >= b) * a;
+}
 
 Image::Image() {
     w = 0;
@@ -59,7 +69,7 @@ bool Image::bmp_load(char *path) {
     fseek(file, offset, SEEK_SET);
     int padding = (4 - this->w * bpp) % 4;
     for (int i = this->h - 1; i > -1; i--) {
-        for (int j = 0; j < this->w; j++) {
+        for (uint32_t j = 0; j < this->w; j++) {
             fread(&this->img[(i * this->w + j) * 4], sizeof(uint8_t), bpp, file);
             for (int k = bpp; k < 4; k++)
                 this->img[(i * this->w + j) * 4 + k] = 255;
@@ -127,7 +137,7 @@ void Image::file_load(FILE *file) {
 }
 
 void Image::render(float x, float y, int o) {
-    for (int i = 0; i < this->w * this->h; i++) {
+    for (uint32_t i = 0; i < this->w * this->h; i++) {
         int base = 4 * i;
         if (this->img[base+3]) {
             CV::color(this->img[base+2]/255.0, this->img[base+1]/255.0 ,this->img[base]/255.0, this->img[base+3] * o /255.0/255.0);
@@ -150,8 +160,8 @@ void Image::render_scaled(float x, float y, int new_w, int new_h, int o) {
 
 void Image::flip_h() {
     uint8_t *temp = (uint8_t*)malloc(sizeof(uint8_t) * 4);
-    for (int i = 0; i < this->h; i++) {
-        for (int j = 0; j < this->w / 2; j++) {
+    for (uint32_t i = 0; i < this->h; i++) {
+        for (uint32_t j = 0; j < this->w / 2; j++) {
             memcpy(temp, &this->img[(i * this->w + j) * 4], 4);
             memcpy(&this->img[(i * this->w + j) * 4], &this->img[(i * this->w + this->w - 1 - j) * 4], 4);
             memcpy(&this->img[(i * this->w + this->w - 1 - j) * 4], temp, 4);
@@ -162,7 +172,7 @@ void Image::flip_h() {
 
 void Image::flip_v() {
     uint8_t *temp = (uint8_t*)malloc(sizeof(uint8_t) * this->w * 4);
-    for (int i = 0; i < this->h / 2; i++) {
+    for (uint32_t i = 0; i < this->h / 2; i++) {
         memcpy(temp, &this->img[i * this->w * 4], this->w * 4);
         memcpy(&this->img[i * this->w * 4], &this->img[(this->h - 1 - i) * this->w * 4], this->w * 4);
         memcpy(&this->img[(this->h - 1 - i) * this->w * 4], temp, this->w * 4);
@@ -193,7 +203,7 @@ int Image::get_h() {
 }
 
 void Image::put_pixel(int x, int y, int r, int g, int b, int a, bool blend) {
-    if (x >= 0 && x < this->w && y >= 0 && y < this->h) {
+    if (x >= 0 && x < (int)this->w && y >= 0 && y < (int)this->h) {
         int base = (y * this->w + x) * 4;
         if (b >= 0) this->img[base] = b * (a * blend + 255 * !blend)/255.0 + this->img[base] * (255 - a)/255.0 * blend;
         if (g >= 0) this->img[base+1] = g * (a * blend + 255 * !blend)/255.0 + this->img[base+1] * (255 - a)/255.0 * blend;
@@ -203,7 +213,7 @@ void Image::put_pixel(int x, int y, int r, int g, int b, int a, bool blend) {
 }
 
 void Image::get_pixel(int x, int y, uint8_t *r, uint8_t *g, uint8_t *b, uint8_t *a) {
-    if (x >= 0 && x < this->w && y >= 0 && y < this->h) {
+    if (x >= 0 && x < (int)this->w && y >= 0 && y < (int)this->h) {
         int base = (y * this->w + x) * 4;
         *r = this->img[base+2];
         *g = this->img[base+1];
@@ -215,55 +225,6 @@ void Image::get_pixel(int x, int y, uint8_t *r, uint8_t *g, uint8_t *b, uint8_t 
         *g = 0;
         *b = 0;
         *a = 0;
-    }
-}
-
-void Image::paint_square(int x, int y, int d, int r, int g, int b, int a, bool blend) {
-    int d2 = d/2;
-    for (int i = 0; i < d; i++) {
-        for (int j = 0; j < d; j++) {
-            put_pixel(x - j + d2, y - i + d2, r, g, b, a, blend);
-        }
-    }
-}
-
-/*
-void Image::paint_circle(int x, int y, int diameter, int r, int g, int b, bool v) {
-    int px = 0, py = diameter/2, p = -diameter/2;
-    while (px < py) {
-        if (p > 0) {
-            py -= 1;
-            p += 2 * (px - py) + 1;
-            for (int i = -px + 1; i < px; i++) {
-                put_pixel(this, x + i, y + py, r, g, b, v);
-                put_pixel(this, x + i, y - py, r, g, b, v);
-            }
-        }
-        else p += 2*px + 1;
-
-        put_pixel(this, x + px, y + py, r, g, b, v);
-        put_pixel(this, x + px, y - py, r, g, b, v);
-        put_pixel(this, x - px, y + py, r, g, b, v);
-        put_pixel(this, x - px, y - py, r, g, b, v);
-        for (int i = 0; i <= py; i++) {
-            put_pixel(this, x + i, y + px, r, g, b, v);
-            put_pixel(this, x + i, y - px, r, g, b, v);
-            put_pixel(this, x - i, y + px, r, g, b, v);
-            put_pixel(this, x - i, y - px, r, g, b, v);
-        }
-
-        px++;
-    }
-}
-*/
-
-void Image::paint_circle(int x, int y, int d, int r, int g, int b, int a, bool blend) {
-    int rad = d/2;
-    for (int i = -rad; i <= rad; i++) {
-        for (int j = -rad; j <= rad; j++) {
-            if (i * i + j * j <= rad * rad + rad)
-                put_pixel(x + j, y + i, r, g, b, a, blend);
-        }
     }
 }
 
@@ -296,8 +257,8 @@ void Image::clear_image(int new_w, int new_h) {
     this->h = new_h;
     this->img = (uint8_t*)malloc(sizeof(uint8_t) * this->w * this->h * 4);
 
-    for (int i = 0; i < this->h; i++) {
-        for (int j = 0; j < this->w; j++) {
+    for (uint32_t i = 0; i < this->h; i++) {
+        for (uint32_t j = 0; j < this->w; j++) {
             for (int k = 0; k < 4; k++) {
                 this->img[(i * this->w + j) * 4 + k] = 0;
             }
@@ -324,7 +285,7 @@ void Image::rotate(float rad, int *offx, int *offy) {
             int base_y = (int)(j * sin(-rad) + i * cos(-rad));
             int b1 = ((i - y_min) * nw + (j - x_min)) * 4;
             //printf("%d\n", b1);
-            if (base_x >= 0 && base_x < w && base_y >= 0 && base_y < h) {
+            if (base_x >= 0 && base_x < (int)w && base_y >= 0 && base_y < (int)h) {
                 int b2 = (base_y * w + base_x) * 4;
                 new_img[b1+0] = img[b2+0];
                 new_img[b1+1] = img[b2+1];
@@ -372,14 +333,14 @@ void Image::blur(int radius) {
             img_kernel[i * ksize + j] /= sum;
         }
     }
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
+    for (int i = 0; i < (int)h; i++) {
+        for (int j = 0; j < (int)w; j++) {
             float r = 0.f, g = 0.f, b = 0.f, a = 0.f;
             
             for (int ki = -radius; ki <= radius; ki++) {
                 for (int kj = -radius; kj <= radius; kj++) {
                     float kvalue = img_kernel[(ki + radius) * ksize + (kj + radius)];
-                    if (j + kj >= 0 && j + kj < w && i + ki >= 0 && i + ki < h) {
+                    if (j + kj >= 0 && j + kj < (int)w && i + ki >= 0 && i + ki < (int)h) {
                         int base = ((i + ki) * w + j + kj) * 4;
                         r += img[base + 2] * kvalue;
                         g += img[base + 1] * kvalue;

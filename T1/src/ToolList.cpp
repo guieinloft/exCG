@@ -23,7 +23,7 @@ ToolList::ToolList() {
     bt_list[TOOL_ROTATE]->loadIcons("images/icons/rotate.bmp");
     bt_list[TOOL_FLIP]->loadIcons("images/icons/flip.bmp");
     bt_list[TOOL_PICKER]->loadIcons("images/icons/picker.bmp");
-    int bt_selected = 0;
+    bt_selected = 0;
     bt_list[0]->select(true);
 }
 
@@ -34,7 +34,7 @@ ToolList::~ToolList() {
 }
 
 void ToolList::Render() {
-    extern int screenWidth, screenHeight;
+    extern int screenHeight;
     CV::color(0.25, 0.25, 0.25);
     //CV::rectFill(0, 0, 32 + 32 * TL_W, 128 + TOOL_NUM / TL_W);
     CV::rectFill(0, 0, 32 + 32 * TL_W, screenHeight);
@@ -44,7 +44,6 @@ void ToolList::Render() {
 }
 
 void ToolList::checkMouse(Mouse mouse) {
-    extern int screenWidth, screenHeight;
     for (int i = 0; i < TOOL_NUM; i++) {
         int bt_status = bt_list[i]->checkClick(mouse);
         if (bt_status == 1) bt_selected = i;

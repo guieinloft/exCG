@@ -20,6 +20,8 @@ EffHSLAdjust::EffHSLAdjust(int x, int y) : Effect(x, y) {
 }
 
 EffHSLAdjust::~EffHSLAdjust() {
+    delete btOK;
+    delete btCancel;
     delete sl_h;
     delete sl_s;
     delete sl_l;
