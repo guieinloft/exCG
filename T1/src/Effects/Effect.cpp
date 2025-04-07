@@ -19,6 +19,12 @@ Effect::Effect(int x, int y) {
     btCancel->changeText("CANCELAR");
 }
 
+Effect::~Effect() {
+    printf("\nAPAGANDO EFEITO");
+    delete btOK;
+    delete btCancel;
+}
+
 void Effect::apply(Image *image) {
 }
 

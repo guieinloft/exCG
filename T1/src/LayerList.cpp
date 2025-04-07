@@ -39,6 +39,16 @@ LayerList::LayerList(int x, int y) {
     sl_opacity = new Slider(x, y + 32 * MAX_LAYERS + 64);
 }
 
+LayerList::~LayerList() {
+    while (n_layers > 0) removeLayer();
+    for (int i = 0; i < 8; i++)
+        delete optionButtons[i];
+    delete textbox;
+    delete btOk;
+    delete btCancel;
+    delete sl_opacity;
+}
+
 void LayerList::RenderList() {
     if (popup) {
         CV::color(0.5, 0.5, 0.5);
@@ -166,7 +176,7 @@ void LayerList::saveImage() {
     Image *img = new Image();
     img->clear_image(640, 480);
     for (int i = 0; i < n_layers; i++)
-        img->blend(*(layers[i]->getImage()), layers[i]->get_x(),
+        img->blend(layers[i]->getImage(), layers[i]->get_x(),
             layers[i]->get_y(), 0, 0, layers[i]->getOpacity());
     img->bmp_save(path);
     img->close_image();
@@ -228,7 +238,7 @@ bool LayerList::checkMouse(Mouse mouse, Canvas *canvas) {
     else if (optionButtons[OPT_LAYERCOPY]->isPressed() && n_layers < MAX_LAYERS && n_layers > 0) {
         int old_layer = active_layer;
         createLayer();
-        layers[active_layer]->getImage()->copy(*(layers[old_layer]->getImage()));
+        layers[active_layer]->getImage()->copy(layers[old_layer]->getImage());
         layers[active_layer]->set_x(layers[old_layer]->get_x());
         layers[active_layer]->set_y(layers[old_layer]->get_y());
         canvas->update();
@@ -247,7 +257,7 @@ bool LayerList::checkMouse(Mouse mouse, Canvas *canvas) {
     }
     else if (optionButtons[OPT_LAYERMRG]->isPressed() && active_layer > 0) {
         layers[active_layer - 1]->getImage()->blend(
-            *(layers[active_layer]->getImage()),
+            layers[active_layer]->getImage(),
             layers[active_layer]->get_x(), layers[active_layer]->get_y(),
             layers[active_layer-1]->get_x(), layers[active_layer-1]->get_y(),
             layers[active_layer]->getOpacity());
@@ -264,8 +274,11 @@ bool LayerList::checkMouse(Mouse mouse, Canvas *canvas) {
     }
     if (layers[active_layer] != NULL) {
         sl_opacity->changeParam(layers[active_layer]->getOpacity());
+        uint8_t old_opacity = layers[active_layer]->getOpacity();
         sl_opacity->checkMouse(mouse);
         layers[active_layer]->setOpacity(sl_opacity->getParam());
+        uint8_t new_opacity = layers[active_layer]->getOpacity();
+        if (old_opacity != new_opacity) canvas->update();
     }
     return popup;
 }
@@ -273,11 +286,18 @@ bool LayerList::checkMouse(Mouse mouse, Canvas *canvas) {
 void LayerList::checkKeyboard(int key, Canvas *canvas) {
     if (textbox->checkKeyboard(key)) {
         if (popupType == 1) {
-            loadImage();
+            if (strstr(textbox->getText(), ".bmp") != NULL)
+                loadImage();
+            else
+                loadProject();
             canvas->update();
         }
-        else
-            saveImage();
+        else {
+            if (strstr(textbox->getText(), ".bmp") != NULL)
+                saveImage();
+            else
+                saveProject();
+        }
         popup = 0;
         textbox->reset();
     }

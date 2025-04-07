@@ -17,6 +17,10 @@ Image::Image() {
     img = NULL;
 }
 
+Image::~Image() {
+    close_image();
+}
+
 void Image::close_image() {
     if (this->img == NULL) return;
     free(this->img);
@@ -263,26 +267,26 @@ void Image::paint_circle(int x, int y, int d, int r, int g, int b, int a, bool b
     }
 }
 
-void Image::blend(Image src, int x, int y, int sx, int sy, int o) {
-    for (int i = max(0, (y - sy)); i < min(this->h, (src.h - sy + y)); i++) {
-        for (int j = max(0, (x - sx)); j < min(this->w, (src.w - sx + x)); j++) {
+void Image::blend(Image *src, int x, int y, int sx, int sy, int o) {
+    for (int i = max(0, (y - sy)); i < min(this->h, (src->h - sy + y)); i++) {
+        for (int j = max(0, (x - sx)); j < min(this->w, (src->w - sx + x)); j++) {
             int b1 = (i * this->w + j) * 4;
-            int b2 = ((i - y + sy) * src.w + (j - x + sx)) * 4;
-            float a = src.img[b2+3] * o/255.0;
-            this->img[b1] = src.img[b2] * a/255.0 + this->img[b1] * (255 - a)/255.0;
-            this->img[b1+1] = src.img[b2+1] * a/255.0 + this->img[b1+1] * (255 - a)/255.0;
-            this->img[b1+2] = src.img[b2+2] * a/255.0 + this->img[b1+2] * (255 - a)/255.0;
+            int b2 = ((i - y + sy) * src->w + (j - x + sx)) * 4;
+            float a = src->img[b2+3] * o/255.0;
+            this->img[b1] = src->img[b2] * a/255.0 + this->img[b1] * (255 - a)/255.0;
+            this->img[b1+1] = src->img[b2+1] * a/255.0 + this->img[b1+1] * (255 - a)/255.0;
+            this->img[b1+2] = src->img[b2+2] * a/255.0 + this->img[b1+2] * (255 - a)/255.0;
             this->img[b1+3] = 255 * (this->img[b1+3] >= 255 - a) + (this->img[b1+3] + a) * (this->img[b1+3] < 255 - a);
         }
     }
 }
 
-void Image::copy(Image src) {
+void Image::copy(Image *src) {
     this->close_image();
-    this->w = src.w;
-    this->h = src.h;
-    this->img = (uint8_t*)malloc(sizeof(uint8_t) * src.w * src.h * 4);
-    memcpy(this->img, src.img, sizeof(uint8_t) * src.w * src.h * 4);
+    this->w = src->w;
+    this->h = src->h;
+    this->img = (uint8_t*)malloc(sizeof(uint8_t) * src->w * src->h * 4);
+    memcpy(this->img, src->img, sizeof(uint8_t) * src->w * src->h * 4);
 }
 
 void Image::clear_image(int new_w, int new_h) {

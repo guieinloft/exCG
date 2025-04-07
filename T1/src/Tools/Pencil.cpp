@@ -19,6 +19,13 @@ Pencil::Pencil(int sw, int sh) {
     bt_formats[0]->select(true);
 }
 
+Pencil::~Pencil() {
+    delete sl_size;
+    delete sl_quality;
+    for (int i = 0; i < FORMAT_NUM; i++)
+        delete bt_formats[i];
+}
+
 void Pencil::renderOptions(int sw, int sh) {
     CV::color(0.25, 0.25, 0.25);
     CV::rectFill(0, sh - 80, sw, sh);

@@ -11,6 +11,7 @@
 class RightMenu {
     public:
     RightMenu(int x, int y);
+    ~RightMenu();
     void Render();
     void checkMouse(Mouse mouse, Layer *layer, Canvas *canvas);
     void changePosition(int x, int y);

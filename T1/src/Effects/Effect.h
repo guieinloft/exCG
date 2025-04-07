@@ -9,6 +9,7 @@ float truncate(float a, float l, float r);
 class Effect {
     public:
     Effect(int x, int y);
+    ~Effect();
     virtual void apply(Image *image);
     virtual void renderMenu();
     virtual bool checkMouse(Mouse mouse, Image *image);

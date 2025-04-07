@@ -24,6 +24,14 @@ ColorPicker::ColorPicker(int x, int y) {
     buttons[0]->select(true);
 }
 
+ColorPicker::~ColorPicker() {
+    for (int i = 0; i < 4; i++) {
+        delete sliders[i];
+    }
+    delete buttons[0];
+    delete buttons[1];
+}
+
 void ColorPicker::checkMouse(Mouse mouse) {
     sliders[0]->changeParam(colors[currentColor].r);
     sliders[1]->changeParam(colors[currentColor].g);

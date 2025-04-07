@@ -10,6 +10,7 @@
 class EffInvert : public Effect {
     public:
     EffInvert(int x, int y);
+    ~EffInvert();
     void apply(Image *image);
     void renderMenu();
     bool checkMouse(Mouse mouse, Image *image);

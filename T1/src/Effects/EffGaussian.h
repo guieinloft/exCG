@@ -10,6 +10,7 @@
 class EffGaussian : public Effect {
     public:
     EffGaussian(int x, int y);
+    ~EffGaussian();
     void apply(Image *image);
     void renderMenu();
     bool checkMouse(Mouse mouse, Image *image);

@@ -10,6 +10,7 @@
 class EffGamma : public Effect {
     public:
     EffGamma(int x, int y);
+    ~EffGamma();
     void apply(Image *image);
     void renderMenu();
     bool checkMouse(Mouse mouse, Image *image);

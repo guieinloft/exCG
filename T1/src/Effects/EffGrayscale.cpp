@@ -19,6 +19,12 @@ EffGrayscale::EffGrayscale(int x, int y) : Effect(x, y) {
     params[2] = 29;
 }
 
+EffGrayscale::~EffGrayscale() {
+    delete sl_r;
+    delete sl_g;
+    delete sl_b;
+}
+
 void EffGrayscale::apply(Image *image) {
     int w = image->get_w();
     int h = image->get_h();

@@ -14,6 +14,11 @@ EffBriCon::EffBriCon(int x, int y) : Effect(x, y) {
     sl_con->changeParam(128);
 }
 
+EffBriCon::~EffBriCon() {
+    delete sl_bri;
+    delete sl_con;
+}
+
 void EffBriCon::apply(Image *image) {
     int w = image->get_w();
     int h = image->get_h();

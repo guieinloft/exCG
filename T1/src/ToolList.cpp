@@ -25,7 +25,12 @@ ToolList::ToolList() {
     bt_list[TOOL_PICKER]->loadIcons("images/icons/picker.bmp");
     int bt_selected = 0;
     bt_list[0]->select(true);
+}
 
+ToolList::~ToolList() {
+    for (int i = 0; i < TOOL_NUM; i++) {
+        delete bt_list[i];
+    }
 }
 
 void ToolList::Render() {

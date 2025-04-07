@@ -10,6 +10,7 @@
 class EffGrayscale : public Effect {
     public:
     EffGrayscale(int x, int y);
+    ~EffGrayscale();
     void apply(Image *image);
     void renderMenu();
     bool checkMouse(Mouse mouse, Image *image);

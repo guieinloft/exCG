@@ -50,6 +50,7 @@ void Textbox::reset() {
     button->changeText("");
     strcpy(text, "");
     current_char = 0;
+    button->select(false);
 }
 
 char *Textbox::getText() {

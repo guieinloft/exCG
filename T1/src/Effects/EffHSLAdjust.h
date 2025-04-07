@@ -10,6 +10,7 @@
 class EffHSLAdjust : public Effect {
     public:
     EffHSLAdjust(int x, int y);
+    ~EffHSLAdjust();
     void apply(Image *image);
     void renderMenu();
     bool checkMouse(Mouse mouse, Image *image);

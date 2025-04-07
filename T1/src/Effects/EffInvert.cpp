@@ -15,6 +15,12 @@ EffInvert::EffInvert(int x, int y) : Effect(x, y) {
     btType[1]->changeText(">");
 }
 
+EffInvert::~EffInvert() {
+    delete sl_thres;
+    delete btType[0];
+    delete btType[1];
+}
+
 void EffInvert::apply(Image *image) {
     int w = image->get_w();
     int h = image->get_h();

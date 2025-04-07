@@ -17,6 +17,13 @@ RightMenu::RightMenu(int x, int y) {
     effect_list = new EffectList(x, y + 32);
 }
 
+RightMenu::~RightMenu() {
+    for (int i = 0; i < 2; i++)
+        delete menuButtons[i];
+    delete color_picker;
+    delete effect_list;
+}
+
 void RightMenu::Render() {
     for (int i = 0; i < 2; i++)
         menuButtons[i]->Render();

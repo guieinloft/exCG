@@ -19,6 +19,12 @@ EffHSLAdjust::EffHSLAdjust(int x, int y) : Effect(x, y) {
     params[2] = 0;
 }
 
+EffHSLAdjust::~EffHSLAdjust() {
+    delete sl_h;
+    delete sl_s;
+    delete sl_l;
+}
+
 void EffHSLAdjust::apply(Image *image) {
     int w = image->get_w();
     int h = image->get_h();
@@ -58,7 +64,7 @@ bool EffHSLAdjust::checkMouse(Mouse mouse, Image *image) {
     sl_h->checkMouse(mouse);
     sl_s->checkMouse(mouse);
     sl_l->checkMouse(mouse);
-    params[0] = (int)sl_h->getParam() * 720.0 / 255.0 - 360;
+    params[0] = (int)sl_h->getParam() * 360.0 / 255.0 - 180;
     params[1] = (int)sl_s->getParam() - 128;
     params[2] = (int)sl_l->getParam() - 128;
     if (btOK->checkClick(mouse) == 1) {

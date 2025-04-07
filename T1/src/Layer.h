@@ -9,6 +9,7 @@
 class Layer {
     public:
     Layer(int x, int y);
+    ~Layer();
     void loadImage(char *path);
     void createBlank(int w, int h);
     void Render(int x, int y);

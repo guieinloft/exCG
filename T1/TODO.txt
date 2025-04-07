@@ -7,7 +7,7 @@ OBRIGATÓRIOS:
 [x] Troca de ordem de camadas
 [x] Trocar cor do pincel
 [x] Botão, checkbox, slider
-[x] Manager de botões
+[?] Manager de botões
 [x] Efeitos:
     [x] Flip horizontal/vertical
     [x] Brilho
@@ -15,12 +15,12 @@ OBRIGATÓRIOS:
 [x] Imagens na pasta images
 
 OPCIONAIS:
-[ ] Efeitos:
-    [ ] Tons de cinza (0.5)
-    [ ] Correção de gama (0.5)
-    [ ] Contraste (0.5)
-    [ ] Desfoque gaussiano (2.0)
-[ ] Redimensionamento e movimentação (2.0)
-[ ] Rotação (2.0)
-[ ] Tipos diferentes de pincel (2.0)
-[ ] Salvar e carregar arquivos (3.0)
+[x] Efeitos:
+    [x] Tons de cinza (0.5)
+    [x] Correção de gama (0.5)
+    [x] Contraste (0.5)
+    [x] Desfoque gaussiano (2.0)
+[x] Redimensionamento e movimentação (2.0)
+[x] Rotação (2.0)
+[x] Tipos diferentes de pincel (2.0)
+[x] Salvar e carregar arquivos (3.0)

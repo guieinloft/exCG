@@ -20,6 +20,7 @@ enum Effects {
 class EffectList {
     public:
     EffectList(int x, int y);
+    ~EffectList();
     void Render();
     void checkMouse(Mouse mouse, Layer *layer, Canvas *canvas);
     void changePosition(int x, int y);

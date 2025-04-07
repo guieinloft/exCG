@@ -9,7 +9,12 @@ Canvas::Canvas(int w, int h) {
     canvas_bg = new Image();
     canvas = new Image();
     canvas_bg->bmp_load("images/canvas_bg/canvas_bg.bmp");
-    canvas->copy(*canvas_bg);
+    canvas->copy(canvas_bg);
+}
+
+Canvas::~Canvas() {
+    //delete canvas_bg;
+    //delete canvas;
 }
 
 void Canvas::Render(int sw, int sh, Layer **layers, int n_layers) {
@@ -26,10 +31,10 @@ void Canvas::Render(int sw, int sh, Layer **layers, int n_layers) {
     }
 #if FAST_RENDER == 0
     if (up) {
-        canvas->copy(*canvas_bg);
+        canvas->copy(canvas_bg);
         for (int i = 0; i < n_layers; i++)
             if (layers[i]->getVisibility())
-                canvas->blend(*(layers[i]->getImage()), layers[i]->get_x(),
+                canvas->blend(layers[i]->getImage(), layers[i]->get_x(),
                 layers[i]->get_y(), 0, 0, layers[i]->getOpacity());
         up = false;
     }

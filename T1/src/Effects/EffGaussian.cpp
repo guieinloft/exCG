@@ -12,6 +12,10 @@ EffGaussian::EffGaussian(int x, int y) : Effect(x, y) {
     sl_radius = new Slider(x, y + 64);
 }
 
+EffGaussian::~EffGaussian() {
+    delete sl_radius;
+}
+
 void EffGaussian::apply(Image *image) {
     image->blur(params[0]);
 }

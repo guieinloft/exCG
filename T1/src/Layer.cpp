@@ -12,6 +12,10 @@ Layer::Layer(int x, int y) {
     this->image = new Image();
 }
 
+Layer::~Layer() {
+    delete image;
+}
+
 void Layer::loadImage(char *path) {
     this->image->bmp_load(path);
 }

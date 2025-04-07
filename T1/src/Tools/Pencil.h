@@ -18,6 +18,7 @@ enum PencilFormats {
 class Pencil : public Tool {
     public:
     Pencil(int sw, int sh);
+    ~Pencil();
     void renderOptions(int sw, int sh);
     void checkOptions(int sw, int sh, Mouse mouse);
     void execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg);

@@ -34,6 +34,17 @@ EffectList::EffectList(int x, int y) {
     effects[EFF_GAUSSIAN] = new EffGaussian(x, y);
 }
 
+EffectList::~EffectList() {
+    for (int i = 0; i < EFF_NUM; i++)
+        delete effectButtons[i];
+    delete effects[EFF_BRI_CON];
+    delete effects[EFF_GRAYSCALE];
+    delete effects[EFF_HSL_ADJUST];
+    delete effects[EFF_INVERT];
+    delete effects[EFF_GAMMA];
+    delete effects[EFF_GAUSSIAN];
+}
+
 void EffectList::Render() {
     CV::color(0.15, 0.15, 0.15);
     CV::rectFill(x, y, x + 255, y + 255);

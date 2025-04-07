@@ -10,6 +10,7 @@
 class EffBriCon : public Effect {
     public:
     EffBriCon(int x, int y);
+    ~EffBriCon();
     void apply(Image *image);
     void renderMenu();
     bool checkMouse(Mouse mouse, Image *image);

@@ -19,6 +19,7 @@ enum Tools {
 class ToolList {
     public:
     ToolList();
+    ~ToolList();
     void Render();
     void checkMouse(Mouse mouse);
     int getSelectedTool();

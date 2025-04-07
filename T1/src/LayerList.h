@@ -26,6 +26,7 @@ enum Options {
 class LayerList {
     public:
     LayerList(int x, int y);
+    ~LayerList();
     void RenderList();
     bool checkMouse(Mouse mouse, Canvas *canvas);
     void checkKeyboard(int key, Canvas *canvas);

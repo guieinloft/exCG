@@ -6,11 +6,12 @@
 
 //ignora alpha, opacidade e blending entre camadas
 //trata o alpha como se fosse transparencia binaria
-#define FAST_RENDER 1
+#define FAST_RENDER 0
 
 class Canvas {
     public:
     Canvas(int w, int h);
+    ~Canvas();
     void Render(int sw, int sh, Layer **layers, int n_layers);
     int get_x();
     int get_y();

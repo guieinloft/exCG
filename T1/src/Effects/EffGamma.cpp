@@ -13,6 +13,10 @@ EffGamma::EffGamma(int x, int y) : Effect(x, y) {
     params[0] = 128;
 }
 
+EffGamma::~EffGamma() {
+    delete sl_gamma;
+}
+
 void EffGamma::apply(Image *image) {
     int w = image->get_w();
     int h = image->get_h();

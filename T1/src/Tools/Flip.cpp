@@ -15,6 +15,11 @@ Flip::Flip(int sw, int sh) {
     bt_orientation[1]->changeText("Vertical");
 }
 
+Flip::~Flip() {
+    delete bt_orientation[0];
+    delete bt_orientation[1];
+}
+
 void Flip::renderOptions(int sw, int sh) {
     CV::color(0.25, 0.25, 0.25);
     CV::rectFill(0, sh - 80, sw, sh);

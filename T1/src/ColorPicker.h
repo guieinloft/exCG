@@ -8,6 +8,7 @@
 class ColorPicker {
     public:
     ColorPicker(int x, int y);
+    ~ColorPicker();
     void Render();
     void checkMouse(Mouse mouse);
     rgb_color *getFGColor();
