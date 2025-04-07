@@ -233,11 +233,12 @@ void Image::blend(Image *src, int x, int y, int sx, int sy, int o) {
         for (int j = max(0, (x - sx)); j < min(this->w, (src->w - sx + x)); j++) {
             int b1 = (i * this->w + j) * 4;
             int b2 = ((i - y + sy) * src->w + (j - x + sx)) * 4;
-            float a = src->img[b2+3] * o/255.0;
-            this->img[b1] = src->img[b2] * a/255.0 + this->img[b1] * (255 - a)/255.0;
-            this->img[b1+1] = src->img[b2+1] * a/255.0 + this->img[b1+1] * (255 - a)/255.0;
-            this->img[b1+2] = src->img[b2+2] * a/255.0 + this->img[b1+2] * (255 - a)/255.0;
-            this->img[b1+3] = 255 * (this->img[b1+3] >= 255 - a) + (this->img[b1+3] + a) * (this->img[b1+3] < 255 - a);
+            float aa = src->img[b2+3] * o/255.0;
+            float ab = this->img[b1+3] * (1 - aa/255.0);
+            this->img[b1] = (src->img[b2] * aa + this->img[b1] * ab) / (aa + ab);
+            this->img[b1+1] = (src->img[b2+1] * aa + this->img[b1+1] * ab) / (aa + ab);
+            this->img[b1+2] = (src->img[b2+2] * aa + this->img[b1+2] * ab) / (aa + ab);
+            this->img[b1+3] = aa + ab;
         }
     }
 }
@@ -308,58 +309,83 @@ void Image::rotate(float rad, int *offx, int *offy) {
     *offy = old_cy - new_cy;
 }
 
-void Image::blur(int radius) {
+void Image::blur(int radius, bool horizontal, bool vertical) {
     float sigma = fmax(radius/2.0, 1.0);
     float expden = 2 * sigma * sigma;
     int ksize = radius * 2 + 1;
     float sum = 0.0;
-    float *img_kernel = (float*)malloc(sizeof(float) * ksize * ksize);
+    float *img_kernel = (float*)malloc(sizeof(float) * ksize);
     if (img_kernel == NULL) return;
     uint8_t *new_img = (uint8_t*)malloc(sizeof(uint8_t) * this->w * this->h * 4);
     if (new_img == NULL) return;
-    printf("\n\n%p %p\n", img_kernel, new_img);
+    uint8_t *new_img2 = (uint8_t*)malloc(sizeof(uint8_t) * this->w * this->h * 4);
+    if (new_img2 == NULL) return;
     //define img_kernel values
     for (int i = -radius; i <= radius; i++) {
-        for (int j = -radius; j <= radius; j++) {
-            float expnum = -(i * i + j * j);
-            float eexpr = pow(M_E, expnum/expden);
-            img_kernel[(i + radius) * ksize + (j + radius)] = eexpr / (expden * M_PI);
-            sum += img_kernel[(i + radius) * ksize + (j + radius)];
-        }
+        float expnum = -(i * i);
+        float eexpr = pow(M_E, expnum/expden);
+        img_kernel[(i + radius)] = eexpr / (expden * M_PI);
+        sum += img_kernel[(i + radius)];
     }
     //normalize img_kernel values
     for (int i = 0; i < ksize; i++) {
-        for (int j = 0; j < ksize; j++) {
-            img_kernel[i * ksize + j] /= sum;
-        }
+        img_kernel[i] /= sum;
     }
-    for (int i = 0; i < (int)h; i++) {
-        for (int j = 0; j < (int)w; j++) {
-            float r = 0.f, g = 0.f, b = 0.f, a = 0.f;
-            
-            for (int ki = -radius; ki <= radius; ki++) {
+    //first pass: horizontal
+    if (horizontal) {
+        for (int i = 0; i < (int)h; i++) {
+            for (int j = 0; j < (int)w; j++) {
+                float r = 0.f, g = 0.f, b = 0.f, a = 0.f;
                 for (int kj = -radius; kj <= radius; kj++) {
-                    float kvalue = img_kernel[(ki + radius) * ksize + (kj + radius)];
-                    if (j + kj >= 0 && j + kj < (int)w && i + ki >= 0 && i + ki < (int)h) {
-                        int base = ((i + ki) * w + j + kj) * 4;
+                    float kvalue = img_kernel[(kj + radius)];
+                    if (j + kj >= 0 && j + kj < (int)w) {
+                        int base = (i * w + j + kj) * 4;
                         r += img[base + 2] * kvalue;
                         g += img[base + 1] * kvalue;
                         b += img[base + 0] * kvalue;
                         a += img[base + 3] * kvalue;
                     }
                 }
+                int base_n = (i * w + j) * 4;
+                new_img[base_n + 2] = (uint8_t)r; 
+                new_img[base_n + 1] = (uint8_t)g; 
+                new_img[base_n + 0] = (uint8_t)b; 
+                new_img[base_n + 3] = (uint8_t)a;
             }
-            int base_n = (i * w + j) * 4;
-            new_img[base_n + 2] = (uint8_t)r; 
-            new_img[base_n + 1] = (uint8_t)g; 
-            new_img[base_n + 0] = (uint8_t)b; 
-            new_img[base_n + 3] = (uint8_t)a; 
         }
     }
-    printf("\n%p %p\n", img_kernel, new_img);
-    printf("\n%p %p\n", img_kernel, new_img);
-    printf("\n%p %p\n", img_kernel, new_img);
-    free(img_kernel);
+    else {
+        memcpy(new_img, this->img, sizeof(uint8_t) * w * h * 4);
+    }
     free(this->img);
-    this->img = new_img;
+    //second pass: vertical
+    if (vertical) {
+        for (int i = 0; i < (int)h; i++) {
+            for (int j = 0; j < (int)w; j++) {
+                float r = 0.f, g = 0.f, b = 0.f, a = 0.f;
+                
+                for (int ki = -radius; ki <= radius; ki++) {
+                    float kvalue = img_kernel[(ki + radius)];
+                    if (i + ki >= 0 && i + ki < (int)h) {
+                        int base = ((i + ki) * w + j) * 4;
+                        r += new_img[base + 2] * kvalue;
+                        g += new_img[base + 1] * kvalue;
+                        b += new_img[base + 0] * kvalue;
+                        a += new_img[base + 3] * kvalue;
+                    }
+                }
+                int base_n = (i * w + j) * 4;
+                new_img2[base_n + 2] = (uint8_t)r; 
+                new_img2[base_n + 1] = (uint8_t)g; 
+                new_img2[base_n + 0] = (uint8_t)b; 
+                new_img2[base_n + 3] = (uint8_t)a; 
+            }
+        }
+    }
+    else {
+        memcpy(new_img2, new_img, sizeof(uint8_t) * w * h * 4);
+    }
+    free(img_kernel);
+    free(new_img);
+    this->img = new_img2;
 }

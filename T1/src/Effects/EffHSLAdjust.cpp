@@ -32,19 +32,14 @@ void EffHSLAdjust::apply(Image *image) {
     int h = image->get_h();
     rgb_color pixel;
     hsl_color pixel_hsl;
-    printf("\n%d %d %d", params[0], params[1], params[2]);
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
             image->get_pixel(j, i, &(pixel.r), &(pixel.g), &(pixel.b), &(pixel.a));
             pixel_hsl = rgb_to_hsl(pixel);
-            printf("\n%d %d %d", pixel.r, pixel.g, pixel.b);
-            printf("\n%f %f %f", pixel_hsl.h, pixel_hsl.s, pixel_hsl.l);
             pixel_hsl.h = fmod(pixel_hsl.h + 360 + params[0], 360.0);
             pixel_hsl.s = truncate(pixel_hsl.s + params[1]/127.0, 0, 1);
             pixel_hsl.l = truncate(pixel_hsl.l + params[2]/127.0, 0, 1);
-            printf("\n%f %f %f", pixel_hsl.h, pixel_hsl.s, pixel_hsl.l);
             pixel = hsl_to_rgb(pixel_hsl);
-            printf("\n%d %d %d", pixel.r, pixel.g, pixel.b);
             image->put_pixel(j, i, pixel.r, pixel.g, pixel.b, pixel.a, false);
         }
     }

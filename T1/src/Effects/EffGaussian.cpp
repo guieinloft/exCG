@@ -26,7 +26,7 @@ EffGaussian::~EffGaussian() {
 }
 
 void EffGaussian::apply(Image *image) {
-    image->blur(params[0]);
+    image->blur(params[0], true, true);
 }
 
 void EffGaussian::renderMenu() {

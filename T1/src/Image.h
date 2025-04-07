@@ -26,7 +26,7 @@ class Image {
     void blend(Image *src, int x, int y, int sx, int sy, int o);
     void copy(Image *src);
     void rotate(float rad, int *offx, int *offy);
-    void blur(int radius);
+    void blur(int radius, bool horizontal, bool vertical);
 
     private:
     uint32_t w;
