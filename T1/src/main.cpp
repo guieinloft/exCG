@@ -112,11 +112,12 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 
    //printf("\nmouse %d %d %d %d %d %d", button, state, wheel, direction,  x, y);
    if (!layer_list->checkMouse(smouse, canvas)) {
-       tool_list->checkMouse(smouse);
+       bool ex = true;
+       ex &= !tool_list->checkMouse(smouse);
        tool_sel = tool_list->getSelectedTool();
-       right_menu->checkMouse(smouse, layer_list->getActiveLayer(), canvas);
-       tools[tool_sel]->checkOptions(screenWidth, screenHeight, smouse);
-       if (layer_list->getActiveLayer() != NULL && layer_list->getActiveLayer()->getVisibility())
+       ex &= !right_menu->checkMouse(smouse, layer_list->getActiveLayer(), canvas);
+       ex &= !tools[tool_sel]->checkOptions(screenWidth, screenHeight, smouse);
+       if (layer_list->getActiveLayer() != NULL && layer_list->getActiveLayer()->getVisibility() && ex)
            tools[tool_sel]->execute(smouse, canvas, layer_list->getActiveLayer(), right_menu->getFGColor(), right_menu->getBGColor());
    }
 }

@@ -15,6 +15,8 @@ RightMenu::RightMenu(int x, int y) {
     selectedMenu = 0;
     color_picker = new ColorPicker(x, y + 32);
     effect_list = new EffectList(x, y + 32);
+    this->x = x;
+    this->y = y;
 }
 
 RightMenu::~RightMenu() {
@@ -31,7 +33,7 @@ void RightMenu::Render() {
     else effect_list->Render();
 }
 
-void RightMenu::checkMouse(Mouse mouse, Layer *layer, Canvas *canvas) {
+bool RightMenu::checkMouse(Mouse mouse, Layer *layer, Canvas *canvas) {
     for (int i = 0; i < 2; i++) {
         int bt_status = menuButtons[i]->checkClick(mouse);
         if (bt_status == 1) selectedMenu = i;
@@ -40,6 +42,7 @@ void RightMenu::checkMouse(Mouse mouse, Layer *layer, Canvas *canvas) {
     menuButtons[1]->select(selectedMenu);
     if (!selectedMenu) color_picker->checkMouse(mouse);
     else effect_list->checkMouse(mouse, layer, canvas);
+    return (mouse.x > this->x - 8);
 }
 
 void RightMenu::changePosition(int x, int y) {
@@ -47,6 +50,8 @@ void RightMenu::changePosition(int x, int y) {
         menuButtons[i]->changePosition(x + i * 128, y);
     color_picker->changePosition(x, y + 32);
     effect_list->changePosition(x, y + 32);
+    this->x = x;
+    this->y = y;
 }
 
 rgb_color *RightMenu::getFGColor() {

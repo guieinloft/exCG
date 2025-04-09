@@ -22,7 +22,8 @@ void Rotate::renderOptions(int sw, int sh) {
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
-void Rotate::checkOptions(int sw, int sh, Mouse mouse) {
+bool Rotate::checkOptions(int sw, int sh, Mouse mouse) {
+    return mouse.y > sh - 80;
 }
 
 void Rotate::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg) {

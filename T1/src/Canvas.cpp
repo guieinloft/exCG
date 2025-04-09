@@ -8,7 +8,7 @@ Canvas::Canvas(int w, int h) {
     this->up = true;
     canvas_bg = new Image();
     canvas = new Image();
-    canvas_bg->bmp_load("images/canvas_bg/canvas_bg.bmp");
+    canvas_bg->bmp_load((char*)"./T1/images/canvas_bg/canvas_bg.bmp");
     canvas->copy(canvas_bg);
 }
 

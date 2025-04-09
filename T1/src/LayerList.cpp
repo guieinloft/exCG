@@ -21,14 +21,14 @@ LayerList::LayerList(int x, int y) {
     this->n_layers = 0;
     for (int i = 0; i < 8; i++)
         optionButtons[i] = new Button(x + i * 32, y + 32 * MAX_LAYERS, 32, 32);
-    optionButtons[OPT_NEWLAYER]->loadIcons("images/icons/newlayer.bmp");
-    optionButtons[OPT_LAYERUP]->loadIcons("images/icons/layerup.bmp");
-    optionButtons[OPT_LAYERDOWN]->loadIcons("images/icons/layerdown.bmp");
-    optionButtons[OPT_LAYERDEL]->loadIcons("images/icons/layerdel.bmp");
-    optionButtons[OPT_LAYERCOPY]->loadIcons("images/icons/layercopy.bmp");
-    optionButtons[OPT_LAYERMRG]->loadIcons("images/icons/layermrg.bmp");
-    optionButtons[OPT_SAVEFILE]->loadIcons("images/icons/savefile.bmp");
-    optionButtons[OPT_LOADFILE]->loadIcons("images/icons/loadfile.bmp");
+    optionButtons[OPT_NEWLAYER]->loadIcons("./T1/images/icons/newlayer.bmp");
+    optionButtons[OPT_LAYERUP]->loadIcons("./T1/images/icons/layerup.bmp");
+    optionButtons[OPT_LAYERDOWN]->loadIcons("./T1/images/icons/layerdown.bmp");
+    optionButtons[OPT_LAYERDEL]->loadIcons("./T1/images/icons/layerdel.bmp");
+    optionButtons[OPT_LAYERCOPY]->loadIcons("./T1/images/icons/layercopy.bmp");
+    optionButtons[OPT_LAYERMRG]->loadIcons("./T1/images/icons/layermrg.bmp");
+    optionButtons[OPT_SAVEFILE]->loadIcons("./T1/images/icons/savefile.bmp");
+    optionButtons[OPT_LOADFILE]->loadIcons("./T1/images/icons/loadfile.bmp");
     this->newest_layer = 0;
     popup = 0;
     textbox = new Textbox(x, y + 32);
@@ -78,7 +78,7 @@ void LayerList::createLayer() {
     layers[n_layers] = new Layer(0, 0);
     layerButtons[n_layers] = new Button(x, y + 32 * (MAX_LAYERS - n_layers - 1), 256, 32);
     layerOpButtons[n_layers] = new Button(x + 228, y + 4 + 32 * (MAX_LAYERS - n_layers - 1), 24, 24);
-    layerOpButtons[n_layers]->loadIcons("images/icons/vis_on.bmp", "images/icons/vis_off.bmp");
+    layerOpButtons[n_layers]->loadIcons("./T1/images/icons/vis_on.bmp", "./T1/images/icons/vis_off.bmp");
     char layername[32];
     sprintf(layername, "CAMADA %d", newest_layer);
     layerButtons[n_layers]->changeText(layername);
@@ -128,7 +128,7 @@ void LayerList::removeLayer() {
 }
 
 void LayerList::loadProject() {
-    char path[300] = "projects/";
+    char path[300] = "./T1/projects/";
     strcat(path, textbox->getText());
     if (strstr(path, ".pcc") == NULL)
         strcat(path, ".pcc");
@@ -146,7 +146,7 @@ void LayerList::loadProject() {
 }
 
 void LayerList::loadImage() {
-    char path[280] = "images/";
+    char path[280] = "./T1/images/";
     strcat(path, textbox->getText());
     if (n_layers >= MAX_LAYERS) return;
     createLayer();
@@ -155,7 +155,7 @@ void LayerList::loadImage() {
 }
 
 void LayerList::saveProject() {
-    char path[300] = "projects/";
+    char path[300] = "./T1/projects/";
     strcat(path, textbox->getText());
     if (strstr(path, ".pcc") == NULL)
         strcat(path, ".pcc");
@@ -169,7 +169,7 @@ void LayerList::saveProject() {
 }
 
 void LayerList::saveImage() {
-    char path[280] = "images/";
+    char path[280] = "./T1/images/";
     strcat(path, textbox->getText());
     Image *img = new Image();
     img->clear_image(640, 480);

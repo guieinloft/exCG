@@ -11,13 +11,13 @@
 #define M_PI 3.14159
 #endif
 
-inline int sign(double a) {
+inline int sign(float a) {
     return (a > 0) - (a < 0);
 }
-inline double min(double a, double b) {
+inline float min(float a, float b) {
     return (a > b) * b + (a <= b) * a;
 }
-inline double max(double a, double b) {
+inline float max(float a, float b) {
     return (a < b) * b + (a >= b) * a;
 }
 
@@ -36,7 +36,7 @@ void Image::close_image() {
     free(this->img);
 }
 
-bool Image::bmp_load(char *path) {
+bool Image::bmp_load(const char *path) {
     //open file
     FILE *file = fopen(path, "rb");
     if (file == NULL) return false;
@@ -82,7 +82,7 @@ bool Image::bmp_load(char *path) {
     return true;
 }
 
-void Image::bmp_save(char *path) {
+void Image::bmp_save(const char *path) {
     //open file
     FILE *file = fopen(path, "wb");
     if (file == NULL) return;

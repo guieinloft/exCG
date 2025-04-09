@@ -49,3 +49,7 @@ uint8_t Slider::getParam() {
 void Slider::changeParam(uint8_t new_param) {
     this->param = new_param;
 }
+
+bool Slider::isSelected() {
+    return button->isSelected();
+}

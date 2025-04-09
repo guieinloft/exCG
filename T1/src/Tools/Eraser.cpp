@@ -14,9 +14,9 @@ Eraser::Eraser(int sw, int sh) {
     sl_quality = new Slider(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)
         bt_formats[i] = new Button(560 + i * 32, sh - 48, 32, 32);
-    bt_formats[FORMAT_CIRCLE]->loadIcons("images/icons/pencil_circle.bmp");
-    bt_formats[FORMAT_SQUARE]->loadIcons("images/icons/pencil_square.bmp");
-    bt_formats[FORMAT_DIAMOND]->loadIcons("images/icons/pencil_diamond.bmp");
+    bt_formats[FORMAT_CIRCLE]->loadIcons("./T1/images/icons/pencil_circle.bmp");
+    bt_formats[FORMAT_SQUARE]->loadIcons("./T1/images/icons/pencil_square.bmp");
+    bt_formats[FORMAT_DIAMOND]->loadIcons("./T1/images/icons/pencil_diamond.bmp");
     bt_formats[0]->select(true);
 }
 
@@ -39,7 +39,7 @@ void Eraser::renderOptions(int sw, int sh) {
     CV::text(560, sh - 52, "Formato:");
 }
 
-void Eraser::checkOptions(int sw, int sh, Mouse mouse) {
+bool Eraser::checkOptions(int sw, int sh, Mouse mouse) {
     sl_size->checkMouse(mouse);
     params[1] = sl_size->getParam();
     sl_quality->checkMouse(mouse);
@@ -51,6 +51,7 @@ void Eraser::checkOptions(int sw, int sh, Mouse mouse) {
     for (int i = 0; i < FORMAT_NUM; i++) {
         bt_formats[i]->select(i == params[0]);
     }
+    return (mouse.y > sh - 80) || sl_size->isSelected() || sl_quality->isSelected();
 }
 
 void eraseCircle(int x, int y, int rad, Image *image, rgb_color c) {

@@ -16,13 +16,13 @@ ToolList::ToolList() {
         bt_list[i] = new Button(16 + (i % TL_W) * 32, 16 + (i / TL_W) * 48, 32, 32);
     }
     //load icons
-    bt_list[TOOL_PENCIL]->loadIcons("images/icons/pencil.bmp");
-    bt_list[TOOL_ERASER]->loadIcons("images/icons/eraser.bmp");
-    bt_list[TOOL_MOVE]->loadIcons("images/icons/move.bmp");
-    bt_list[TOOL_RESIZE]->loadIcons("images/icons/resize.bmp");
-    bt_list[TOOL_ROTATE]->loadIcons("images/icons/rotate.bmp");
-    bt_list[TOOL_FLIP]->loadIcons("images/icons/flip.bmp");
-    bt_list[TOOL_PICKER]->loadIcons("images/icons/picker.bmp");
+    bt_list[TOOL_PENCIL]->loadIcons("./T1/images/icons/pencil.bmp");
+    bt_list[TOOL_ERASER]->loadIcons("./T1/images/icons/eraser.bmp");
+    bt_list[TOOL_MOVE]->loadIcons("./T1/images/icons/move.bmp");
+    bt_list[TOOL_RESIZE]->loadIcons("./T1/images/icons/resize.bmp");
+    bt_list[TOOL_ROTATE]->loadIcons("./T1/images/icons/rotate.bmp");
+    bt_list[TOOL_FLIP]->loadIcons("./T1/images/icons/flip.bmp");
+    bt_list[TOOL_PICKER]->loadIcons("./T1/images/icons/picker.bmp");
     bt_selected = 0;
     bt_list[0]->select(true);
 }
@@ -43,7 +43,7 @@ void ToolList::Render() {
     }
 }
 
-void ToolList::checkMouse(Mouse mouse) {
+bool ToolList::checkMouse(Mouse mouse) {
     for (int i = 0; i < TOOL_NUM; i++) {
         int bt_status = bt_list[i]->checkClick(mouse);
         if (bt_status == 1) bt_selected = i;
@@ -51,6 +51,7 @@ void ToolList::checkMouse(Mouse mouse) {
     for (int i = 0; i < TOOL_NUM; i++) {
         bt_list[i]->select(i == bt_selected);
     }
+    return mouse.x < 64;
 }
 
 int ToolList::getSelectedTool() {

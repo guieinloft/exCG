@@ -16,7 +16,8 @@ void Resize::renderOptions(int sw, int sh) {
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
-void Resize::checkOptions(int sw, int sh, Mouse mouse) {
+bool Resize::checkOptions(int sw, int sh, Mouse mouse) {
+    return mouse.y > sh - 80;
 }
 
 void Resize::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg) {
@@ -74,6 +75,10 @@ void Resize::renderBorder(Canvas *canvas, Layer *layer) {
         fake_x = real_x - params[1] + w;
     if ((params[0] & RESIZE_MY) == RESIZE_MY)
         fake_y = real_y - params[2] + h;
+    if (!params[0]) {
+        params[1] = w;
+        params[2] = h;
+    }
     CV::color(0.0f, 0.0f, 0.0f);
     CV::rect(fake_x, fake_y - 1, fake_x + params[1] + 1, fake_y + params[2]);
     CV::rectFill(fake_x - 5, fake_y - 5, fake_x + 5, fake_y + 5);

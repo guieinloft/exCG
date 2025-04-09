@@ -28,13 +28,14 @@ void Flip::renderOptions(int sw, int sh) {
     CV::text(16, sh - 52, "Orientacao:");
 }
 
-void Flip::checkOptions(int sw, int sh, Mouse mouse) {
+bool Flip::checkOptions(int sw, int sh, Mouse mouse) {
     int bt_status = bt_orientation[0]->checkClick(mouse);
     if (bt_status == 1) params[0] = 0;
     bt_status = bt_orientation[1]->checkClick(mouse);
     if (bt_status == 1) params[0] = 1;
     bt_orientation[0]->select(!params[0]);
     bt_orientation[1]->select(params[0]);
+    return mouse.y > sh - 80;
 }
 
 void Flip::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg) {

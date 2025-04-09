@@ -21,7 +21,7 @@ class ToolList {
     ToolList();
     ~ToolList();
     void Render();
-    void checkMouse(Mouse mouse);
+    bool checkMouse(Mouse mouse);
     int getSelectedTool();
 
     private:

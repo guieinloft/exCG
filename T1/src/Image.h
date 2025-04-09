@@ -9,8 +9,8 @@ class Image {
     Image();
     ~Image();
     void close_image();
-    bool bmp_load(char *path);
-    void bmp_save(char *path);
+    bool bmp_load(const char *path);
+    void bmp_save(const char *path);
     void file_save(FILE *file);
     void file_load(FILE *file);
     void render(float x, float y, int o);

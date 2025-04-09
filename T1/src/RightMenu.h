@@ -13,12 +13,13 @@ class RightMenu {
     RightMenu(int x, int y);
     ~RightMenu();
     void Render();
-    void checkMouse(Mouse mouse, Layer *layer, Canvas *canvas);
+    bool checkMouse(Mouse mouse, Layer *layer, Canvas *canvas);
     void changePosition(int x, int y);
     rgb_color *getFGColor();
     rgb_color *getBGColor();
 
     private:
+    int x, y;
     Button *menuButtons[EFF_NUM];
     bool selectedMenu;
     ColorPicker *color_picker;

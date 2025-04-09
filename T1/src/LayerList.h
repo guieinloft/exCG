@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-#define MAX_LAYERS 3
+#define MAX_LAYERS 8
 
 enum Options {
     OPT_NEWLAYER,

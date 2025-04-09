@@ -11,6 +11,7 @@ class Slider {
     void changePosition(int x, int y);
     uint8_t getParam();
     void changeParam(uint8_t new_param);
+    bool isSelected();
 
     protected:
     int x;

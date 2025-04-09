@@ -66,7 +66,7 @@ void Button::select(bool s) {
     this->selected = s;
 }
 
-void Button::loadIcons(char *path1, char *path2) {
+void Button::loadIcons(const char *path1, const char *path2) {
     icon1.bmp_load(path1);
     if (path2 != NULL)
         icon2.bmp_load(path2);
@@ -76,7 +76,7 @@ void Button::changeIcon() {
     iconCur = !iconCur;
 }
 
-void Button::changeText(char *text) {
+void Button::changeText(const char *text) {
     strcpy(this->text, text);
 }
 

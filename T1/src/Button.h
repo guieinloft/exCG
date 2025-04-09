@@ -14,8 +14,8 @@ class Button {
     bool isSelected();
     void select(bool s);
     void changeIcon();
-    void loadIcons(char *path1, char *path2 = NULL);
-    void changeText(char *text);
+    void loadIcons(const char *path1, const char *path2 = NULL);
+    void changeText(const char *text);
     void changePosition(int x, int y);
 
     protected:

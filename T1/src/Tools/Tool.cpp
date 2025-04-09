@@ -20,7 +20,8 @@ void Tool::renderOptions(int sw, int sh) {
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
-void Tool::checkOptions(int sw, int sh, Mouse mouse) {
+bool Tool::checkOptions(int sw, int sh, Mouse mouse) {
+    return mouse.y > sh - 80;
 }
 
 void Tool::changePosition(int sw, int sh) {

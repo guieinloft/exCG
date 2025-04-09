@@ -8,8 +8,8 @@ Textbox::Textbox(int x, int y) {
     this->x = x;
     this->y = y;
     button = new Button(x, y, 256, 32);
-    button->changeText("");
-    strcpy(text, "");
+    button->changeText((char*)"");
+    strcpy(text, (char*)"");
     current_char = 0;
 }
 
@@ -47,8 +47,8 @@ void Textbox::changePosition(int x, int y) {
 }
 
 void Textbox::reset() {
-    button->changeText("");
-    strcpy(text, "");
+    button->changeText((char*)"");
+    strcpy(text, (char*)"");
     current_char = 0;
     button->select(false);
 }
