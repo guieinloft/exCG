@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Trab1GuilhermeEinloft" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../__bin/Debug/canvas2d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../__obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../__bin/Release/canvas2d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="../__obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2 -Wall" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-std=c++11" />
+			<Add directory="../include" />
+		</Compiler>
+		<Linker>
+			<Add library="../lib/libfreeglut32.a" />
+			<Add library="../lib/libopengl32.a" />
+			<Add library="../lib/libglu32.a" />
+		</Linker>
+		<Unit filename="src/Button.cpp" />
+		<Unit filename="src/Button.h" />
+		<Unit filename="src/Canvas.cpp" />
+		<Unit filename="src/Canvas.h" />
+		<Unit filename="src/ColorPicker.cpp" />
+		<Unit filename="src/ColorPicker.h" />
+		<Unit filename="src/EffectList.cpp" />
+		<Unit filename="src/EffectList.h" />
+		<Unit filename="src/Effects/EffBriCon.cpp" />
+		<Unit filename="src/Effects/EffBriCon.h" />
+		<Unit filename="src/Effects/EffGamma.cpp" />
+		<Unit filename="src/Effects/EffGamma.h" />
+		<Unit filename="src/Effects/EffGaussian.cpp" />
+		<Unit filename="src/Effects/EffGaussian.h" />
+		<Unit filename="src/Effects/EffGrayscale.cpp" />
+		<Unit filename="src/Effects/EffGrayscale.h" />
+		<Unit filename="src/Effects/EffHSLAdjust.cpp" />
+		<Unit filename="src/Effects/EffHSLAdjust.h" />
+		<Unit filename="src/Effects/EffInvert.cpp" />
+		<Unit filename="src/Effects/EffInvert.h" />
+		<Unit filename="src/Effects/Effect.cpp" />
+		<Unit filename="src/Effects/Effect.h" />
+		<Unit filename="src/Image.cpp" />
+		<Unit filename="src/Image.h" />
+		<Unit filename="src/Layer.cpp" />
+		<Unit filename="src/Layer.h" />
+		<Unit filename="src/LayerList.cpp" />
+		<Unit filename="src/LayerList.h" />
+		<Unit filename="src/Mouse.h" />
+		<Unit filename="src/RightMenu.cpp" />
+		<Unit filename="src/RightMenu.h" />
+		<Unit filename="src/Slider.cpp" />
+		<Unit filename="src/Slider.h" />
+		<Unit filename="src/Textbox.cpp" />
+		<Unit filename="src/Textbox.h" />
+		<Unit filename="src/ToolList.cpp" />
+		<Unit filename="src/ToolList.h" />
+		<Unit filename="src/Tools/Eraser.cpp" />
+		<Unit filename="src/Tools/Eraser.h" />
+		<Unit filename="src/Tools/Flip.cpp" />
+		<Unit filename="src/Tools/Flip.h" />
+		<Unit filename="src/Tools/Move.cpp" />
+		<Unit filename="src/Tools/Move.h" />
+		<Unit filename="src/Tools/Pencil.cpp" />
+		<Unit filename="src/Tools/Pencil.h" />
+		<Unit filename="src/Tools/Picker.cpp" />
+		<Unit filename="src/Tools/Picker.h" />
+		<Unit filename="src/Tools/Resize.cpp" />
+		<Unit filename="src/Tools/Resize.h" />
+		<Unit filename="src/Tools/Rotate.cpp" />
+		<Unit filename="src/Tools/Rotate.h" />
+		<Unit filename="src/Tools/Tool.cpp" />
+		<Unit filename="src/Tools/Tool.h" />
+		<Unit filename="src/Vector2.h" />
+		<Unit filename="src/colors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/colors.h" />
+		<Unit filename="src/gl_canvas2d.cpp" />
+		<Unit filename="src/gl_canvas2d.h" />
+		<Unit filename="src/main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
