@@ -8,7 +8,7 @@
 #include "../Button.h"
 #include "../Slider.h"
 
-Picker::Picker(int sw, int sh) {
+Picker::Picker() {
 }
 
 void Picker::renderOptions(int sw, int sh) {
@@ -16,7 +16,7 @@ void Picker::renderOptions(int sw, int sh) {
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
-bool Picker::checkOptions(int sw, int sh, Mouse mouse) {
+bool Picker::checkOptions(int sh, Mouse mouse) {
     return mouse.y > sh - 80;
 }
 
@@ -39,5 +39,6 @@ void Picker::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
     }
 }
 
-void Picker::changePosition(int sw, int sh) {
+void Picker::changePosition(int sh) {
+    (void)sh;
 }

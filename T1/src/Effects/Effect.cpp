@@ -21,6 +21,7 @@ Effect::~Effect() {
 }
 
 void Effect::apply(Image *image) {
+    (void)image;
 }
 
 void Effect::renderMenu() {

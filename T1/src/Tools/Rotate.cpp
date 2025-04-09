@@ -14,7 +14,7 @@
 #define M_PI 3.14159
 #endif
 
-Rotate::Rotate(int sw, int sh) {
+Rotate::Rotate() {
 }
 
 void Rotate::renderOptions(int sw, int sh) {
@@ -22,7 +22,7 @@ void Rotate::renderOptions(int sw, int sh) {
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
-bool Rotate::checkOptions(int sw, int sh, Mouse mouse) {
+bool Rotate::checkOptions(int sh, Mouse mouse) {
     return mouse.y > sh - 80;
 }
 
@@ -48,9 +48,12 @@ void Rotate::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
         layer->set_y(layer->get_y() + offy);
         canvas->update();
     }
+    (void)fg;
+    (void)bg;
 }
 
-void Rotate::changePosition(int sw, int sh) {
+void Rotate::changePosition(int sh) {
+    (void)sh;
 }
 
 void Rotate::renderBorder(Canvas *canvas, Layer *layer) {

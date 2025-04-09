@@ -17,12 +17,12 @@ enum PencilFormats {
 
 class Pencil : public Tool {
     public:
-    Pencil(int sw, int sh);
+    Pencil(int sh);
     ~Pencil();
     void renderOptions(int sw, int sh);
-    bool checkOptions(int sw, int sh, Mouse mouse);
+    bool checkOptions(int sh, Mouse mouse);
     void execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb_color *bg);
-    void changePosition(int sw, int sh);
+    void changePosition(int sh);
     
     private:
     Slider *sl_size;

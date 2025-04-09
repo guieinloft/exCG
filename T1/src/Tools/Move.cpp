@@ -8,7 +8,7 @@
 #include "../Button.h"
 #include "../Slider.h"
 
-Move::Move(int sw, int sh) {
+Move::Move() {
 }
 
 void Move::renderOptions(int sw, int sh) {
@@ -16,7 +16,7 @@ void Move::renderOptions(int sw, int sh) {
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
-bool Move::checkOptions(int sw, int sh, Mouse mouse) {
+bool Move::checkOptions(int sh, Mouse mouse) {
     return mouse.y > sh - 80;
 }
 
@@ -33,7 +33,10 @@ void Move::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb
             canvas->update();
         }
     }
+    (void)fg;
+    (void)bg;
 }
 
-void Move::changePosition(int sw, int sh) {
+void Move::changePosition(int sh) {
+    (void)sh;
 }

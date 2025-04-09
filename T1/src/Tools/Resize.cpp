@@ -8,7 +8,7 @@
 #include "../Button.h"
 #include "../Slider.h"
 
-Resize::Resize(int sw, int sh) {
+Resize::Resize() {
 }
 
 void Resize::renderOptions(int sw, int sh) {
@@ -16,7 +16,7 @@ void Resize::renderOptions(int sw, int sh) {
     CV::rectFill(0, sh - 80, sw, sh);
 }
 
-bool Resize::checkOptions(int sw, int sh, Mouse mouse) {
+bool Resize::checkOptions(int sh, Mouse mouse) {
     return mouse.y > sh - 80;
 }
 
@@ -60,9 +60,12 @@ void Resize::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
         params[0] = RESIZE_NO;
         canvas->update();
     }
+    (void)fg;
+    (void)bg;
 }
 
-void Resize::changePosition(int sw, int sh) {
+void Resize::changePosition(int sh) {
+    (void)sh;
 }
 
 void Resize::renderBorder(Canvas *canvas, Layer *layer) {

@@ -9,7 +9,7 @@
 #include "../Button.h"
 #include "../Slider.h"
 
-Eraser::Eraser(int sw, int sh) {
+Eraser::Eraser(int sh) {
     sl_size = new Slider(16, sh - 32);
     sl_quality = new Slider(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)
@@ -39,7 +39,7 @@ void Eraser::renderOptions(int sw, int sh) {
     CV::text(560, sh - 52, "Formato:");
 }
 
-bool Eraser::checkOptions(int sw, int sh, Mouse mouse) {
+bool Eraser::checkOptions(int sh, Mouse mouse) {
     sl_size->checkMouse(mouse);
     params[1] = sl_size->getParam();
     sl_quality->checkMouse(mouse);
@@ -54,7 +54,7 @@ bool Eraser::checkOptions(int sw, int sh, Mouse mouse) {
     return (mouse.y > sh - 80) || sl_size->isSelected() || sl_quality->isSelected();
 }
 
-void eraseCircle(int x, int y, int rad, Image *image, rgb_color c) {
+void eraseCircle(int x, int y, int rad, Image *image) {
     for (int i = -rad; i <= rad; i++) {
         for (int j = -rad; j <= rad; j++) {
             if (i * i + j * j <= rad * rad + rad) {
@@ -64,7 +64,7 @@ void eraseCircle(int x, int y, int rad, Image *image, rgb_color c) {
     }
 }
 
-void eraseSquare(int x, int y, int d, Image *image, rgb_color c) {
+void eraseSquare(int x, int y, int d, Image *image) {
     for (int i = 0; i < d; i++) {
         for (int j = 0; j < d; j++) {
             image->put_pixel(x - j + d/2, y - i + d/2, -1, -1, -1, 0, false);
@@ -72,7 +72,7 @@ void eraseSquare(int x, int y, int d, Image *image, rgb_color c) {
     }
 }
 
-void eraseDiamond(int x, int y, int rad, Image *image, rgb_color c) {
+void eraseDiamond(int x, int y, int rad, Image *image) {
     for (int i = -rad; i <= rad; i++) {
         for (int j = -rad; j <= rad; j++) {
             if (abs(i) + abs(j) <= rad) {
@@ -97,17 +97,19 @@ void Eraser::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
             int cx = (real_xp * i + real_x * (quality - i))/quality;
             int cy = (real_yp * i + real_y * (quality - i))/quality;
             if (params[0] == FORMAT_SQUARE)
-                eraseSquare(cx, cy, diameter, image, *fg);
+                eraseSquare(cx, cy, diameter, image);
             else if (params[0] == FORMAT_DIAMOND)
-                eraseDiamond(cx, cy, rad, image, *fg);
+                eraseDiamond(cx, cy, rad, image);
             else
-                eraseCircle(cx, cy, rad, image, *fg);
+                eraseCircle(cx, cy, rad, image);
         }
         canvas->update();
     }
+    (void)fg;
+    (void)bg;
 }
 
-void Eraser::changePosition(int sw, int sh) {
+void Eraser::changePosition(int sh) {
     sl_size->changePosition(16, sh - 32);
     sl_quality->changePosition(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)

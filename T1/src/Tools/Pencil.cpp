@@ -8,7 +8,7 @@
 #include "../Button.h"
 #include "../Slider.h"
 
-Pencil::Pencil(int sw, int sh) {
+Pencil::Pencil(int sh) {
     sl_size = new Slider(16, sh - 32);
     sl_quality = new Slider(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)
@@ -38,7 +38,7 @@ void Pencil::renderOptions(int sw, int sh) {
     CV::text(560, sh - 52, "Formato:");
 }
 
-bool Pencil::checkOptions(int sw, int sh, Mouse mouse) {
+bool Pencil::checkOptions(int sh, Mouse mouse) {
     sl_size->checkMouse(mouse);
     params[1] = sl_size->getParam();
     sl_quality->checkMouse(mouse);
@@ -117,7 +117,7 @@ void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
     }
 }
 
-void Pencil::changePosition(int sw, int sh) {
+void Pencil::changePosition(int sh) {
     sl_size->changePosition(16, sh - 32);
     sl_quality->changePosition(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)

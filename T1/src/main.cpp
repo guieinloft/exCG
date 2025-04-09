@@ -68,10 +68,10 @@ void render()
     right_menu->Render();
     layer_list->changePosition(screenWidth - 264, 304);
     layer_list->RenderList();
-    tools[tool_sel]->changePosition(screenWidth, screenHeight);
+    tools[tool_sel]->changePosition(screenHeight);
     tools[tool_sel]->renderOptions(screenWidth, screenHeight);
 
-   usleep(10); //nao eh controle de FPS. Somente um limitador de FPS.
+    //Sleep(10); //não tem pq usar, o programa pega 30 fps no máximo
 }
 
 //funcao chamada toda vez que uma tecla for pressionada.
@@ -85,6 +85,7 @@ void keyboard(int key)
 void keyboardUp(int key)
 {
    //printf("\nLiberou: %d" , key);
+   (void)key;
 }
 
 //funcao para tratamento de mouse: cliques, movimentos e arrastos
@@ -116,7 +117,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
        ex &= !tool_list->checkMouse(smouse);
        tool_sel = tool_list->getSelectedTool();
        ex &= !right_menu->checkMouse(smouse, layer_list->getActiveLayer(), canvas);
-       ex &= !tools[tool_sel]->checkOptions(screenWidth, screenHeight, smouse);
+       ex &= !tools[tool_sel]->checkOptions(screenHeight, smouse);
        if (layer_list->getActiveLayer() != NULL && layer_list->getActiveLayer()->getVisibility() && ex)
            tools[tool_sel]->execute(smouse, canvas, layer_list->getActiveLayer(), right_menu->getFGColor(), right_menu->getBGColor());
    }
@@ -128,13 +129,13 @@ int main(void)
    canvas = new Canvas(640, 480);
    right_menu = new RightMenu(screenWidth - 264, 0);
    layer_list = new LayerList(screenWidth - 264, 304);
-   tools[TOOL_PENCIL] = new Pencil(screenWidth, screenHeight);
-   tools[TOOL_ERASER] = new Eraser(screenWidth, screenHeight);
-   tools[TOOL_MOVE] = new Move(screenWidth, screenHeight);
-   tools[TOOL_RESIZE] = new Resize(screenWidth, screenHeight);
-   tools[TOOL_ROTATE] = new Rotate(screenWidth, screenHeight);
-   tools[TOOL_FLIP] = new Flip(screenWidth, screenHeight);
-   tools[TOOL_PICKER] = new Picker(screenWidth, screenHeight);
+   tools[TOOL_PENCIL] = new Pencil(screenHeight);
+   tools[TOOL_ERASER] = new Eraser(screenHeight);
+   tools[TOOL_MOVE] = new Move();
+   tools[TOOL_RESIZE] = new Resize();
+   tools[TOOL_ROTATE] = new Rotate();
+   tools[TOOL_FLIP] = new Flip(screenHeight);
+   tools[TOOL_PICKER] = new Picker();
    CV::init(&screenWidth, &screenHeight, "PRO CANVAS COLOR");
    CV::run();
    delete tool_list;

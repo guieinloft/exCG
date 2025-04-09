@@ -8,7 +8,7 @@
 #include "../Button.h"
 #include "../Slider.h"
 
-Flip::Flip(int sw, int sh) {
+Flip::Flip(int sh) {
     for (int i = 0; i < 2; i++)
         bt_orientation[i] = new Button(16 + i * 128, sh - 48, 128, 32);
     bt_orientation[0]->changeText("Horizontal");
@@ -28,7 +28,7 @@ void Flip::renderOptions(int sw, int sh) {
     CV::text(16, sh - 52, "Orientacao:");
 }
 
-bool Flip::checkOptions(int sw, int sh, Mouse mouse) {
+bool Flip::checkOptions(int sh, Mouse mouse) {
     int bt_status = bt_orientation[0]->checkClick(mouse);
     if (bt_status == 1) params[0] = 0;
     bt_status = bt_orientation[1]->checkClick(mouse);
@@ -49,9 +49,11 @@ void Flip::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, rgb
     if (params[0]) layer->getImage()->flip_v();
     else layer->getImage()->flip_h();
     canvas->update();
+    (void)fg;
+    (void)bg;
 }
 
-void Flip::changePosition(int sw, int sh) {
+void Flip::changePosition(int sh) {
     for (int i = 0; i < 2; i++)
         bt_orientation[i]->changePosition(16 + i * 128, sh - 48);
 }
