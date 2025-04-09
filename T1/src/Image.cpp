@@ -8,7 +8,10 @@
 #include "Image.h"
 
 #ifndef M_PI
-#define M_PI 3.14159
+#define M_PI 3.14159265358979323846f
+#endif
+#ifndef M_E
+#define M_E 2.7182818284590452354f
 #endif
 
 inline int sign(float a) {
@@ -40,7 +43,7 @@ bool Image::bmp_load(const char *path) {
     //open file
     FILE *file = fopen(path, "rb");
     if (file == NULL) return false;
-    
+
     this->close_image();
 
     int hsize;
@@ -112,7 +115,7 @@ void Image::bmp_save(const char *path) {
     fwrite(&h, sizeof(uint32_t), 1, file);
     fwrite(&temp_zero, sizeof(uint32_t), 1, file);
     fwrite(&temp_zero, sizeof(uint32_t), 1, file);
-    
+
     //write image
     for (int i = h - 1; i >= 0; i--) {
         fwrite(&(img[i * w * 4]), sizeof(uint8_t), 4 * w, file);
@@ -253,7 +256,7 @@ void Image::copy(Image *src) {
 
 void Image::clear_image(int new_w, int new_h) {
     this->close_image();
-    
+
     this->w = new_w;
     this->h = new_h;
     this->img = (uint8_t*)malloc(sizeof(uint8_t) * this->w * this->h * 4);
@@ -347,9 +350,9 @@ void Image::blur(int radius, bool horizontal, bool vertical) {
                     }
                 }
                 int base_n = (i * w + j) * 4;
-                new_img[base_n + 2] = (uint8_t)r; 
-                new_img[base_n + 1] = (uint8_t)g; 
-                new_img[base_n + 0] = (uint8_t)b; 
+                new_img[base_n + 2] = (uint8_t)r;
+                new_img[base_n + 1] = (uint8_t)g;
+                new_img[base_n + 0] = (uint8_t)b;
                 new_img[base_n + 3] = (uint8_t)a;
             }
         }
@@ -363,7 +366,7 @@ void Image::blur(int radius, bool horizontal, bool vertical) {
         for (int i = 0; i < (int)h; i++) {
             for (int j = 0; j < (int)w; j++) {
                 float r = 0.f, g = 0.f, b = 0.f, a = 0.f;
-                
+
                 for (int ki = -radius; ki <= radius; ki++) {
                     float kvalue = img_kernel[(ki + radius)];
                     if (i + ki >= 0 && i + ki < (int)h) {
@@ -375,10 +378,10 @@ void Image::blur(int radius, bool horizontal, bool vertical) {
                     }
                 }
                 int base_n = (i * w + j) * 4;
-                new_img2[base_n + 2] = (uint8_t)r; 
-                new_img2[base_n + 1] = (uint8_t)g; 
-                new_img2[base_n + 0] = (uint8_t)b; 
-                new_img2[base_n + 3] = (uint8_t)a; 
+                new_img2[base_n + 2] = (uint8_t)r;
+                new_img2[base_n + 1] = (uint8_t)g;
+                new_img2[base_n + 0] = (uint8_t)b;
+                new_img2[base_n + 3] = (uint8_t)a;
             }
         }
     }

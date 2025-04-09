@@ -136,7 +136,7 @@ int main(void)
    tools[TOOL_ROTATE] = new Rotate();
    tools[TOOL_FLIP] = new Flip(screenHeight);
    tools[TOOL_PICKER] = new Picker();
-   CV::init(&screenWidth, &screenHeight, "PRO CANVAS COLOR");
+   CV::init(&screenWidth, &screenHeight, "PRO CANVAS COLOR - Guilherme Einloft");
    CV::run();
    delete tool_list;
    delete right_menu;

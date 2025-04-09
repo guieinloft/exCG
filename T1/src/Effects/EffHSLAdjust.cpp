@@ -28,6 +28,7 @@ EffHSLAdjust::~EffHSLAdjust() {
 }
 
 void EffHSLAdjust::apply(Image *image) {
+    /*
     int w = image->get_w();
     int h = image->get_h();
     rgb_color pixel;
@@ -43,6 +44,8 @@ void EffHSLAdjust::apply(Image *image) {
             image->put_pixel(j, i, pixel.r, pixel.g, pixel.b, pixel.a, false);
         }
     }
+    */
+    //fiz isso pq no codeblocks não funcionava (vai entender bicho...)
 }
 
 void EffHSLAdjust::renderMenu() {
