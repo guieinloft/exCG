@@ -46,6 +46,7 @@ void EffHSLAdjust::apply(Image *image) {
     }
     */
     //fiz isso pq no codeblocks não funcionava (vai entender bicho...)
+    (void)image;
 }
 
 void EffHSLAdjust::renderMenu() {

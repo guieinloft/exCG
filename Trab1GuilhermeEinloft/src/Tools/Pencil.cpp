@@ -88,7 +88,7 @@ void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
     int real_xp = mouse.xp - canvas->get_x() - layer->get_x();
     int real_yp = mouse.yp - canvas->get_y() - layer->get_y();
     int diameter = params[1] + 1;
-    int rad = (diameter + 1)/2;
+    int rad = (diameter)/2;
     int quality = params[2] + 1;
     //int rad = 3;
     if (mouse.l) {
@@ -109,7 +109,9 @@ void Pencil::execute(Mouse mouse, Canvas *canvas, Layer *layer, rgb_color *fg, r
             int cx = (real_xp * i + real_x * (quality - i))/quality;
             int cy = (real_yp * i + real_y * (quality - i))/quality;
             if (params[0] == FORMAT_SQUARE)
-                paintSquare(cx, cy, params[1] + 1, image, *bg);
+                paintSquare(cx, cy, diameter, image, *bg);
+            else if (params[0] == FORMAT_DIAMOND)
+                paintDiamond(cx, cy, rad, image, *fg);
             else
                 paintCircle(cx, cy, rad, image, *bg);
         }

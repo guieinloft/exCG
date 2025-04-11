@@ -14,6 +14,7 @@
 #define M_E 2.7182818284590452354f
 #endif
 
+//funções auxiliares
 inline int sign(float a) {
     return (a > 0) - (a < 0);
 }
@@ -149,18 +150,6 @@ void Image::render(float x, float y, int o) {
     }
 }
 
-void Image::render_scaled(float x, float y, int new_w, int new_h, int o) {
-    for (int i = 0; i < new_h; i++) {
-        for (int j = 0; j < new_w; j++) {
-            int base = (i * this->h / new_h * this->w + j * this->w / new_w) * 4;
-            if (this->img[base+3]) {
-                CV::color(this->img[base+2]/255.0, this->img[base+1]/255.0 ,this->img[base]/255.0, this->img[base+3] * o /255.0/255.0);
-                CV::point(x + j, y + i);
-            }
-        }
-    }
-}
-
 void Image::flip_h() {
     uint8_t *temp = (uint8_t*)malloc(sizeof(uint8_t) * 4);
     for (uint32_t i = 0; i < this->h; i++) {
@@ -271,10 +260,12 @@ void Image::clear_image(int new_w, int new_h) {
 }
 
 void Image::rotate(float rad, int *offx, int *offy) {
+    float cosrad = cos(rad);
+    float sinrad = sin(rad);
     int x1 = 0, y1 = 0;
-    int x2 = w * cos(rad), y2 = w * sin(rad);
-    int x3 = -(h * sin(rad)), y3 = h * cos(rad);
-    int x4 = w * cos(rad) - h * sin(rad), y4 = w * sin(rad) + h * cos(rad);
+    int x2 = w * cosrad, y2 = w * sin(rad);
+    int x3 = -(h * sin(rad)), y3 = h * cosrad;
+    int x4 = w * cosrad - h * sinrad, y4 = w * sinrad + h * cosrad;
     int x_min = min(x1, min(x2, min(x3, x4)));
     int y_min = min(y1, min(y2, min(y3, y4)));
     int x_max = max(x1, max(x2, max(x3, x4)));
@@ -285,8 +276,8 @@ void Image::rotate(float rad, int *offx, int *offy) {
     uint8_t *new_img = (uint8_t*)malloc(sizeof(uint8_t) * nw * nh * 4);
     for (int i = y_min; i < y_max; i++) {
         for (int j = x_min; j < x_max; j++) {
-            int base_x = (int)(j * cos(-rad) - i * sin(-rad));
-            int base_y = (int)(j * sin(-rad) + i * cos(-rad));
+            int base_x = (int)(j * cosrad - i * -sinrad);
+            int base_y = (int)(j * -sinrad + i * cosrad);
             int b1 = ((i - y_min) * nw + (j - x_min)) * 4;
             //printf("%d\n", b1);
             if (base_x >= 0 && base_x < (int)w && base_y >= 0 && base_y < (int)h) {

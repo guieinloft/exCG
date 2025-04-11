@@ -9,6 +9,10 @@ Slider::Slider(int x, int y) {
     this->button = new Button(x - 4, y - 15, 8, 32);
 }
 
+Slider::~Slider() {
+    delete button;
+}
+
 void Slider::checkMouse(Mouse mouse) {
     int bt_status = button->checkClick(mouse);
     switch (bt_status) {

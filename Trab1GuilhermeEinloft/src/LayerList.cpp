@@ -278,7 +278,7 @@ bool LayerList::checkMouse(Mouse mouse, Canvas *canvas) {
         uint8_t new_opacity = layers[active_layer]->getOpacity();
         if (old_opacity != new_opacity) canvas->update();
     }
-    return popup;
+    return popup || sl_opacity->isSelected();
 }
 
 void LayerList::checkKeyboard(int key, Canvas *canvas) {
