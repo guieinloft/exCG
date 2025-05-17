@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define UPDATE_RATE 30   //milisegundos
+#define UPDATE_RATE 0   //milisegundos
 
 
 

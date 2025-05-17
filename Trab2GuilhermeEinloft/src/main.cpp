@@ -38,7 +38,7 @@ Slider *q_sliders[8];
 uint8_t quality[8] = {1, 1, 1, 1, 1, 1, 1, 1};
 Button *apply;
 
-const char path[] = "Trab2GuilhermeEinloft/images/jellybeans.bmp";
+const char path[] = "Trab2GuilhermeEinloft/images/mandrill.bmp";
 
 //funcao chamada continuamente. Deve-se controlar o que desenhar por meio de variaveis globais
 //Todos os comandos para desenho na canvas devem ser chamados dentro da render().
