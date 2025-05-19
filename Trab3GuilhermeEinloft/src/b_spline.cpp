@@ -40,3 +40,14 @@ void b_spline_draw(Vector2 b_out[B_SEG], Vector2 b_in[B_SEG]) {
 		}
 	}
 }
+
+void b_spline_points_draw(Vector2 p_out[12], Vector2 p_in[12]) {
+	CV::color(0, 0, 1);
+	for (int i = 0; i < 12; i++) {
+		CV::line(p_out[i].x, p_out[i].y,
+			p_out[(i + 1) % 12].x, p_out[(i + 1) % 12].y);
+		CV::line(p_in[i].x, p_in[i].y,
+			p_in[(i + 1) % 12].x, p_in[(i + 1) % 12].y);
+		CV::line(p_in[i].x, p_in[i].y, p_out[i].x, p_out[i].y);
+	}
+}

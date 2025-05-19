@@ -9,12 +9,11 @@ class Missile : public Entity {
 	protected:
 		int damage;
 		Vector2 pos_increment;
-		Circle c;
 		int timer;
 	public:
 		Missile(Vector2 pos, float radius, int damage, float speed, float angle);
 		bool move(Vector2 target, float deltaTime, Entity **entities);
-		void render();
+		void render(bool show_hbar = true);
 };
 
 #endif

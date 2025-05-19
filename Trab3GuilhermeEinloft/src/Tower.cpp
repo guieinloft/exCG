@@ -10,7 +10,7 @@
 #define T_SPEED 0.0625f
 
 Tower::Tower(Vector2 center, bool hard) :
-	Entity(center, 8 + hard * 4, ETYPE_TOWER) {
+	Entity(center, 64, 8 + hard * 4, ETYPE_TOWER) {
 	this->c_angle = 0;
 
 	body.createShape(center, 48, 6);
@@ -30,7 +30,7 @@ Tower::Tower(Vector2 center, bool hard) :
 	cooldown = TW_COOLDOWN;
 }
 
-void Tower::render() {
+void Tower::render(bool show_hbar) {
 	CV::color(0.8f, 0.2f, 0.2f);
 	body.fill();
 	CV::color(0.6f, 0.15f, 0.15f);
@@ -51,7 +51,6 @@ bool Tower::move(Vector2 target, float deltaTime, Entity **entities) {
 	cannon_pos = center + (Vector2){64 * cos(c_angle), 64 * sin(c_angle)};
 	cooldown -= deltaTime * (cooldown > 0);
 
-	float distance2 = delta.y * delta.y + delta.x * delta.x;
 	if (cooldown <= 0) {
 		for (int i = ENTITY_FIXED_NUM; i < ENTITY_NUM; i++) {
 			if (entities[i] == nullptr) {
@@ -67,4 +66,13 @@ bool Tower::move(Vector2 target, float deltaTime, Entity **entities) {
 bool Tower::hit() {
 	hbar.health--;
 	return (hbar.health <= 0);
+}
+
+void Tower::setPosition(float x, float y) {
+	Vector2 new_center(x, y);
+	Vector2 poschange = new_center - center;
+	body.move(poschange);
+	cannon.move(poschange);
+	scircle.c = new_center;
+	center = new_center;
 }

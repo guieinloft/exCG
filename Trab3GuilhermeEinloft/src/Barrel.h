@@ -7,12 +7,10 @@
 
 class Barrel : public Entity {
 	public:
-	Circle c;
-
-	//public:
 	Barrel(Vector2 center, float radius);
-	void render();
+	void render(bool show_hbar = true);
 	Circle getCollisionCircle();
+	void setPosition(float x, float y);
 };
 
 #endif

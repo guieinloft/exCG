@@ -5,25 +5,26 @@
 
 #define P_ANGLE_INC 0.0021816616f
 
-Powerup::Powerup(Vector2 center, PowerupType type) : Entity(center, 1, ETYPE_POWERUP) {
+Powerup::Powerup(Vector2 center, EntityType type) : Entity(center, 24, 1, type) {
 	cshape.size = 2;
 	cshape.poly = (Poly*)malloc(sizeof(Poly) * 2);
 	cshape.poly[0].createShape(center, 24, 3);
 	cshape.poly[1].createShape(center, -24, 3);
-	this->type = type;
 }
 
-void Powerup::render() {
+void Powerup::render(bool show_hbar) {
 	switch (type) {
-	case PWUP_SUPER:
+	case ETYPE_POWERUP_SUPER:
 		CV::color(0.75f, 0.75f, 0.3f);
 		break;
-	case PWUP_SHIELD:
+	case ETYPE_POWERUP_SHIELD:
 		CV::color(0.3f, 0.3f, 0.75f);
 		break;
-	case PWUP_HEALTH:
+	case ETYPE_POWERUP_HEALTH:
 		CV::color(0.3f, 0.75f, 0.3f);
 		break;
+	default:
+		CV::color(1, 1, 1);
 	}
 	cshape.poly[0].fill();
 	cshape.poly[1].fill();
@@ -35,10 +36,15 @@ bool Powerup::move(Vector2 target, float deltaTime, Entity **entities) {
 	return false;
 }
 
-PowerupType Powerup::getPowerupType() {
-	return type;
-}
-
 bool Powerup::hit() {
 	return false;
+}
+
+void Powerup::setPosition(float x, float y) {
+	Vector2 new_center(x, y);
+	Vector2 poschange = new_center - center;
+	cshape.poly[0].move(poschange);
+	cshape.poly[1].move(poschange);
+	center = new_center;
+	scircle.c = new_center;
 }

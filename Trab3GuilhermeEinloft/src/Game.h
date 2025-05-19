@@ -21,6 +21,8 @@ protected:
 	FrameController fp;
 	float deltaTime;
 	
+	Vector2 points_out[12];
+	Vector2 points_in[12];
 	Vector2 b_out[B_SEG];
 	Vector2 b_in[B_SEG];
 
@@ -33,7 +35,7 @@ protected:
 
 public:
 	Game();
-	void update();
+	int update();
 	void pressKey(int key);
 	void releaseKey(int key);
 	void checkMouse(int button, int state, int wheel, int direction, int x, int y);

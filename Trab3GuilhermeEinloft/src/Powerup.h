@@ -5,22 +5,13 @@
 #include "Circle.h"
 #include "Entity.h"
 
-enum PowerupType {
-	PWUP_SUPER,
-	PWUP_SHIELD,
-	PWUP_HEALTH
-};
-
 class Powerup : public Entity {
-	protected:
-	PowerupType type;
-
 	public:
-	Powerup(Vector2 center, PowerupType type);
-	void render();
-	PowerupType getPowerupType();
+	Powerup(Vector2 center, EntityType type);
+	void render(bool show_hbar = true);
 	bool hit();
 	bool move(Vector2 target, float deltaTime, Entity **entities);
+	void setPosition(float x, float y);
 };
 
 #endif

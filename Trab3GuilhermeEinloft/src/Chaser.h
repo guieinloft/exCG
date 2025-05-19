@@ -10,11 +10,13 @@ class Chaser : public Entity {
 		float speed;
 		float angle;
 		Vector2 birth;
+		bool knockback;
 	public:
 		Chaser(Vector2 pos, bool hard);
 		bool move(Vector2 target, float deltaTime, Entity **entities);
-		void render();
+		void render(bool show_hbar = true);
 		bool hit();
+		void setPosition(float x, float y);
 };
 
 #endif

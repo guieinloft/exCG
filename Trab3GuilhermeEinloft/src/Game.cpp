@@ -11,16 +11,11 @@
 #define GENERATE_INTERVAL 1000
 
 Game::Game() {
-	mouse.state = -2;
-	paused = 1;
-	lost = 0;
-	won = 0;
-	score = 0;
 }
 
 void Game::loadLevel(const char *path, bool hard) {
+	printf("\n%s", path);
 	FILE *level = fopen(path, "r");
-	Vector2 points_out[12], points_in[12];
 	for (int i = 0; i < 12; i++) {
 		fscanf(level, "%f %f %f %f", &points_out[i].x, &points_out[i].y,
 			&points_in[i].x, &points_in[i].y);
@@ -30,7 +25,7 @@ void Game::loadLevel(const char *path, bool hard) {
 	EntityType type;
 	Vector2 center;
 	for (int i = 0; i < ENTITY_FIXED_NUM; i++) {
-		if (fscanf(level, "%d", &type) == EOF)
+		if (fscanf(level, "%d", (int*)&type) == EOF)
 			break;
 		fscanf(level, "%f %f", &center.x, &center.y);
 		switch (type) {
@@ -39,7 +34,7 @@ void Game::loadLevel(const char *path, bool hard) {
 			tank = (Tank*)entities[i];
 			break;
 		case ETYPE_BARREL:
-			entities[i] = new Barrel(center, 24);
+			entities[i] = new Barrel(center, 32);
 			break;
 		case ETYPE_CHASER:
 			entities[i] = new Chaser(center, hard);
@@ -48,22 +43,29 @@ void Game::loadLevel(const char *path, bool hard) {
 			entities[i] = new Tower(center, hard);
 			break;
 		case ETYPE_POWERUP_SUPER:
-			entities[i] = new Powerup(center, PWUP_SUPER);
+			entities[i] = new Powerup(center, ETYPE_POWERUP_SUPER);
 			break;
 		case ETYPE_POWERUP_SHIELD:
-			entities[i] = new Powerup(center, PWUP_SHIELD);
+			entities[i] = new Powerup(center, ETYPE_POWERUP_SHIELD);
 			break;
 		case ETYPE_POWERUP_HEALTH:
-			entities[i] = new Powerup(center, PWUP_HEALTH);
+			entities[i] = new Powerup(center, ETYPE_POWERUP_HEALTH);
+			break;
+		default:
 			break;
 		}
 	}
 	fclose(level);
 	generateEntities();
-	entity_num = 32;
+	entity_num = 31;
+	mouse.state = -2;
+	paused = 1;
+	lost = 0;
+	won = 0;
+	score = 0;
 }
 
-void Game::update() {
+int Game::update() {
 	deltaTime = fp.getDeltaTime();
 	CV::color(0.5, 0.5, 0.5);
 	CV::rectFill(0, 0, 1280, 720);
@@ -74,35 +76,35 @@ void Game::update() {
 	CV::text(10, 64, score_str);
 	if (paused) {
 		CV::text(10, 48, "PAUSADO");
-		return;
+		return lost || won;
 	} else if (lost) {
 		CV::text(10, 48, "VOCE PERDEU!");
-		return;
+		return 0;
 	} else if (won) {
 		CV::text(10, 48, "VOCE GANHOU!");
-		return;
+		return 0;
 	}
 	for (int i = 0; i < ENTITY_NUM; i++) {
 		if (entities[i] == nullptr)
 			continue;
 		entities[i]->render();
-		if (entities[i]->move(tank->getCenter(), deltaTime, entities)) {
-			delete entities[i];
-			entities[i] = nullptr;
-		}
+		if (entities[i]->move(tank->getCenter(), deltaTime, entities))
+			entity_remove(entities, i, &score, &entity_num);
 	}
 	checkCollisions(entities, &score, &entity_num);
 	checkCollisionsBorder(entities, b_out, b_in, &score, &entity_num);
 	if (checkTankCollisions(tank, entities, &score, &entity_num)) {
-		//lost = true;
+		lost = true;
 	}
 	if (int dir = collideTankBorder(tank, b_out, b_in)) {
 		if (tank->hit_border(dir)) {
-			//lost = true;
+			lost = true;
 		}
 	}
-	if (entity_num == 1)
+	if (entity_num == 0)
 		won = true;
+
+	return 0;
 }
 
 void Game::pressKey(int key) {
@@ -192,13 +194,13 @@ void Game::checkMouse(int button, int state, int wheel, int direction, int x, in
 }
 
 bool Game::checkValidPosition(int i) {
-	if (checkCollisionBorder(entities[i], b_out, b_in))
+	if (checkSpawnCollisionBorder(entities[i], b_out, b_in))
 		return false;
 
 	for (int j = 0; j < i; j++) {
 		if (entities[j] == nullptr)
 			continue;
-		if (checkCollision(entities[i], entities[j])) {
+		if (checkSpawnCollision(entities[i], entities[j])) {
 			return false;
 		}
 	}
@@ -220,7 +222,7 @@ void Game::generateEntities() {
 			float barrelx, barrely;
 			barrelx = (float)(rand() % 1280);
 			barrely = (float)(rand() % 720);
-			entities[i] = new Barrel((Vector2){barrelx, barrely}, 24 + (rand() & 3));
+			entities[i] = new Barrel((Vector2){barrelx, barrely}, 24);
 			valid_position = checkValidPosition(i);
 		} while (!valid_position);
 	}

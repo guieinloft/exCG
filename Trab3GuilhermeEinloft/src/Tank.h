@@ -21,6 +21,8 @@ protected:
 	Vector2 cannon_pos;
 	int cooldown;
 	int invincibility;
+	bool knockback;
+	int knockback_dir;
 
 	bool super;
 	HealthBar sbar;
@@ -29,11 +31,12 @@ public:
 	Tank(Vector2 center);
 	void checkKeys(Keys keys);
 	void checkMouse(Mouse mouse, Entity *entities[]);
-	void render();
+	void render(bool show_hbar = true);
 	bool move(Vector2 target, float deltaTime, Entity **entities);
 	bool hit();
 	bool hit_border(int dir);
-	void hit_powerup(PowerupType type);
+	void hit_powerup(EntityType type);
+	void setPosition(float x, float y);
 };
 
 #endif

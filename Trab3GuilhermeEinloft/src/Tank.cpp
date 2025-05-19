@@ -13,7 +13,7 @@
 #define COOLDOWN 500
 #define INVINCIBILITY 500
 
-Tank::Tank(Vector2 center) : Entity(center, 8, ETYPE_TANK) {
+Tank::Tank(Vector2 center) : Entity(center, 48, 8, ETYPE_TANK) {
 	this->angle = 0;
 	this->c_angle = 0;
 
@@ -36,6 +36,8 @@ Tank::Tank(Vector2 center) : Entity(center, 8, ETYPE_TANK) {
 	this->cshape.size = 1;
 	this->cshape.poly = &body;
 
+	knockback = false;
+	knockback_dir = 0;
 	cooldown = 0;
 	
 	invincibility = INVINCIBILITY;
@@ -68,33 +70,36 @@ void Tank::checkMouse(Mouse mouse, Entity *entities[]) {
 	}
 }
 
-void Tank::render() {
+void Tank::render(bool show_hbar) {
 	CV::color(1.f, 1.f, 1.f);
-	if (invincibility <= 0)
+	if (invincibility <= 0 || !show_hbar) {
 		if (super)
 			CV::color(0.5f, 0.5f, 0.2f);
 		else
 			CV::color(0.2f, 0.5f, 0.2f);
+	}
 	body.fill();
-	if (invincibility <= 0)
+	if (invincibility <= 0 || !show_hbar) {
 		if (super)
 			CV::color(0.25f, 0.25f, 0.1f);
 		else
 			CV::color(0.1f, 0.25f, 0.1f);
+	}
 	CV::circleFill(center.x, center.y, 20, 16);
-	if (invincibility <= 0)
+	if (invincibility <= 0 || !show_hbar) {
 		if (super)
 			CV::color(0.75f, 0.75f, 0.3f);
 		else
 			CV::color(0.3f, 0.75f, 0.3f);
+	}
 	cannon.fill();
 
 	CV::color(0.3f, 0.3f, 0.75f);
 	for (int i = 0; i < sbar.health; i++)
 		CV::circle(center.x, center.y, 48 + i, 16);
 
-	hbar.render((Vector2){136, 24}, false, 32, 0.3f, 0.75f, 0.3f);
-	sbar.render((Vector2){328, 24}, false, 32, 0.3f, 0.3f, 0.75f);
+	hbar.render((Vector2){136, 24}, !show_hbar, 32, 0.3f, 0.75f, 0.3f);
+	sbar.render((Vector2){328, 24}, !show_hbar, 32, 0.3f, 0.3f, 0.75f);
 }
 
 bool Tank::move(Vector2 target, float deltaTime, Entity **entities) {
@@ -102,9 +107,15 @@ bool Tank::move(Vector2 target, float deltaTime, Entity **entities) {
 	cannon.rot(m_angle - c_angle, center);
 	c_angle = m_angle;
 
-	speed += T_SPEED_INC * (speed < T_SPEED) - T_SPEED_INC * (speed > T_SPEED);
-	float rspeed = speed * deltaTime;
-	Vector2 poschange(cos(angle) * rspeed, sin(angle) * rspeed);
+	if (knockback) {
+		speed = -2 * knockback_dir * T_SPEED * deltaTime;
+	} else {
+		speed += T_SPEED_INC * deltaTime * (speed < T_SPEED * deltaTime)
+			- T_SPEED_INC * deltaTime * (speed > T_SPEED * deltaTime);
+	}
+	knockback = false;
+
+	Vector2 poschange(cos(angle) * speed, sin(angle) * speed);
 	center += poschange;
 	body.move(poschange);
 	cannon.move(poschange);
@@ -117,7 +128,8 @@ bool Tank::move(Vector2 target, float deltaTime, Entity **entities) {
 }
 
 bool Tank::hit() {
-	speed = 0;
+	knockback = true;
+	knockback_dir = 0;
 	if (invincibility <= 0) {
 		if (sbar.health > 0)
 			sbar.health--;
@@ -129,7 +141,8 @@ bool Tank::hit() {
 }
 
 bool Tank::hit_border(int dir) {
-	speed = -2 * dir * T_SPEED;
+	knockback = true;
+	knockback_dir = dir;
 	if (invincibility <= 0) {
 		if (sbar.health > 0)
 			sbar.health--;
@@ -140,18 +153,29 @@ bool Tank::hit_border(int dir) {
 	return (hbar.health <= 0);
 }
 
-void Tank::hit_powerup(PowerupType type) {
+void Tank::hit_powerup(EntityType type) {
 	switch(type) {
-	case PWUP_SUPER:
+	case ETYPE_POWERUP_SUPER:
 		super = true;
 		break;
-	case PWUP_SHIELD:
+	case ETYPE_POWERUP_SHIELD:
 		sbar.health = 4;
 		break;
-	case PWUP_HEALTH:
+	case ETYPE_POWERUP_HEALTH:
 		hbar.health += 3;
 		if (hbar.health > hbar.max_health)
 			hbar.health = hbar.max_health;
 		break;
+	default:
+		break;
 	}
+}
+
+void Tank::setPosition(float x, float y) {
+	Vector2 new_center(x, y);
+	Vector2 poschange = new_center - center;
+	body.move(poschange);
+	cannon.move(poschange);
+	scircle.c = new_center;
+	center = new_center;
 }

@@ -18,9 +18,10 @@ protected:
 
 public:
 	Tower(Vector2 center, bool hard);
-	void render();
+	void render(bool show_hbar = true);
 	bool move(Vector2 target, float deltaTime, Entity **entities);
 	bool hit();
+	void setPosition(float x, float y);
 };
 
 #endif
