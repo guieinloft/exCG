@@ -9,7 +9,6 @@ Entity::Entity(Vector2 center, float radius, int max_health, EntityType type) {
 	this->type = type;
 	hbar.max_health = max_health;
 	hbar.health = max_health;
-	active = true;
 }
 
 Entity::~Entity() {
@@ -40,10 +39,6 @@ Vector2 Entity::getCenter() {
 
 Circle Entity::getSpawnCircle() {
 	return scircle;
-}
-
-bool Entity::isActive() {
-	return active;
 }
 
 EntityType Entity::getType() {

@@ -6,6 +6,7 @@
 
 class Explosion : public Entity {
 	protected:
+		//tempo de vida da explosao
 		int timer;
 	public:
 		Explosion(Vector2 pos, float radius, int damage);

@@ -5,10 +5,14 @@
 
 class HealthBar {
 public:
+	//vida atual
 	int health;
+	//vida maxima
 	int max_health;
 
 	HealthBar();
+	//renderiza com cor diferente
+	//hide = esconde se estiver com vida cheia
 	void render(Vector2 center, bool hide = true, int scale = 8,
 			float r = 0.3f, float g = 0.75f, float b = 0.3f);
 };

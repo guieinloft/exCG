@@ -7,8 +7,11 @@
 
 class Missile : public Entity {
 	protected:
+		//dano do missil
 		int damage;
+		//incremento de posicao a cada move
 		Vector2 pos_increment;
+		//tempo de vida do missil
 		int timer;
 	public:
 		Missile(Vector2 pos, float radius, int damage, float speed, float angle);

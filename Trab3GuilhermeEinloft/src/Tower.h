@@ -10,10 +10,15 @@
 
 class Tower : public Entity {
 protected:
+	//base da torre
 	Poly body;
+	//canhao
 	Poly cannon;
+	//angulo do canhao
 	float c_angle;
+	//posicao de spawn dos misseis
 	Vector2 cannon_pos;
+	//tempo entre misseis
 	int cooldown;
 
 public:

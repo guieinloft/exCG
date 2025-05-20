@@ -14,8 +14,6 @@ Chaser::Chaser(Vector2 pos, bool hard) :
 	cshape.poly = new Poly();
 	cshape.poly[0].createShape(pos, 32, 3);
 
-	birth = pos;
-
 	speed = 0.f;
 	angle = 0.f;
 	knockback = false;

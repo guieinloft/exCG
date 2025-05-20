@@ -110,6 +110,6 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 int main(void)
 {
 	srand(time(0));
-	CV::init(&screenWidth, &screenHeight, "PROJETO EM BRANCO");
+	CV::init(&screenWidth, &screenHeight, "Trabalho 3 - Guilherme Einloft");
 	CV::run();
 }

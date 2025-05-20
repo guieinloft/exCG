@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+//SEPARATING AXIS THEOREM
+//https://programmerart.weebly.com/separating-axis-theorem.html
 bool collide(Poly p, Poly q) {
 	bool colliding = true;
 	Vector2 *axis = (Vector2*)malloc(sizeof(Vector2) * (p.size + q.size));
@@ -47,6 +49,7 @@ bool collide(Poly p, Poly q) {
 	return colliding;
 }
 
+//colisao entre circulos
 bool collide_cc(Circle c, Circle d) {
 	Vector2 delta = c.c - d.c;
 	float distance = delta.x * delta.x + delta.y * delta.y;
@@ -56,6 +59,7 @@ bool collide_cc(Circle c, Circle d) {
 	return false;
 }
 
+//colisao entre linhas
 bool collide_ll(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4) {
 	float ua = ((p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x))
 		/ ((p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y));
@@ -66,6 +70,7 @@ bool collide_ll(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4) {
 	return false;
 }
 
+//colisao poligono x linha
 bool collide_pl(Poly p, Vector2 p1, Vector2 p2) {
 	for (int i = 0; i < p.size; i++) {
 		if (collide_ll(p.v[i], p.v[(i + 1) % p.size], p1, p2))
@@ -74,6 +79,7 @@ bool collide_pl(Poly p, Vector2 p1, Vector2 p2) {
 	return false;
 }
 
+//colisao circulo x linha
 bool collide_cl(Circle c, Vector2 a, Vector2 b) {
 	Vector2 d = b - a;
 	Vector2 f = a - c.c;

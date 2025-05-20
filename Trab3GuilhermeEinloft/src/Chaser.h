@@ -7,9 +7,11 @@
 
 class Chaser : public Entity {
 	protected:
+		//velocidade
 		float speed;
+		//angulo
 		float angle;
-		Vector2 birth;
+		//define se eh arremessado pra tras pos hit
 		bool knockback;
 	public:
 		Chaser(Vector2 pos, bool hard);

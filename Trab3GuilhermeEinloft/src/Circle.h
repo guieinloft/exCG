@@ -3,6 +3,7 @@
 
 #include "Vector2.h"
 
+//classe para usar nas colisoes
 class Circle {
 public:
 	Vector2 c;

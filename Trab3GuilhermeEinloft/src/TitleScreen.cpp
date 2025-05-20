@@ -197,8 +197,6 @@ int TitleScreen::checkMouse(int button, int state, int wheel, int direction,
 		return checkMouseEDIT();
 	case TS_DIFF:
 		return checkMouseDIFF();
-	case TS_EXIT:
-		return -1;
 	}
 	return 0;
 }
