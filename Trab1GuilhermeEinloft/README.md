@@ -40,3 +40,15 @@
 - Duas cores selecionáveis [extra não especificado]
 - Plano de fundo com padrão de transparência
 - Borda de camada [extra não especificado]
+
+## Imagens fornecidas:
+- geral.bmp (387x289)
+- jellybeans.bmp (256x256)
+- mandrill.bmp (512x512)
+- mushroom.bmp (16x16) (32bpp)
+- testimg.bmp (400x400)
+- tux.bmp (288x341) (32bpp)
+
+## Para abrir/salvar arquivo:
+- Imagem: *.bmp
+- Projeto: *.pcc ou *

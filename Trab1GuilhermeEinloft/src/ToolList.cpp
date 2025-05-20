@@ -16,13 +16,13 @@ ToolList::ToolList() {
         bt_list[i] = new Button(16 + (i % TL_W) * 32, 16 + (i / TL_W) * 48, 32, 32);
     }
     //load icons
-    bt_list[TOOL_PENCIL]->loadIcons("./T1/images/icons/pencil.bmp");
-    bt_list[TOOL_ERASER]->loadIcons("./T1/images/icons/eraser.bmp");
-    bt_list[TOOL_MOVE]->loadIcons("./T1/images/icons/move.bmp");
-    bt_list[TOOL_RESIZE]->loadIcons("./T1/images/icons/resize.bmp");
-    bt_list[TOOL_ROTATE]->loadIcons("./T1/images/icons/rotate.bmp");
-    bt_list[TOOL_FLIP]->loadIcons("./T1/images/icons/flip.bmp");
-    bt_list[TOOL_PICKER]->loadIcons("./T1/images/icons/picker.bmp");
+    bt_list[TOOL_PENCIL]->loadIcons("./Trab1GuilhermeEinloft/images/icons/pencil.bmp");
+    bt_list[TOOL_ERASER]->loadIcons("./Trab1GuilhermeEinloft/images/icons/eraser.bmp");
+    bt_list[TOOL_MOVE]->loadIcons("./Trab1GuilhermeEinloft/images/icons/move.bmp");
+    bt_list[TOOL_RESIZE]->loadIcons("./Trab1GuilhermeEinloft/images/icons/resize.bmp");
+    bt_list[TOOL_ROTATE]->loadIcons("./Trab1GuilhermeEinloft/images/icons/rotate.bmp");
+    bt_list[TOOL_FLIP]->loadIcons("./Trab1GuilhermeEinloft/images/icons/flip.bmp");
+    bt_list[TOOL_PICKER]->loadIcons("./Trab1GuilhermeEinloft/images/icons/picker.bmp");
     bt_selected = 0;
     bt_list[0]->select(true);
 }

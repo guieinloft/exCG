@@ -36,16 +36,16 @@ void EffHSLAdjust::apply(Image *image) {
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
             image->get_pixel(j, i, &(pixel.r), &(pixel.g), &(pixel.b), &(pixel.a));
-            pixel_hsl = rgb_to_hsl(pixel);
+            pixel_hsl = rgb_color_to_hsl_color(pixel);
             pixel_hsl.h = fmod(pixel_hsl.h + 360 + params[0], 360.0);
             pixel_hsl.s = truncate(pixel_hsl.s + params[1]/127.0, 0, 1);
             pixel_hsl.l = truncate(pixel_hsl.l + params[2]/127.0, 0, 1);
-            pixel = hsl_to_rgb(pixel_hsl);
+            pixel = hsl_color_to_rgb_color(pixel_hsl);
             image->put_pixel(j, i, pixel.r, pixel.g, pixel.b, pixel.a, false);
         }
     }
     */
-    //fiz isso pq no codeblocks não funcionava (vai entender bicho...)
+    //fiz isso pq no windows não funciona (vai entender bicho...)
     (void)image;
 }
 

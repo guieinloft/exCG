@@ -13,9 +13,9 @@ Pencil::Pencil(int sh) {
     sl_quality = new Slider(288, sh - 32);
     for (int i = 0; i < FORMAT_NUM; i++)
         bt_formats[i] = new Button(560 + i * 32, sh - 48, 32, 32);
-    bt_formats[FORMAT_CIRCLE]->loadIcons("./T1/images/icons/pencil_circle.bmp");
-    bt_formats[FORMAT_SQUARE]->loadIcons("./T1/images/icons/pencil_square.bmp");
-    bt_formats[FORMAT_DIAMOND]->loadIcons("./T1/images/icons/pencil_diamond.bmp");
+    bt_formats[FORMAT_CIRCLE]->loadIcons("./Trab1GuilhermeEinloft/images/icons/pencil_circle.bmp");
+    bt_formats[FORMAT_SQUARE]->loadIcons("./Trab1GuilhermeEinloft/images/icons/pencil_square.bmp");
+    bt_formats[FORMAT_DIAMOND]->loadIcons("./Trab1GuilhermeEinloft/images/icons/pencil_diamond.bmp");
     bt_formats[0]->select(true);
 }
 

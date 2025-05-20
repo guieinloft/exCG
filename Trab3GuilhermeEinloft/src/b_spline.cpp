@@ -6,10 +6,10 @@
 
 Vector2 b_spline_point(Vector2 points[], int n, float t, int i) {
 	Vector2 res(0, 0);
-	res += points[(i + 0) % n] * (pow(1 - t, 3) / 6); 
-	res += points[(i + 1) % n] * ((3 * pow(t, 3) - 6 * pow(t, 2) + 4) / 6); 
-	res += points[(i + 2) % n] * ((-3 * pow(t, 3) + 3 * pow(t, 2) + 3 * t + 1) / 6); 
-	res += points[(i + 3) % n] * (t * t * t / 6); 
+	res += points[(i + 0) % n] * (pow(1 - t, 3) / 6);
+	res += points[(i + 1) % n] * ((3 * pow(t, 3) - 6 * pow(t, 2) + 4) / 6);
+	res += points[(i + 2) % n] * ((-3 * pow(t, 3) + 3 * pow(t, 2) + 3 * t + 1) / 6);
+	res += points[(i + 3) % n] * (t * t * t / 6);
 	return res;
 }
 
@@ -34,7 +34,7 @@ void b_spline_draw(Vector2 b_out[B_SEG], Vector2 b_in[B_SEG]) {
 		CV::color(1, 1, 0);
 		if (i & 1) {
 			CV::line((b_out[i].x + b_in[i].x) * 0.5f,
-				(b_out[i].y + b_in[i].y) * 0.5f, 
+				(b_out[i].y + b_in[i].y) * 0.5f,
 				(b_out[(i + 1) & B_MASK].x + b_in[(i + 1) & B_MASK].x) * 0.5f,
 				(b_out[(i + 1) & B_MASK].y + b_in[(i + 1) & B_MASK].y) * 0.5f);
 		}
@@ -49,5 +49,9 @@ void b_spline_points_draw(Vector2 p_out[12], Vector2 p_in[12]) {
 		CV::line(p_in[i].x, p_in[i].y,
 			p_in[(i + 1) % 12].x, p_in[(i + 1) % 12].y);
 		CV::line(p_in[i].x, p_in[i].y, p_out[i].x, p_out[i].y);
+		CV::rectFill(p_in[i].x - 4, p_in[i].y - 4,
+               p_in[i].x + 4, p_in[i].y + 4);
+        CV::rectFill(p_out[i].x - 4, p_out[i].y - 4,
+               p_out[i].x + 4, p_out[i].y + 4);
 	}
 }

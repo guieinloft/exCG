@@ -6,7 +6,7 @@
 
 //ignora alpha, opacidade e blending entre camadas
 //trata o alpha como se fosse transparencia binaria
-#define FAST_RENDER 0
+#define FAST_RENDER 1
 
 class Canvas {
     public:

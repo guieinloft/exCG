@@ -10,7 +10,7 @@ float hue_to_rgb(float t1, float t2, float h) {
     return t2;
 }
 
-rgb_color hsl_to_rgb(hsl_color hsl) {
+rgb_color hsl_color_to_rgb_color(hsl_color hsl) {
     if (hsl.s == 0) {
         rgb_color rgb = {(uint8_t)(hsl.l * 255), (uint8_t)(hsl.l * 255), (uint8_t)(hsl.l * 255), (uint8_t)(hsl.a * 255)};
         return rgb;
@@ -24,10 +24,10 @@ rgb_color hsl_to_rgb(hsl_color hsl) {
     return rgb;
 }
 
-hsl_color rgb_to_hsl(rgb_color rgb) {
+hsl_color rgb_color_to_hsl_color(rgb_color rgb) {
     hsl_color hsl;
     float r = rgb.r/255.0, g = rgb.g/255.0, b = rgb.b/255.0;
-    
+
     float x_max = fmax(r, fmax(g, b));
     float x_min = fmin(r, fmin(g, b));
     float c = x_max - x_min;

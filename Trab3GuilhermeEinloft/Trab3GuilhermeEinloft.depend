@@ -1,0 +1,290 @@
+# depslib dependency file v1.0
+1747698888 source:c:\users\user\excg\trab3guilhermeeinloft\src\b_spline.cpp
+	"Vector2.h"
+	"gl_canvas2d.h"
+	"b_spline.h"
+	<math.h>
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\vector2.h
+	<stdio.h>
+	<math.h>
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1744075576 c:\users\user\excg\include\gl\glut.h
+	"freeglut_std.h"
+
+1744075576 c:\users\user\excg\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1744075576 c:\users\user\excg\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1747699977 c:\users\user\excg\trab3guilhermeeinloft\src\b_spline.h
+	"Vector2.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\barrel.cpp
+	"Vector2.h"
+	"gl_canvas2d.h"
+	"Barrel.h"
+	"Circle.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\barrel.h
+	"Vector2.h"
+	"Circle.h"
+	"Entity.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\circle.h
+	"Vector2.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\entity.h
+	"CollisionShape.h"
+	"Circle.h"
+	"HealthBar.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\collisionshape.h
+	"Poly.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\poly.h
+	"Vector2.h"
+	"gl_canvas2d.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\healthbar.h
+	"Vector2.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\button.cpp
+	"Button.h"
+	"gl_canvas2d.h"
+	"Image.h"
+	"Mouse.h"
+	<string.h>
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\button.h
+	"Image.h"
+	"Mouse.h"
+	<stdlib.h>
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\image.h
+	<stdint.h>
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\mouse.h
+
+1747699556 source:c:\users\user\excg\trab3guilhermeeinloft\src\chaser.cpp
+	"gl_canvas2d.h"
+	"Vector2.h"
+	"Chaser.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\chaser.h
+	"Vector2.h"
+	"Entity.h"
+	"Circle.h"
+
+1747699434 source:c:\users\user\excg\trab3guilhermeeinloft\src\collisions.cpp
+	"Vector2.h"
+	"Poly.h"
+	"Circle.h"
+	"b_spline.h"
+	"collisions.h"
+	"Entity.h"
+	"Explosion.h"
+	<stdlib.h>
+	<math.h>
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\collisions.h
+	"Poly.h"
+	"Circle.h"
+	"Vector2.h"
+	"Entity.h"
+	"Tank.h"
+	"Powerup.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\tank.h
+	"Vector2.h"
+	"Poly.h"
+	"Mouse.h"
+	"Keys.h"
+	"Missile.h"
+	"Entity.h"
+	"Powerup.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\keys.h
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\missile.h
+	"Vector2.h"
+	"Entity.h"
+	"Circle.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\powerup.h
+	"Vector2.h"
+	"Circle.h"
+	"Entity.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\explosion.h
+	"Vector2.h"
+	"Entity.h"
+
+1747698966 source:c:\users\user\excg\trab3guilhermeeinloft\src\editor.cpp
+	"Editor.h"
+	"Barrel.h"
+	"Chaser.h"
+	"Powerup.h"
+	"Tank.h"
+	"Tower.h"
+	"Vector2.h"
+	"gl_canvas2d.h"
+	"collisions.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\editor.h
+	"Button.h"
+	"Vector2.h"
+	"b_spline.h"
+	"Entity.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\tower.h
+	"Vector2.h"
+	"Poly.h"
+	"Mouse.h"
+	"Keys.h"
+	"Missile.h"
+	"Entity.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\entity.cpp
+	"Entity.h"
+	"Vector2.h"
+	"Explosion.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\explosion.cpp
+	"gl_canvas2d.h"
+	"Vector2.h"
+	"Explosion.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\framecontroller.cpp
+	<time.h>
+	<stdio.h>
+	"FrameController.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\framecontroller.h
+	<chrono>
+
+1747699864 source:c:\users\user\excg\trab3guilhermeeinloft\src\game.cpp
+	"Game.h"
+	"collisions.h"
+	"Tank.h"
+	"Barrel.h"
+	"Chaser.h"
+	"Tower.h"
+	"Powerup.h"
+	<stdlib.h>
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\game.h
+	"Entity.h"
+	"Tank.h"
+	"Mouse.h"
+	"Keys.h"
+	"FrameController.h"
+	"Vector2.h"
+	"b_spline.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\healthbar.cpp
+	"HealthBar.h"
+	"Vector2.h"
+	"gl_canvas2d.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\image.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<math.h>
+	"gl_canvas2d.h"
+	"Image.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\main.cpp
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	<time.h>
+	"gl_canvas2d.h"
+	"collisions.h"
+	"Game.h"
+	"TitleScreen.h"
+	"Editor.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\titlescreen.h
+	"Button.h"
+	"Textbox.h"
+	"Mouse.h"
+
+1747695312 c:\users\user\excg\trab3guilhermeeinloft\src\textbox.h
+	"Button.h"
+	"Mouse.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\missile.cpp
+	"gl_canvas2d.h"
+	"Vector2.h"
+	"Missile.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\poly.cpp
+	"Vector2.h"
+	"gl_canvas2d.h"
+	"Poly.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\powerup.cpp
+	"Vector2.h"
+	"gl_canvas2d.h"
+	"Powerup.h"
+	"Circle.h"
+
+1747699085 source:c:\users\user\excg\trab3guilhermeeinloft\src\tank.cpp
+	"Tank.h"
+	"Vector2.h"
+	"gl_canvas2d.h"
+	"Poly.h"
+	"Mouse.h"
+	"Keys.h"
+	"Entity.h"
+	"Powerup.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\textbox.cpp
+	"Textbox.h"
+	"Button.h"
+	"Mouse.h"
+	<string.h>
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\titlescreen.cpp
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"gl_canvas2d.h"
+	"TitleScreen.h"
+
+1747695312 source:c:\users\user\excg\trab3guilhermeeinloft\src\tower.cpp
+	"Tower.h"
+	"Vector2.h"
+	"gl_canvas2d.h"
+	"Poly.h"
+	"Mouse.h"
+	"Keys.h"
+	"Entity.h"
+

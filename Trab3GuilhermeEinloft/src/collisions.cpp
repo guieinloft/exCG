@@ -36,7 +36,7 @@ bool collide(Poly p, Poly q) {
 			float dot = axis[i].dot(q.v[j]);
 			if (dot > bmax) bmax = dot;
 			if (dot < bmin) bmin = dot;
-		
+
 		}
 		if (!((amin < bmax && amin > bmin) || (bmin < amax && bmin > amin))) {
 			colliding = false;
@@ -228,7 +228,7 @@ bool checkCollisionBorder(Entity *e1, Vector2 b_out[], Vector2 b_in[]) {
 	}
 	Poly tri;
 	tri.size = 3;
-	tri.v = (Vector2*)malloc(sizeof(Vector2));
+	tri.v = (Vector2*)malloc(sizeof(Vector2) * tri.size);
 	for (int i = 0; i < s1.size; i++) {
 		for (int j = 0; j < B_SEG; j++) {
 			tri.v[0] = b_out[j];
@@ -242,6 +242,7 @@ bool checkCollisionBorder(Entity *e1, Vector2 b_out[], Vector2 b_in[]) {
 		}
 	}
 	return true;
+	return false;
 }
 
 bool checkSpawnCollisionBorder(Entity *e1, Vector2 b_out[], Vector2 b_in[]) {

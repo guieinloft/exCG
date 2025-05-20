@@ -21,14 +21,14 @@ LayerList::LayerList(int x, int y) {
     this->n_layers = 0;
     for (int i = 0; i < 8; i++)
         optionButtons[i] = new Button(x + i * 32, y + 32 * MAX_LAYERS, 32, 32);
-    optionButtons[OPT_NEWLAYER]->loadIcons("./T1/images/icons/newlayer.bmp");
-    optionButtons[OPT_LAYERUP]->loadIcons("./T1/images/icons/layerup.bmp");
-    optionButtons[OPT_LAYERDOWN]->loadIcons("./T1/images/icons/layerdown.bmp");
-    optionButtons[OPT_LAYERDEL]->loadIcons("./T1/images/icons/layerdel.bmp");
-    optionButtons[OPT_LAYERCOPY]->loadIcons("./T1/images/icons/layercopy.bmp");
-    optionButtons[OPT_LAYERMRG]->loadIcons("./T1/images/icons/layermrg.bmp");
-    optionButtons[OPT_SAVEFILE]->loadIcons("./T1/images/icons/savefile.bmp");
-    optionButtons[OPT_LOADFILE]->loadIcons("./T1/images/icons/loadfile.bmp");
+    optionButtons[OPT_NEWLAYER]->loadIcons("./Trab1GuilhermeEinloft/images/icons/newlayer.bmp");
+    optionButtons[OPT_LAYERUP]->loadIcons("./Trab1GuilhermeEinloft/images/icons/layerup.bmp");
+    optionButtons[OPT_LAYERDOWN]->loadIcons("./Trab1GuilhermeEinloft/images/icons/layerdown.bmp");
+    optionButtons[OPT_LAYERDEL]->loadIcons("./Trab1GuilhermeEinloft/images/icons/layerdel.bmp");
+    optionButtons[OPT_LAYERCOPY]->loadIcons("./Trab1GuilhermeEinloft/images/icons/layercopy.bmp");
+    optionButtons[OPT_LAYERMRG]->loadIcons("./Trab1GuilhermeEinloft/images/icons/layermrg.bmp");
+    optionButtons[OPT_SAVEFILE]->loadIcons("./Trab1GuilhermeEinloft/images/icons/savefile.bmp");
+    optionButtons[OPT_LOADFILE]->loadIcons("./Trab1GuilhermeEinloft/images/icons/loadfile.bmp");
     this->newest_layer = 0;
     popup = 0;
     textbox = new Textbox(x, y + 32);
@@ -78,7 +78,7 @@ void LayerList::createLayer() {
     layers[n_layers] = new Layer(0, 0);
     layerButtons[n_layers] = new Button(x, y + 32 * (MAX_LAYERS - n_layers - 1), 256, 32);
     layerOpButtons[n_layers] = new Button(x + 228, y + 4 + 32 * (MAX_LAYERS - n_layers - 1), 24, 24);
-    layerOpButtons[n_layers]->loadIcons("./T1/images/icons/vis_on.bmp", "./T1/images/icons/vis_off.bmp");
+    layerOpButtons[n_layers]->loadIcons("./Trab1GuilhermeEinloft/images/icons/vis_on.bmp", "./Trab1GuilhermeEinloft/images/icons/vis_off.bmp");
     char layername[32];
     sprintf(layername, "CAMADA %d", newest_layer);
     layerButtons[n_layers]->changeText(layername);
@@ -96,12 +96,12 @@ void LayerList::moveLayer(int dir) {
     Button *tempbt = layerButtons[active_layer + dir];
     layerButtons[active_layer + dir] = layerButtons[active_layer];
     layerButtons[active_layer] = tempbt;
-    layerButtons[active_layer]->changePosition(x, y + 32 * (MAX_LAYERS - active_layer)); 
+    layerButtons[active_layer]->changePosition(x, y + 32 * (MAX_LAYERS - active_layer));
     layerButtons[active_layer + dir]->changePosition(x, y + 32 * (MAX_LAYERS - active_layer - dir));
     tempbt = layerOpButtons[active_layer + dir];
     layerOpButtons[active_layer + dir] = layerOpButtons[active_layer];
     layerOpButtons[active_layer] = tempbt;
-    layerOpButtons[active_layer]->changePosition(x + 228, y + 4 + 32 * (MAX_LAYERS - active_layer)); 
+    layerOpButtons[active_layer]->changePosition(x + 228, y + 4 + 32 * (MAX_LAYERS - active_layer));
     layerOpButtons[active_layer + dir]->changePosition(x + 228, y + 4 + 32 * (MAX_LAYERS - active_layer - dir));
     active_layer += dir;
 }
@@ -128,7 +128,7 @@ void LayerList::removeLayer() {
 }
 
 void LayerList::loadProject() {
-    char path[300] = "./T1/projects/";
+    char path[300] = "./Trab1GuilhermeEinloft/projects/";
     strcat(path, textbox->getText());
     if (strstr(path, ".pcc") == NULL)
         strcat(path, ".pcc");
@@ -146,7 +146,7 @@ void LayerList::loadProject() {
 }
 
 void LayerList::loadImage() {
-    char path[280] = "./T1/images/";
+    char path[280] = "./Trab1GuilhermeEinloft/images/";
     strcat(path, textbox->getText());
     if (n_layers >= MAX_LAYERS) return;
     createLayer();
@@ -155,7 +155,7 @@ void LayerList::loadImage() {
 }
 
 void LayerList::saveProject() {
-    char path[300] = "./T1/projects/";
+    char path[300] = "./Trab1GuilhermeEinloft/projects/";
     strcat(path, textbox->getText());
     if (strstr(path, ".pcc") == NULL)
         strcat(path, ".pcc");
@@ -169,7 +169,7 @@ void LayerList::saveProject() {
 }
 
 void LayerList::saveImage() {
-    char path[280] = "./T1/images/";
+    char path[280] = "./Trab1GuilhermeEinloft/images/";
     strcat(path, textbox->getText());
     Image *img = new Image();
     img->clear_image(640, 480);

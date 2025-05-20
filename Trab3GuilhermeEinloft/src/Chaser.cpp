@@ -3,7 +3,7 @@
 #include "Chaser.h"
 
 #define C_SPEED 0.25f
-#define C_SPEED_INC 0.015625f
+#define C_SPEED_INC 0.00390625f
 #define C_ANGLE_INC 0.0245436926
 #define C_TGT_DISTANCE 131072
 #define C_BIRTH_DISTANCE 512

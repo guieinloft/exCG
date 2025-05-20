@@ -8,10 +8,14 @@
 #include "Powerup.h"
 
 #define T_SPEED 0.0625f
-#define T_SPEED_INC 0.0078125f
+#define T_SPEED_INC 0.001953125f
 #define T_ANGLE_INC 0.0021816616f
 #define COOLDOWN 500
 #define INVINCIBILITY 500
+
+inline int sign(int a) {
+    return (a > 0) - (a < 0);
+}
 
 Tank::Tank(Vector2 center) : Entity(center, 48, 8, ETYPE_TANK) {
 	this->angle = 0;
@@ -39,7 +43,9 @@ Tank::Tank(Vector2 center) : Entity(center, 48, 8, ETYPE_TANK) {
 	knockback = false;
 	knockback_dir = 0;
 	cooldown = 0;
-	
+
+	speed = 0;
+
 	invincibility = INVINCIBILITY;
 
 	super = false;
@@ -108,7 +114,7 @@ bool Tank::move(Vector2 target, float deltaTime, Entity **entities) {
 	c_angle = m_angle;
 
 	if (knockback) {
-		speed = -2 * knockback_dir * T_SPEED * deltaTime;
+		speed = -2 * sign(knockback_dir) * T_SPEED * deltaTime;
 	} else {
 		speed += T_SPEED_INC * deltaTime * (speed < T_SPEED * deltaTime)
 			- T_SPEED_INC * deltaTime * (speed > T_SPEED * deltaTime);

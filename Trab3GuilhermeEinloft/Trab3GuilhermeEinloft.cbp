@@ -38,17 +38,59 @@
 		</Compiler>
 		<Linker>
 			<Add library="../lib/libfreeglut32.a" />
-			<Add library="../lib/libopengl32.a"/>
-			<Add library="../lib/libglu32.a"/>
+			<Add library="../lib/libopengl32.a" />
+			<Add library="../lib/libglu32.a" />
 		</Linker>
-		<Unit filename="src/Bola.h" />
-		<Unit filename="src/Botao.h" />
-		<Unit filename="src/Relogio.cpp" />
-		<Unit filename="src/Relogio.h" />
+		<Unit filename="src/Barrel.cpp" />
+		<Unit filename="src/Barrel.h" />
+		<Unit filename="src/Button.cpp" />
+		<Unit filename="src/Button.h" />
+		<Unit filename="src/Chaser.cpp" />
+		<Unit filename="src/Chaser.h" />
+		<Unit filename="src/Circle.h" />
+		<Unit filename="src/CollisionShape.h" />
+		<Unit filename="src/Editor.cpp" />
+		<Unit filename="src/Editor.h" />
+		<Unit filename="src/Entity.cpp" />
+		<Unit filename="src/Entity.h" />
+		<Unit filename="src/Explosion.cpp" />
+		<Unit filename="src/Explosion.h" />
+		<Unit filename="src/FrameController.cpp" />
+		<Unit filename="src/FrameController.h" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Game.h" />
+		<Unit filename="src/HealthBar.cpp" />
+		<Unit filename="src/HealthBar.h" />
+		<Unit filename="src/Image.cpp" />
+		<Unit filename="src/Image.h" />
+		<Unit filename="src/Keys.h" />
+		<Unit filename="src/Missile.cpp" />
+		<Unit filename="src/Missile.h" />
+		<Unit filename="src/Mouse.h" />
+		<Unit filename="src/Poly.cpp" />
+		<Unit filename="src/Poly.h" />
+		<Unit filename="src/Powerup.cpp" />
+		<Unit filename="src/Powerup.h" />
+		<Unit filename="src/Tank.cpp" />
+		<Unit filename="src/Tank.h" />
+		<Unit filename="src/Textbox.cpp" />
+		<Unit filename="src/Textbox.h" />
+		<Unit filename="src/TitleScreen.cpp" />
+		<Unit filename="src/TitleScreen.h" />
+		<Unit filename="src/Tower.cpp" />
+		<Unit filename="src/Tower.h" />
 		<Unit filename="src/Vector2.h" />
+		<Unit filename="src/b_spline.cpp" />
+		<Unit filename="src/b_spline.h" />
+		<Unit filename="src/collisions.cpp" />
+		<Unit filename="src/collisions.h" />
 		<Unit filename="src/gl_canvas2d.cpp" />
 		<Unit filename="src/gl_canvas2d.h" />
 		<Unit filename="src/main.cpp" />
-
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

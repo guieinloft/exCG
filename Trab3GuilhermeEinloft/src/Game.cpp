@@ -8,8 +8,6 @@
 
 #include <stdlib.h>
 
-#define GENERATE_INTERVAL 1000
-
 Game::Game() {
 }
 
@@ -75,32 +73,42 @@ int Game::update() {
 	sprintf(score_str, "PONTOS: %d", score * 100);
 	CV::text(10, 64, score_str);
 	if (paused) {
-		CV::text(10, 48, "PAUSADO");
+		CV::text(10, 24, "PAUSADO");
+        CV::text(10, 48, "PRESSIONE ENTER");
 		return lost || won;
 	} else if (lost) {
-		CV::text(10, 48, "VOCE PERDEU!");
+		CV::text(10, 24, "VOCE PERDEU!");
+		CV::text(10, 48, "PRESSIONE ENTER");
 		return 0;
 	} else if (won) {
-		CV::text(10, 48, "VOCE GANHOU!");
+		CV::text(10, 24, "VOCE GANHOU!");
+		CV::text(10, 48, "PRESSIONE ENTER");
 		return 0;
 	}
 	for (int i = 0; i < ENTITY_NUM; i++) {
 		if (entities[i] == nullptr)
 			continue;
 		entities[i]->render();
-		if (entities[i]->move(tank->getCenter(), deltaTime, entities))
-			entity_remove(entities, i, &score, &entity_num);
 	}
-	checkCollisions(entities, &score, &entity_num);
-	checkCollisionsBorder(entities, b_out, b_in, &score, &entity_num);
-	if (checkTankCollisions(tank, entities, &score, &entity_num)) {
-		lost = true;
+	for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < ENTITY_NUM; i++) {
+            if (entities[i] == nullptr)
+                continue;
+            if (entities[i]->move(tank->getCenter(), deltaTime/4, entities))
+                entity_remove(entities, i, &score, &entity_num);
+        }
+        checkCollisions(entities, &score, &entity_num);
+        checkCollisionsBorder(entities, b_out, b_in, &score, &entity_num);
+        if (checkTankCollisions(tank, entities, &score, &entity_num)) {
+            lost = true;
+        }
+        if (int dir = collideTankBorder(tank, b_out, b_in)) {
+            if (tank->hit_border(dir)) {
+                lost = true;
+            }
+        }
 	}
-	if (int dir = collideTankBorder(tank, b_out, b_in)) {
-		if (tank->hit_border(dir)) {
-			lost = true;
-		}
-	}
+
 	if (entity_num == 0)
 		won = true;
 

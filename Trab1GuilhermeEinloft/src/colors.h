@@ -23,8 +23,8 @@ typedef struct rgb_color_t rgb_color;
 typedef struct hsl_color_t hsl_color;
 
 //transforma de hsl pra rgb
-rgb_color hsl_to_rgb(hsl_color hsl);
+rgb_color hsl_color_to_rgb_color(hsl_color hsl);
 //transforma de rgb pra hsl
-hsl_color rgb_to_hsl(rgb_color rgb);
+hsl_color rgb_color_to_hsl_color(rgb_color rgb);
 
 #endif

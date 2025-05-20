@@ -22,7 +22,7 @@ Editor::Editor() {
 	bt_back = new Button(1240, 8, 32, 32);
 	bt_back->loadIcons("Trab3GuilhermeEinloft/images/bt_back.bmp");
 
-	for (int i = 0; i < ETYPE_FIXED_NUM; i++) 
+	for (int i = 0; i < ETYPE_FIXED_NUM; i++)
 		bt_add_entities[i] = new Button(8 + i * 40, 8, 32, 32);
 
 	bt_add_entities[ETYPE_BARREL]->loadIcons("Trab3GuilhermeEinloft/images/bt_add_barrel.bmp");
@@ -217,7 +217,7 @@ bool Editor::movePointOuter() {
 		}
 		if (i == 12) {
 			curPointOuter = -1;
-		} 
+		}
 	}
 	if (mouse.l && curPointOuter != -1) {
 		p_out[curPointOuter].set(mouse.x, mouse.y);
@@ -245,7 +245,7 @@ bool Editor::movePointInner() {
 		}
 		if (i == 12) {
 			curPointInner = -1;
-		} 
+		}
 	}
 	if (mouse.l && curPointInner != -1) {
 		p_in[curPointInner].set(mouse.x, mouse.y);
@@ -262,7 +262,7 @@ int Editor::update_main() {
 	bt_edit->Render();
 	bt_add->Render();
 	bt_remove->Render();
-	
+
 	bt_save->Render();
 	bt_back->Render();
 
@@ -294,7 +294,7 @@ int Editor::update_add() {
 	for (int i = 0; i < ETYPE_FIXED_NUM; i++) {
 		bt_add_entities[i]->Render();
 	}
-	
+
 	bt_back->Render();
 
 	if (bt_back->checkClick(mouse) == 1) {
@@ -317,7 +317,7 @@ int Editor::update_add() {
 		return 0;
 	if (mouse.button == 0 && mouse.state == 0)
 		addEntity();
-	
+
 	return 0;
 }
 
@@ -326,6 +326,8 @@ int Editor::update_edit() {
 	if (bt_back->checkClick(mouse) == 1) {
 		strcpy(errortext, "");
 		curMenu = 0;
+		b_spline_generate(p_out, 12, b_out);
+        b_spline_generate(p_in, 12, b_in);
 		return 0;
 	}
 	if (moveEntity())
@@ -334,7 +336,7 @@ int Editor::update_edit() {
 		return 0;
 	if (movePointInner())
 		return 0;
-		
+
 	return 0;
 }
 
@@ -346,7 +348,7 @@ int Editor::update_remove() {
 		return 0;
 	}
 	removeEntity();
-	
+
 	return 0;
 }
 
@@ -366,7 +368,7 @@ int Editor::update() {
 	CV::color(1, 1, 1);
 	CV::text(900, 20, errortext);
 
-	int ret;
+	int ret = 0;
 	switch (curMenu) {
 	case 0:
 		ret = update_main();
