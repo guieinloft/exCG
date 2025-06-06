@@ -1,0 +1,63 @@
+#include <stdlib.h>
+#include "gl_canvas2d.h"
+#include "Vector2.h"
+#include "bezier.h"
+
+inline int sign(float a)
+{
+	return (a > 0) - (a < 0);
+}
+
+void plot_curve(Vector2 points[MAX_RES], int size)
+{
+	for (int i = 0; i < size - 1; i++) {
+		if (sign(points[i].x) != sign(points[i + 1].x))
+			CV::color(1, 0, 0);
+		else
+			CV::color(0, 0, 1);
+		CV::line(points[i].x, points[i].y,
+				points[i + 1].x, points[i + 1].y);
+	}
+}
+
+void plot_points(Vector2 points[MAX_RES], int size)
+{
+	CV::color(0, 1, 0);
+	for (int i = 0; i < size - 1; i++) {
+		CV::rectFill(points[i].x - 4, points[i].y - 4,
+				points[i].x + 4, points[i].y + 4);
+		CV::line(points[i].x, points[i].y,
+				points[i + 1].x, points[i + 1].y);
+	}
+	CV::rectFill(points[size - 1].x - 4, points[size - 1].y - 4,
+			points[size - 1].x + 4, points[size - 1].y + 4);
+}
+
+void change_point(Vector2 *point, float x, float y)
+{
+	point->set(x, y);
+}
+
+Vector2 evaluate_point(Vector2 points[MAX_RES], int pnum, float t)
+{
+    Vector2 *tmp = (Vector2*)malloc(sizeof(Vector2) * pnum);
+    memcpy(tmp, points, pnum * sizeof(Vector2));
+    for (int i = pnum - 1; i > 0; i--) {
+        for (int k = 0; k < i; k++)
+            tmp[k] = tmp[k] + (tmp[k+1] - tmp[k]) * t;
+    }
+    Vector2 res = tmp[0];
+    free(tmp);
+    return res;
+}
+
+void evaluate_curve(Vector2 points[MAX_RES], int pnum,
+		Vector2 bezier[MAX_RES], int bnum)
+{
+	bnum--;
+	for (int i = 0; i <= bnum; i++) {
+		float t = (float)i / bnum;
+		printf("\n%d %f", i, t);
+		bezier[i] = evaluate_point(points, pnum, t);
+	}
+}
