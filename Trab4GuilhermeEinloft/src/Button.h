@@ -8,10 +8,8 @@
 class Button {
     public:
     //construtor (cria um botão de largura w e h na pos (x,y)
-    Button(int x, int y, int w, int h);
-    //verifica se o botão foi clicado
-    //obs: não seleciona o botão, o botão deve selecionado na função
-    //chamadora, pois depende do contexto
+    Button(int x, int y, int w, int h, bool sticky = 0);
+    //verifica se o botão foi clicado e seleciona de acordo
     int checkClick(Mouse mouse);
     //mostra o botão na tela
     void Render();
@@ -19,7 +17,7 @@ class Button {
     bool isPressed();
     //retorna se está selecionado
     bool isSelected();
-    //seleciona/desseleciona o botão (usar após o método checkClick)
+    //seleciona/desseleciona o botão
     void select(bool s);
     //muda ícone caso o botão tenha 2 ícones
     void changeIcon();
@@ -48,6 +46,8 @@ class Button {
     //true se o mouse está em cima do botão, c.c. falso
     //útil apenas para o método Render
     bool hovered;
+    //true se botao fica selecionado após largar o mouse
+    bool sticky;
 };
 
 #endif

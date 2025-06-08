@@ -57,7 +57,6 @@ void evaluate_curve(Vector2 points[MAX_RES], int pnum,
 	bnum--;
 	for (int i = 0; i <= bnum; i++) {
 		float t = (float)i / bnum;
-		printf("\n%d %f", i, t);
 		bezier[i] = evaluate_point(points, pnum, t);
 	}
 }

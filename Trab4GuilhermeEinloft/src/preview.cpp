@@ -8,61 +8,92 @@
 #include "Keys.h"
 #include "Button.h"
 
-Vector3 t(0, 0, 2);
+#define INIT_Z 1.5
+
+Vector3 t(0, 0, INIT_Z);
 Vector3 ang(0, 0, 0);
-Vector3 t_inc(0, 0, 0);
-Vector3 ang_inc(0, 0, 0);
 bool perp = 1;
+bool culling = 0;
+bool show_normals = 0;
+
+Vector3 normals[MAX_RES][MAX_RES][2];
+Vector2 normals_proj[MAX_RES][MAX_RES][2];
 
 Button bt_reset_ang(0, 0, 256, 32);
 Button bt_reset_t(0, 0, 256, 32);
 Button bt_perp(0, 0, 256, 32);
+Button bt_normals(0, 0, 256, 32);
+Button bt_culling(0, 0, 256, 32);
 
-void prev_render(Vector3 in[MAX_RES][MAX_RES], Vector2 out[MAX_RES][MAX_RES],
+void prev_render(Vector3 in[MAX_RES][MAX_RES],
+		Vector3 out[MAX_RES][MAX_RES],
+		Vector2 out_proj[MAX_RES][MAX_RES],
 		int m, int n, int d, int screenW, int screenH)
 {
+	transform_surface(in, out, m, n, t, ang);
+	project_surface(out, out_proj, m, n, d, perp);
+	generate_normals(out, normals, m, n);
+	project_normals(out, normals, normals_proj, m, n, d, perp);
 	CV::color(0, 0, 0);
-	Vector3 p;
-	for (int i = 0; i < m; i++) {
-		for (int j = 0; j < n; j++) {
-			p = in[i][j];
-			p = rotate(p, ang);
-			p = translate(p, t);
-			if (perp)
-				out[i][j] = proj_perp(p, d);
-			else
-				out[i][j] = proj_ortho(p, d);
-		}
-	}
-	draw_surface(out, m, n);
-	t += t_inc;
-	ang += ang_inc;
+	if (culling)
+		draw_surface_culled(out_proj, m, n);
+	else
+		draw_surface(out_proj, m, n);
+	CV::color(0.5, 0.5, 0.5);
+	if (show_normals)
+		draw_normals(out_proj, normals_proj, m, n);
 	bt_reset_ang.changePosition(-screenW/2 + 4, screenH/2 - 36);
 	bt_reset_ang.Render();
 	bt_reset_t.changePosition(-screenW/2 + 4, screenH/2 - 72);
 	bt_reset_t.Render();
 	bt_perp.changePosition(-screenW/2 + 4, screenH/2 - 108);
 	bt_perp.Render();
+	bt_normals.changePosition(-screenW/2 + 4, screenH/2 - 144);
+	bt_normals.Render();
+	bt_culling.changePosition(-screenW/2 + 4, screenH/2 - 180);
+	bt_culling.Render();
 }
 
-void prev_check_keys(Keys keys)
+void prev_check_keypress(int key, bool shift, bool ctrl)
 {
-	ang_inc.set(0, 0, 0);
-	t_inc.set(0, 0, 0);
-	if (keys.shift) {
-		if (keys.k_left) ang_inc.z -= 0.015625;
-		if (keys.k_right) ang_inc.z += 0.015625;
-		if (keys.k_up) ang_inc.x -= 0.015625;
-		if (keys.k_down) ang_inc.x += 0.015625;
-		if (keys.k_pgup) ang_inc.y -= 0.015625;
-		if (keys.k_pgdown) ang_inc.y += 0.015625;
-	} else {
-		if (keys.k_left) t_inc.x -= 0.015625;
-		if (keys.k_right) t_inc.x += 0.015625;
-		if (keys.k_up) t_inc.y -= 0.015625;
-		if (keys.k_down) t_inc.y += 0.015625;
-		if (keys.k_pgup) t_inc.z -= 0.015625;
-		if (keys.k_pgdown) t_inc.z += 0.015625;
+	switch (key) {
+	case 200: // left
+		if (shift) ang.z -= 0.1;
+		else t.x -= 0.1;
+		break;
+	case 201: // up
+		if (shift) ang.x -= 0.1;
+		else t.y -= 0.1;
+		break;
+	case 202: // right
+		if (shift) ang.z += 0.1;
+		else t.x += 0.1;
+		break;
+	case 203: // down
+		if (shift) ang.x += 0.1;
+		else t.y += 0.1;
+		break;
+	case 204: // pgup
+		if (shift) ang.y -= 0.1;
+		else t.z -= 0.1;
+		break;
+	case 205: // pgdown
+		if (shift) ang.y += 0.1;
+		else t.z += 0.1;
+		break;
+	case 'p':
+		perp = !perp;
+		if (perp)
+			bt_perp.changeText("PROJ. ORTOGRAFICA");
+		else
+			bt_perp.changeText("PROJ. PERSPECTIVA");
+		break;
+	case 'r':
+		t.set(0, 0, INIT_Z);
+		break;
+	case 'R':
+		ang.set(0, 0, 0);
+		break;
 	}
 }
 
@@ -73,7 +104,7 @@ void prev_check_mouse(Mouse mouse)
 		ang.set(0, 0, 0);
 	bt_reset_t.checkClick(mouse);
 	if (bt_reset_t.isSelected())
-		t.set(0, 0, 2);
+		t.set(0, 0, INIT_Z);
 	bt_perp.checkClick(mouse);
 	if (bt_perp.isSelected()) {
 		perp = !perp;
@@ -82,10 +113,28 @@ void prev_check_mouse(Mouse mouse)
 		else
 			bt_perp.changeText("PROJ. PERSPECTIVA");
 	}
+	bt_normals.checkClick(mouse);
+	if (bt_normals.isSelected()) {
+		show_normals = !show_normals;
+		if (show_normals)
+			bt_normals.changeText("OCULTAR NORMAIS");
+		else
+			bt_normals.changeText("MOSTRAR NORMAIS");
+	}
+	bt_culling.checkClick(mouse);
+	if (bt_culling.isSelected()) {
+		culling = !culling;
+		if (culling)
+			bt_culling.changeText("DESATIVAR CULLING");
+		else
+			bt_culling.changeText("ATIVAR CULLING");
+	}
 }
 
 void prev_init() {
 	bt_reset_ang.changeText("RESETAR ANGULO");
 	bt_reset_t.changeText("RESETAR TRANSLACAO");
 	bt_perp.changeText("PROJ. ORTOGRAFICA");
+	bt_normals.changeText("MOSTRAR NORMAIS");
+	bt_culling.changeText("ATIVAR CULLING");
 }
