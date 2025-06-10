@@ -171,26 +171,34 @@ void project_surface(Vector3 in[MAX_RES][MAX_RES],
 	}
 }
 
-void generate_normals(Vector3 in[MAX_RES][MAX_RES],
+void generate_face_normals(Vector3 in[MAX_RES][MAX_RES],
 		Vector3 normals[MAX_RES][MAX_RES][2],
 		int m, int n)
 {
 	Vector3 edge1, edge2;
 	for (int i = 0; i < m - 1; i++) {
 		for (int j = 0; j < n - 1; j++) {
-			edge1 = in[i][j] - in[i + 1][j];
-			edge2 = in[i + 1][j + 1] - in[i + 1][j];
-			normals[i][j][0] = edge1.cross(edge2);
-			normals[i][j][0].normalize();
-			edge1 = in[i][j] - in[i][j + 1];
-			edge2 = in[i + 1][j + 1] - in[i][j + 1];
-			normals[i][j][1] = edge2.cross(edge1);
-			normals[i][j][1].normalize();
+			if (in[i][j] == in[i + 1][j]) {
+				normals[i][j][0].set(0, 0, 0);
+			} else {
+				edge1 = in[i][j] - in[i + 1][j];
+				edge2 = in[i + 1][j + 1] - in[i + 1][j];
+				normals[i][j][0] = edge1.cross(edge2);
+				normals[i][j][0].normalize();
+			}
+			if (in[i][j + 1] == in[i + 1][j + 1]) {
+				normals[i][j][1].set(0, 0, 0);
+			} else {
+				edge1 = in[i][j] - in[i][j + 1];
+				edge2 = in[i + 1][j + 1] - in[i][j + 1];
+				normals[i][j][1] = edge2.cross(edge1);
+				normals[i][j][1].normalize();
+			}
 		}
 	}
 }
 
-void project_normals(Vector3 out[MAX_RES][MAX_RES],
+void project_face_normals(Vector3 out[MAX_RES][MAX_RES],
 		Vector3 normals[MAX_RES][MAX_RES][2],
 		Vector3 normals_proj[MAX_RES][MAX_RES][2],
 		int m, int n, int d, bool perp)
@@ -223,7 +231,7 @@ void project_normals(Vector3 out[MAX_RES][MAX_RES],
 	}
 }
 
-void draw_normals_culled(Vector3 out_proj[MAX_RES][MAX_RES],
+void draw_face_normals_culled(Vector3 out_proj[MAX_RES][MAX_RES],
 		Vector3 normals_proj[MAX_RES][MAX_RES][2], int m, int n)
 {
 	Vector3 midpoint;
@@ -253,7 +261,7 @@ void draw_normals_culled(Vector3 out_proj[MAX_RES][MAX_RES],
 	}
 }
 
-void draw_normals(Vector3 out_proj[MAX_RES][MAX_RES],
+void draw_face_normals(Vector3 out_proj[MAX_RES][MAX_RES],
 		Vector3 normals_proj[MAX_RES][MAX_RES][2], int m, int n)
 {
 	Vector3 midpoint;
@@ -273,22 +281,124 @@ void draw_normals(Vector3 out_proj[MAX_RES][MAX_RES],
 	}
 }
 
+void generate_vertex_normals(Vector3 normals[MAX_RES][MAX_RES][2],
+		Vector3 v_normals[MAX_RES][MAX_RES], int m, int n)
+{
+	/*
+	for (int j = 0; j < n; j++) {
+		v_normals[0][j] =
+			normals[0][j][0] +
+			normals[0][j][1] +
+			normals[0][(j - 1 + n) % n][0] +
+			normals[0][(j - 1 + n) % n][1] +
+			normals[m - 2][j][0] +
+			normals[m - 2][j][1] +
+			normals[m - 2][(j - 1 + n) % n][0] +
+			normals[m - 2][(j - 1 + n) % n][1];
+		v_normals[0][j].normalize();
+	}
+	for (int i = 1; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			v_normals[i][j] =
+				normals[i % (m - 1)][j][0] +
+				normals[i % (m - 1)][j][1] +
+				normals[i % (m - 1)][(j - 1 + n) % n][0] +
+				normals[i % (m - 1)][(j - 1 + n) % n][1] +
+				normals[i - 1 % m][j][0] +
+				normals[i - 1 % m][j][1] +
+				normals[i - 1 % m][(j - 1 + n) % n][0] +
+				normals[i - 1 % m][(j - 1 + n) % n][1];
+			v_normals[i][j].normalize();
+		}
+	}
+	*/
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < (n - 1); j++) {
+			v_normals[i][j] =
+					normals[i % (m - 1)][j % (n - 1)][0] +
+					normals[i % (m - 1)][j % (n - 1)][1] +
+					normals[i % (m - 1)][(j - 1 + n) % (n - 1)][0] +
+					normals[i % (m - 1)][(j - 1 + n) % (n - 1)][1] +
+					normals[(i - 1 + m) % (m - 1)][j % (n - 1)][0] +
+					normals[(i - 1 + m) % (m - 1)][j % (n - 1)][1] +
+					normals[(i - 1 + m) % (m - 1)][(j - 1 + n) % (n - 1)][0] +
+					normals[(i - 1 + m) % (m - 1)][(j - 1 + n) % (n - 1)][1];
+			v_normals[i][j].normalize();
+		}
+	}
+	for (int i = 0; i < m; i++) {
+		v_normals[i][n - 1] =
+				normals[i % (m - 1)][n - 2][0] +
+				normals[i % (m - 1)][n - 2][1] +
+				normals[(i - 1 + m) % (m - 1)][n - 2][0] +
+				normals[(i - 1 + m) % (m - 1)][n - 2][1];
+		v_normals[i][n - 1].normalize();
+	}
+}
+
+void project_vertex_normals(Vector3 out[MAX_RES][MAX_RES],
+		Vector3 normals[MAX_RES][MAX_RES],
+		Vector3 normals_proj[MAX_RES][MAX_RES],
+		int m, int n, int d, bool perp)
+{
+	for (int i = 0; i < m - 1; i++) {
+		for (int j = 0; j < n - 1; j++) {
+			if (perp) {
+				normals_proj[i][j] = proj_perp(
+						out[i][j] + normals[i][j] * 0.1,
+						d);
+			}
+			else {
+				normals_proj[i][j] = proj_ortho(
+						out[i][j] + normals[i][j] * 0.1,
+						d);
+			}
+		}
+	}
+}
+
+void draw_vertex_normals(Vector3 out_proj[MAX_RES][MAX_RES],
+		Vector3 normals_proj[MAX_RES][MAX_RES], int m, int n)
+{
+	Vector3 midpoint;
+	for (int i = 0; i < m - 1; i++) {
+		for (int j = 0; j < n; j++) {
+			CV::line(out_proj[i][j].x, out_proj[i][j].y,
+					normals_proj[i][j].x,
+					normals_proj[i][j].y);
+		}
+	}
+}
+
 Vector2 find_min_point(Vector3 a, Vector3 b, Vector3 c)
 {
-	Vector2 point(fmin(a.x, fmin(b.x, c.x)), fmin(a.y, fmin(b.y, c.y)));
+	Vector2 point(fmax(fmin(a.x, fmin(b.x, c.x)), -MAX_SW / 2),
+			fmax(fmin(a.y, fmin(b.y, c.y)), -MAX_SH / 2));
 	return point;
 }
 
 Vector2 find_max_point(Vector3 a, Vector3 b, Vector3 c)
 {
-	Vector2 point(fmax(a.x, fmax(b.x, c.x)), fmax(a.y, fmax(b.y, c.y)));
+	Vector2 point(fmin(fmax(a.x, fmax(b.x, c.x)), MAX_SW / 2), 
+			fmin(fmax(a.y, fmax(b.y, c.y)), MAX_SH / 2));
 	return point;
 }
 
+float calc_light(Vector3 normal, float depth, Vector3 light_source)
+{
+	normal.normalize();
+	Vector3 light_dir = light_source - Vector3(0, 0, depth);
+	light_dir.normalize();
+	float light_intensity = (normal.dot(light_dir) + 1) * 0.5;
+	return light_intensity;
+}
+
 void update_tri_z_buffer(Vector3 a, Vector3 b, Vector3 c,
-		float z_depth[MAX_SW][MAX_SH])
+		Vector3 an, Vector3 bn, Vector3 cn, Vector3 light_source,
+		float z_depth[MAX_SW][MAX_SH], float colors[MAX_SW][MAX_SH])
 {
 	Vector3 weights;
+	Vector3 normal;
 	Vector3 depths(a.z, b.z, c.z);
 	Vector2 p1, p2;
 	p1 = find_min_point(a, b, c);
@@ -302,24 +412,43 @@ void update_tri_z_buffer(Vector3 a, Vector3 b, Vector3 c,
 				continue;
 			if (point_in_triangle(a, b, c, Vector3(x, y, 0),
 					&weights)) {
+				normal.set(0, 0, 0);
 				float depth = depths.dot(weights);
-				if (depth < z_depth[x_adj][y_adj])
-					z_depth[x_adj][y_adj] = depth;
+				if (depth > z_depth[x_adj][y_adj])
+					continue;
+				z_depth[x_adj][y_adj] = depth;
+				normal += an * weights.x;
+				normal += bn * weights.y;
+				normal += cn * weights.z;
+				float a_color = calc_light(an, a.z, light_source);
+				float b_color = calc_light(bn, b.z, light_source);
+				float c_color = calc_light(cn, c.z, light_source);
+				colors[x_adj][y_adj] = a_color * weights.x +
+						b_color * weights.y +
+						c_color * weights.z;
 			}
 		}
 	}
 }
 
-void update_z_buffer(Vector3 v[MAX_RES][MAX_RES], int m, int n,
-		float z_depth[MAX_SW][MAX_SH])
+void update_z_buffer(Vector3 v[MAX_RES][MAX_RES], Vector3 vn[MAX_RES][MAX_RES],
+		int m, int n, float z_depth[MAX_SW][MAX_SH],
+		float colors[MAX_SW][MAX_SH], Vector3 light_source)
 {
 	memset(z_depth, 0x7f, sizeof(float) * MAX_SW * MAX_SH);
+	memset(colors, 0x7f, sizeof(float) * MAX_SW * MAX_SH);
 	for (int i = 0; i < m - 1; i++) {
 		for (int j = 0; j < n - 1; j++) {
 			update_tri_z_buffer(v[i][j], v[i + 1][j],
-					v[i + 1][j + 1], z_depth);
+					v[i + 1][j + 1],
+					vn[i][j], vn[i + 1][j],
+					vn[i + 1][j + 1],
+					light_source, z_depth, colors);
 			update_tri_z_buffer(v[i][j], v[i + 1][j + 1],
-					v[i][j + 1], z_depth);
+					v[i][j + 1],
+					vn[i][j], vn[i + 1][j + 1],
+					vn[i][j + 1],
+					light_source, z_depth, colors);
 		}
 	}
 	
@@ -338,6 +467,23 @@ void draw_z_buffer(float z_depth[MAX_SW][MAX_SH], int screenW, int screenH)
 				continue;
 			color = 1 - depth / 2;
 			CV::color(color, color, color);
+			CV::point(x - screenW_2, y - screenH_2);
+		}
+	}
+}
+
+void draw_light(float colors[MAX_SW][MAX_SH], int screenW, int screenH)
+{
+	float color;
+	int screenW_2 = screenW * 0.5;
+	int screenH_2 = screenH * 0.5;
+	for (int y = 0; y < screenH; y++) {
+		for (int x = 0; x < screenW; x++) {
+			color = colors[x - screenW_2 + MAX_SW / 2]
+					[y - screenH_2 + MAX_SH / 2];
+			if (color > 100000000)
+				continue;
+			CV::color(color * 0.5, color * 0.75, color);
 			CV::point(x - screenW_2, y - screenH_2);
 		}
 	}

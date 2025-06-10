@@ -96,7 +96,7 @@ void keyboard(int key)
 			bt_edit.changeText("VISUALIZAR");
 		else {
 			bt_edit.changeText("EDITAR");
-			prev_update_zbuffer();
+			prev_update();
 		}
 	}
 	if (!edit)
@@ -143,7 +143,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 			bt_edit.changeText("VISUALIZAR");
 		} else {
 			bt_edit.changeText("EDITAR");
-			prev_update_zbuffer();
+			prev_update();
 		}
 	}
 }

@@ -93,10 +93,22 @@ public:
        return aux;
    }
    
+   Vector3 operator / ( const float f ) {
+       Vector3 aux ( x / f, y / f, z / f );
+       return aux;
+   }
+   
    Vector3 operator *= ( const float f ) {
        x *= f;
        y *= f;
        z *= f;
+       return *this;
+   }
+
+   Vector3 operator /= ( const float f ) {
+       x /= f;
+       y /= f;
+       z /= f;
        return *this;
    }
 
