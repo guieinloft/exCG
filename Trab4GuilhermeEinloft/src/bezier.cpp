@@ -10,11 +10,8 @@ inline int sign(float a)
 
 void plot_curve(Vector2 points[MAX_RES], int size)
 {
+	CV::color(1, 0, 0);
 	for (int i = 0; i < size - 1; i++) {
-		if (sign(points[i].x) != sign(points[i + 1].x))
-			CV::color(1, 0, 0);
-		else
-			CV::color(0, 0, 1);
 		CV::line(points[i].x, points[i].y,
 				points[i + 1].x, points[i + 1].y);
 	}
@@ -22,13 +19,16 @@ void plot_curve(Vector2 points[MAX_RES], int size)
 
 void plot_points(Vector2 points[MAX_RES], int size)
 {
-	CV::color(0, 1, 0);
 	for (int i = 0; i < size - 1; i++) {
+		if (i == 0)
+			CV::color(0, 0.75, 0.75);
 		CV::rectFill(points[i].x - 4, points[i].y - 4,
 				points[i].x + 4, points[i].y + 4);
+		CV::color(0, 0.75, 0);
 		CV::line(points[i].x, points[i].y,
 				points[i + 1].x, points[i + 1].y);
 	}
+	CV::color(0.75, 0.75, 0);
 	CV::rectFill(points[size - 1].x - 4, points[size - 1].y - 4,
 			points[size - 1].x + 4, points[size - 1].y + 4);
 }

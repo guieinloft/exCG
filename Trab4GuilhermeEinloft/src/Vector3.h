@@ -46,6 +46,11 @@ public:
        return (float)sqrt(x*x + y*y + z*z);
    }
 
+   float dot(Vector3 v)
+   {
+      return (x * v.x + y * v.y + z * v.z);
+   }
+
    Vector3 cross(Vector3 v)
    {
       Vector3 aux(y * v.z - z * v.y,

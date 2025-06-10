@@ -1,6 +1,8 @@
 #ifndef __VECTOR_2_H__
 #define __VECTOR_2_H__
 
+#include <stdio.h>
+#include <math.h>
 
 class Vector2
 {
@@ -41,6 +43,16 @@ public:
 
    float norm() {
        return (float)sqrt(x*x + y*y);
+   }
+
+   float dot(Vector2 b) {
+	   return this->x * b.x + this->y * b.y;
+   }
+
+   Vector2 perp() {
+	   Vector2 perp;
+	   perp.set(-this->y, this->x);
+	   return perp;
    }
 
    Vector2 operator - (const Vector2& v)

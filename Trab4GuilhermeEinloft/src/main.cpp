@@ -43,7 +43,7 @@ bool shift = 0, ctrl = 0;
 
 Vector3 in[MAX_RES][MAX_RES];
 Vector3 out[MAX_RES][MAX_RES];
-Vector2 out_proj[MAX_RES][MAX_RES];
+Vector3 out_proj[MAX_RES][MAX_RES];
 int m = 16, n = 16;
 float d = 400;
 bool edit = 0;
@@ -94,8 +94,10 @@ void keyboard(int key)
 		edit = !edit;
 		if (edit)
 			bt_edit.changeText("VISUALIZAR");
-		else
+		else {
 			bt_edit.changeText("EDITAR");
+			prev_update_zbuffer();
+		}
 	}
 	if (!edit)
 		prev_check_keypress(key, shift, ctrl);
@@ -131,16 +133,18 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 		break;
 	}
 	if (edit)
-		edit_check_mouse(smouse, in, &m, &n, d, shift);
+		edit_check_mouse(smouse, in, &m, &n, d, shift, ctrl);
 	else
 		prev_check_mouse(smouse);
 	bt_edit.checkClick(smouse);
 	if (bt_edit.isPressed()) {
 		edit = !edit;
-		if (edit)
+		if (edit) {
 			bt_edit.changeText("VISUALIZAR");
-		else
+		} else {
 			bt_edit.changeText("EDITAR");
+			prev_update_zbuffer();
+		}
 	}
 }
 
