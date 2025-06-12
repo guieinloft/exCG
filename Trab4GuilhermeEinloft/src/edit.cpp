@@ -21,10 +21,12 @@ Slider sl_n(0, 0);
 Button bt_add(0, 0, 256, 32, true);
 Button bt_rm(0, 0, 256, 32, true);
 Slider sl_ofst(0, 0);
+Button bt_save(0, 0, 256, 32);
+Button bt_load(0, 0, 256, 32);
 
 bool snap = 0, add = 0, rm = 0;
 
-float offset = 0, rotation = 0;
+float offset = 0;
 
 inline float get_snap_position(float a)
 {
@@ -120,11 +122,20 @@ void edit_render(Vector3 in[MAX_RES][MAX_RES], Vector3 out[MAX_RES][MAX_RES],
 	sl_m.Render();
 	sl_n.changePosition(-screenW/2 + 8, screenH/2 - 20);
 	sl_n.Render();
+	bt_save.changePosition(-screenW/2 + 8, screenH/2 - 246);
+	bt_save.Render();
+	bt_load.changePosition(-screenW/2 + 8, screenH/2 - 282);
+	bt_load.Render();
 	CV::color(0, 0, 0);
-	CV::text(-screenW/2 + 4, screenH/2 - 82, "RESOLUCAO HORIZONTAL");
-	CV::text(-screenW/2 + 4, screenH/2 - 36, "RESOLUCAO VERTICAL");
+	char info[50];
+	sprintf(info, "RESOLUCAO HORIZONTAL: %d", m);
+	CV::text(-screenW/2 + 4, screenH/2 - 82, info);
+	sprintf(info, "RESOLUCAO VERTICAL: %d", n);
+	CV::text(-screenW/2 + 4, screenH/2 - 36, info);
+	sprintf(info, "TRANSLACAO EIXO Y: %.2f", offset);
 	CV::text(-screenW/2 + 4, screenH/2 - 200, "TRANSLACAO EIXO Y");
 	CV::text(-screenW/2, -screenH/2 + 10, "EDICAO");
+	CV::text(-screenW/2 + 264, screenH/2 - 4, "Encaixar pontos no grid: CTRL");
 }
 
 void edit_check_mouse(Mouse mouse, Vector3 in[MAX_RES][MAX_RES],
@@ -132,12 +143,26 @@ void edit_check_mouse(Mouse mouse, Vector3 in[MAX_RES][MAX_RES],
 {
 	bt_add.checkClick(mouse);
 	bt_rm.checkClick(mouse);
+	bt_save.checkClick(mouse);
+	bt_load.checkClick(mouse);
 	if (bt_add.isPressed()) {
 		add = 1;
+		rm = 0;
 		return;
 	}
 	if (bt_rm.isPressed()) {
+		add = 0;
 		rm = 1;
+		return;
+	}
+	if (bt_save.isPressed()) {
+		save_curve(b_points, n_points);
+		return;
+	}
+	if (bt_load.isPressed()) {
+		load_curve(b_points, &n_points);
+		evaluate_curve(b_points, n_points, bezier, *n);
+		generate_surface(in, bezier, *m, *n, d, offset);
 		return;
 	}
 	sl_m.changeParam((*m - 1) * 2);
@@ -145,7 +170,7 @@ void edit_check_mouse(Mouse mouse, Vector3 in[MAX_RES][MAX_RES],
 	sl_ofst.changeParam(offset * 255);
 	sl_m.checkMouse(mouse);
 	*m = sl_m.getParam() / 2 + 1;
-	*m += 1 * (*m < 2);
+	*m = 4 * (*m < 4) + *m * (*m >= 4);
 	sl_n.checkMouse(mouse);
 	*n = sl_n.getParam() / 2 + 1;
 	*n += 1 * (*n < 2);
@@ -179,6 +204,8 @@ void edit_init(Vector3 in[MAX_RES][MAX_RES],
 	b_points[3].set(120,  200);
 	bt_add.changeText("ADICIONAR PONTO");
 	bt_rm.changeText("REMOVER PONTO");
+	bt_save.changeText("SALVAR CURVA");
+	bt_load.changeText("CARREGAR CURVA");
 	evaluate_curve(b_points, 4, bezier, n);
 	generate_surface(in, bezier, m, n, d, offset);
 }

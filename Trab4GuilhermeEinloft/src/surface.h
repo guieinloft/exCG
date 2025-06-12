@@ -20,20 +20,14 @@ void generate_face_normals(Vector3 in[MAX_RES][MAX_RES],
 		int m, int n);
 void project_face_normals(Vector3 out[MAX_RES][MAX_RES],
 		Vector3 normals[MAX_RES][MAX_RES][2],
-		Vector3 normals_proj[MAX_RES][MAX_RES][2],
+		Vector3 normals_proj[MAX_RES][MAX_RES][2][2],
 		int m, int n, int d, bool perp);
 void draw_face_normals(Vector3 out_proj[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES][2], int m, int n);
+		Vector3 normals_proj[MAX_RES][MAX_RES][2][2], int m, int n);
 void draw_face_normals_culled(Vector3 out_proj[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES][2], int m, int n);
+		Vector3 normals_proj[MAX_RES][MAX_RES][2][2], int m, int n);
 void generate_vertex_normals(Vector3 normals[MAX_RES][MAX_RES][2],
 		Vector3 v_normals[MAX_RES][MAX_RES], int m, int n);
-void project_vertex_normals(Vector3 out[MAX_RES][MAX_RES],
-		Vector3 normals[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES],
-		int m, int n, int d, bool perp);
-void draw_vertex_normals(Vector3 out_proj[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES], int m, int n);
 void update_z_buffer(Vector3 v[MAX_RES][MAX_RES], Vector3 vn[MAX_RES][MAX_RES],
 		int m, int n, float z_depth[MAX_SW][MAX_SH],
 		float colors[MAX_SW][MAX_SH], Vector3 light_source);

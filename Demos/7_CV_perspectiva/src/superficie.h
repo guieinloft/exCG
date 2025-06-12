@@ -73,7 +73,7 @@ public:
    //projecao em perspectiva, assumindo camera na origem olhando para z negativo.
    Ponto projeta( Ponto p )
    {
-       float d = -10.0;
+       float d = 10.0;
        Ponto resp;
 
        resp.x = (p.x*d) / p.z;

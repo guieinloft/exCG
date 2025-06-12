@@ -32,6 +32,7 @@ public:
 
        if(norm==0.0)
        {
+          printf("\n\nNormalize::Divisao por zero");
           x = 1;
           y = 1;
           z = 1;
@@ -39,24 +40,10 @@ public:
        }
        x /= norm;
        y /= norm;
-       z /= norm;
    }
 
    float norm() {
        return (float)sqrt(x*x + y*y + z*z);
-   }
-
-   float dot(Vector3 v)
-   {
-      return (x * v.x + y * v.y + z * v.z);
-   }
-
-   Vector3 cross(Vector3 v)
-   {
-      Vector3 aux(y * v.z - z * v.y,
-	    z * v.x - x * v.z,
-	    x * v.y - y * v.x);
-      return aux;
    }
 
    Vector3 operator - (const Vector3& v)
@@ -93,22 +80,10 @@ public:
        return aux;
    }
    
-   Vector3 operator / ( const float f ) {
-       Vector3 aux ( x / f, y / f, z / f );
-       return aux;
-   }
-   
    Vector3 operator *= ( const float f ) {
        x *= f;
        y *= f;
        z *= f;
-       return *this;
-   }
-
-   Vector3 operator /= ( const float f ) {
-       x /= f;
-       y /= f;
-       z /= f;
        return *this;
    }
 
@@ -126,6 +101,7 @@ public:
    bool operator != ( const Vector3& v ) {
        return x != v.x || y != v.y || z != v.z;
    }
+
 
 };
 

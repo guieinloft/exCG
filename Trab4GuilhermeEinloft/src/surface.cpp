@@ -12,21 +12,6 @@ bool is_ccw(Vector3 v0, Vector3 v1, Vector3 v2)
 	return (a < b);
 }
 
-float tri_area(Vector3 a, Vector3 b, Vector3 c)
-{
-	Vector3 ac = c - a;
-	Vector3 ab = b - a;
-	Vector2 ac2(ac.x, ac.y);
-	Vector2 ab2(ab.x, ab.y);
-	ab2.perp();
-	return ab2.dot(ac2) * 0.5;
-}
-
-float sign (Vector3 p1, Vector3 p2, Vector3 p3)
-{
-	return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
-}
-
 bool point_in_triangle(Vector3 a, Vector3 b, Vector3 c,
 		Vector3 p, Vector3 *weights)
 {
@@ -39,7 +24,7 @@ bool point_in_triangle(Vector3 a, Vector3 b, Vector3 c,
 
 	weights->set(w1, w2, w3);
 
-	return (w1 > 0 && w2 > 0 && w3 > 0);
+	return (w1 >= 0 && w2 >= 0 && w3 >= 0);
 }
 
 Vector3 rotate(Vector3 p, Vector3 a)
@@ -51,6 +36,11 @@ Vector3 rotate(Vector3 p, Vector3 a)
 	float sin_az = sin(a.z);
 	float cos_az = cos(a.z);
 	Vector3 p2;
+	if (a.x != 0) {
+		p2.set(p.x, p.y * cos_ax - p.z * sin_ax,
+				p.y * sin_ax + p.z * cos_ax);
+		p = p2;
+	}
 	if (a.y != 0) {
 		p2.set(p.x * cos_ay + p.z * sin_ay, p.y,
 				-p.x * sin_ay + p.z * cos_ay);
@@ -59,11 +49,6 @@ Vector3 rotate(Vector3 p, Vector3 a)
 	if (a.z != 0) {
 		p2.set(p.x * cos_az - p.y * sin_az,
 				p.x * sin_az + p.y * cos_az, p.z);
-		p = p2;
-	}
-	if (a.x != 0) {
-		p2.set(p.x, p.y * cos_ax - p.z * sin_ax,
-				p.y * sin_ax + p.z * cos_ax);
 		p = p2;
 	}
 	return p;
@@ -200,7 +185,7 @@ void generate_face_normals(Vector3 in[MAX_RES][MAX_RES],
 
 void project_face_normals(Vector3 out[MAX_RES][MAX_RES],
 		Vector3 normals[MAX_RES][MAX_RES][2],
-		Vector3 normals_proj[MAX_RES][MAX_RES][2],
+		Vector3 normals_proj[MAX_RES][MAX_RES][2][2],
 		int m, int n, int d, bool perp)
 {
 	Vector3 midpoint1;
@@ -212,19 +197,23 @@ void project_face_normals(Vector3 out[MAX_RES][MAX_RES],
 			midpoint2 = (out[i][j] + out[i][j + 1] +
 					out[i + 1][j + 1]) * (1.0/3);
 			if (perp) {
-				normals_proj[i][j][0] = proj_perp(
-						midpoint1 + normals[i][j][0] * 0.1,
+				normals_proj[i][j][0][0] = proj_perp(midpoint1, d);
+				normals_proj[i][j][0][1] = proj_perp(
+						midpoint1 + (normals[i][j][0] * 0.1),
 						d);
-				normals_proj[i][j][1] = proj_perp(
-						midpoint2 + normals[i][j][1] * 0.1,
+				normals_proj[i][j][1][0] = proj_perp(midpoint2, d);
+				normals_proj[i][j][1][1] = proj_perp(
+						midpoint2 + (normals[i][j][1] * 0.1),
 						d);
 			}
 			else {
-				normals_proj[i][j][0] = proj_ortho(
-						midpoint1 + normals[i][j][0] * 0.1,
+				normals_proj[i][j][0][0] = proj_ortho(midpoint1, d);
+				normals_proj[i][j][0][1] = proj_ortho(
+						midpoint1 + (normals[i][j][0] * 0.1),
 						d);
-				normals_proj[i][j][1] = proj_ortho(
-						midpoint2 + normals[i][j][1] * 0.1,
+				normals_proj[i][j][1][0] = proj_ortho(midpoint2, d);
+				normals_proj[i][j][1][1] = proj_ortho(
+						midpoint2 + (normals[i][j][1] * 0.1),
 						d);
 			}
 		}
@@ -232,51 +221,41 @@ void project_face_normals(Vector3 out[MAX_RES][MAX_RES],
 }
 
 void draw_face_normals_culled(Vector3 out_proj[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES][2], int m, int n)
+		Vector3 normals_proj[MAX_RES][MAX_RES][2][2], int m, int n)
 {
-	Vector3 midpoint;
 	for (int i = 0; i < m - 1; i++) {
 		for (int j = 0; j < n - 1; j++) {
 			if (!is_ccw(out_proj[i][j], out_proj[i + 1][j],
 					out_proj[i + 1][j + 1])) {
-				midpoint = (out_proj[i][j] +
-						out_proj[i + 1][j] +
-						out_proj[i + 1][j + 1]) *
-						(1.0/3);
-				CV::line(midpoint.x, midpoint.y,
-						normals_proj[i][j][0].x,
-						normals_proj[i][j][0].y);
+				CV::line(normals_proj[i][j][0][0].x,
+						normals_proj[i][j][0][0].y,
+						normals_proj[i][j][0][1].x,
+						normals_proj[i][j][0][1].y);
 			}
 			if (!is_ccw(out_proj[i][j], out_proj[i + 1][j],
 					out_proj[i + 1][j + 1])) {
-				midpoint = (out_proj[i][j] +
-						out_proj[i][j + 1] +
-						out_proj[i + 1][j + 1]) *
-						(1.0/3);
-				CV::line(midpoint.x, midpoint.y,
-						normals_proj[i][j][1].x,
-						normals_proj[i][j][1].y);
+				CV::line(normals_proj[i][j][1][0].x,
+						normals_proj[i][j][1][0].y,
+						normals_proj[i][j][1][1].x,
+						normals_proj[i][j][1][1].y);
 			}
 		}
 	}
 }
 
 void draw_face_normals(Vector3 out_proj[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES][2], int m, int n)
+		Vector3 normals_proj[MAX_RES][MAX_RES][2][2], int m, int n)
 {
-	Vector3 midpoint;
 	for (int i = 0; i < m - 1; i++) {
 		for (int j = 0; j < n - 1; j++) {
-			midpoint = (out_proj[i][j] + out_proj[i + 1][j] +
-					out_proj[i + 1][j + 1]) * (1.0/3);
-			CV::line(midpoint.x, midpoint.y,
-					normals_proj[i][j][0].x,
-					normals_proj[i][j][0].y);
-			midpoint = (out_proj[i][j] + out_proj[i][j + 1] +
-					out_proj[i + 1][j + 1]) * (1.0/3);
-			CV::line(midpoint.x, midpoint.y,
-					normals_proj[i][j][1].x,
-					normals_proj[i][j][1].y);
+			CV::line(normals_proj[i][j][0][0].x,
+					normals_proj[i][j][0][0].y,
+					normals_proj[i][j][0][1].x,
+					normals_proj[i][j][0][1].y);
+			CV::line(normals_proj[i][j][1][0].x,
+					normals_proj[i][j][1][0].y,
+					normals_proj[i][j][1][1].x,
+					normals_proj[i][j][1][1].y);
 		}
 	}
 }
@@ -284,89 +263,31 @@ void draw_face_normals(Vector3 out_proj[MAX_RES][MAX_RES],
 void generate_vertex_normals(Vector3 normals[MAX_RES][MAX_RES][2],
 		Vector3 v_normals[MAX_RES][MAX_RES], int m, int n)
 {
-	/*
-	for (int j = 0; j < n; j++) {
-		v_normals[0][j] =
-			normals[0][j][0] +
-			normals[0][j][1] +
-			normals[0][(j - 1 + n) % n][0] +
-			normals[0][(j - 1 + n) % n][1] +
-			normals[m - 2][j][0] +
-			normals[m - 2][j][1] +
-			normals[m - 2][(j - 1 + n) % n][0] +
-			normals[m - 2][(j - 1 + n) % n][1];
-		v_normals[0][j].normalize();
-	}
-	for (int i = 1; i < m; i++) {
-		for (int j = 0; j < n; j++) {
+	for (int i = 0; i < m; i++) {
+		v_normals[i][0] =
+				normals[i % (m - 1)][0][0] +
+				normals[i % (m - 1)][0][1] +
+				normals[(i - 2 + m) % (m - 1)][0][0] +
+				normals[(i - 2 + m) % (m - 1)][0][1];
+		v_normals[i][0].normalize();
+		for (int j = 1; j < (n - 1); j++) {
 			v_normals[i][j] =
-				normals[i % (m - 1)][j][0] +
-				normals[i % (m - 1)][j][1] +
-				normals[i % (m - 1)][(j - 1 + n) % n][0] +
-				normals[i % (m - 1)][(j - 1 + n) % n][1] +
-				normals[i - 1 % m][j][0] +
-				normals[i - 1 % m][j][1] +
-				normals[i - 1 % m][(j - 1 + n) % n][0] +
-				normals[i - 1 % m][(j - 1 + n) % n][1];
+					normals[i % (m - 1)][j][0] +
+					normals[i % (m - 1)][j][1] +
+					normals[i % (m - 1)][(j - 2 + n) % (n - 1)][0] +
+					normals[i % (m - 1)][(j - 2 + n) % (n - 1)][1] +
+					normals[(i - 2 + m) % (m - 1)][j][0] +
+					normals[(i - 2 + m) % (m - 1)][j][1] +
+					normals[(i - 2 + m) % (m - 1)][(j - 2 + n) % (n - 1)][0] +
+					normals[(i - 2 + m) % (m - 1)][(j - 2 + n) % (n - 1)][1];
 			v_normals[i][j].normalize();
 		}
-	}
-	*/
-	for (int i = 0; i < m; i++) {
-		for (int j = 0; j < (n - 1); j++) {
-			v_normals[i][j] =
-					normals[i % (m - 1)][j % (n - 1)][0] +
-					normals[i % (m - 1)][j % (n - 1)][1] +
-					normals[i % (m - 1)][(j - 1 + n) % (n - 1)][0] +
-					normals[i % (m - 1)][(j - 1 + n) % (n - 1)][1] +
-					normals[(i - 1 + m) % (m - 1)][j % (n - 1)][0] +
-					normals[(i - 1 + m) % (m - 1)][j % (n - 1)][1] +
-					normals[(i - 1 + m) % (m - 1)][(j - 1 + n) % (n - 1)][0] +
-					normals[(i - 1 + m) % (m - 1)][(j - 1 + n) % (n - 1)][1];
-			v_normals[i][j].normalize();
-		}
-	}
-	for (int i = 0; i < m; i++) {
 		v_normals[i][n - 1] =
 				normals[i % (m - 1)][n - 2][0] +
 				normals[i % (m - 1)][n - 2][1] +
-				normals[(i - 1 + m) % (m - 1)][n - 2][0] +
-				normals[(i - 1 + m) % (m - 1)][n - 2][1];
+				normals[(i - 2 + m) % (m - 1)][n - 2][0] +
+				normals[(i - 2 + m) % (m - 1)][n - 2][1];
 		v_normals[i][n - 1].normalize();
-	}
-}
-
-void project_vertex_normals(Vector3 out[MAX_RES][MAX_RES],
-		Vector3 normals[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES],
-		int m, int n, int d, bool perp)
-{
-	for (int i = 0; i < m - 1; i++) {
-		for (int j = 0; j < n - 1; j++) {
-			if (perp) {
-				normals_proj[i][j] = proj_perp(
-						out[i][j] + normals[i][j] * 0.1,
-						d);
-			}
-			else {
-				normals_proj[i][j] = proj_ortho(
-						out[i][j] + normals[i][j] * 0.1,
-						d);
-			}
-		}
-	}
-}
-
-void draw_vertex_normals(Vector3 out_proj[MAX_RES][MAX_RES],
-		Vector3 normals_proj[MAX_RES][MAX_RES], int m, int n)
-{
-	Vector3 midpoint;
-	for (int i = 0; i < m - 1; i++) {
-		for (int j = 0; j < n; j++) {
-			CV::line(out_proj[i][j].x, out_proj[i][j].y,
-					normals_proj[i][j].x,
-					normals_proj[i][j].y);
-		}
 	}
 }
 
@@ -384,12 +305,10 @@ Vector2 find_max_point(Vector3 a, Vector3 b, Vector3 c)
 	return point;
 }
 
-float calc_light(Vector3 normal, float depth, Vector3 light_source)
+float calc_light(Vector3 normal, Vector3 light_source)
 {
 	normal.normalize();
-	Vector3 light_dir = light_source - Vector3(0, 0, depth);
-	light_dir.normalize();
-	float light_intensity = (normal.dot(light_dir) + 1) * 0.5;
+	float light_intensity = (normal.dot(light_source) + 1) * 0.5;
 	return light_intensity;
 }
 
@@ -420,12 +339,8 @@ void update_tri_z_buffer(Vector3 a, Vector3 b, Vector3 c,
 				normal += an * weights.x;
 				normal += bn * weights.y;
 				normal += cn * weights.z;
-				float a_color = calc_light(an, a.z, light_source);
-				float b_color = calc_light(bn, b.z, light_source);
-				float c_color = calc_light(cn, c.z, light_source);
-				colors[x_adj][y_adj] = a_color * weights.x +
-						b_color * weights.y +
-						c_color * weights.z;
+				colors[x_adj][y_adj] = calc_light(normal,
+						light_source);
 			}
 		}
 	}

@@ -12,8 +12,8 @@ Game::Game() {
 }
 
 void Game::loadLevel(const char *path, bool hard) {
-	printf("\n%s", path);
 	FILE *level = fopen(path, "r");
+	strcpy(levelpath, path);
 	for (int i = 0; i < 12; i++) {
 		fscanf(level, "%f %f %f %f", &points_out[i].x, &points_out[i].y,
 			&points_in[i].x, &points_in[i].y);
@@ -61,6 +61,12 @@ void Game::loadLevel(const char *path, bool hard) {
 	lost = 0;
 	won = 0;
 	score = 0;
+
+	strcat(levelpath, ".scr");
+	FILE *scorelog = fopen(levelpath, "r");
+	for (int i = 0; i < 10; i++) 
+		fscanf(scorelog, "%d: %s", &scores[i], score_names[i]);
+	fclose(scorelog);
 }
 
 int Game::update() {
@@ -83,6 +89,7 @@ int Game::update() {
 	} else if (won) {
 		CV::text(10, 24, "VOCE GANHOU!");
 		CV::text(10, 48, "PRESSIONE ENTER");
+		showScores();
 		return 0;
 	}
 	for (int i = 0; i < ENTITY_NUM; i++) {
@@ -233,5 +240,33 @@ void Game::generateEntities() {
 			entities[i] = new Barrel((Vector2){barrelx, barrely}, 24);
 			valid_position = checkValidPosition(i);
 		} while (!valid_position);
+	}
+}
+
+void Game::saveScore() {
+	if (!won)
+		return;
+	int i = 10;
+	while (i > 0 && score > scores[i - 1])
+		i--;
+	for (int j = 9; j > i; j--) {
+		scores[j] = scores[j - 1];
+		strcpy(score_names[j], score_names[j - 1]);
+	}
+	scores[i] = score;
+	//strcpy(score_names[i], tx_name->getText());
+	FILE *scorelog = fopen(levelpath, "w");
+	for (int i = 0; i < 10; i++)
+		fprintf(scorelog, "%d %s\n", scores[i], score_names[i]);
+	fclose(scorelog);
+}
+
+void Game::showScores() {
+	char score_entry[512];
+	CV::color(1, 1, 1);
+	for (int i = 0; i < 10; i++) {
+		sprintf(score_entry, "%05d: %s",
+			scores[i] * 100, score_names[i]);
+		CV::text(10, 100 + 20 * i, score_entry);
 	}
 }

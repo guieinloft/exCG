@@ -21,7 +21,7 @@ void render(void)
 
     s->render();
 
-    Sleep(10);  //reduz a velocidade de renderizacao. Nao eh a forma correta de se fazer. Deve-se utilizar funcoes de tempo.
+    //Sleep(10);  //reduz a velocidade de renderizacao. Nao eh a forma correta de se fazer. Deve-se utilizar funcoes de tempo.
 }
 
 int main(void)

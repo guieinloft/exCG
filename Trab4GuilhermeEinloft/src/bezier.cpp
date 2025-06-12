@@ -60,3 +60,25 @@ void evaluate_curve(Vector2 points[MAX_RES], int pnum,
 		bezier[i] = evaluate_point(points, pnum, t);
 	}
 }
+
+void save_curve(Vector2 points[MAX_RES], int pnum)
+{
+	FILE *file = fopen("Trab4GuilhermeEinloft/curva.txt", "w");
+	if (file == NULL) return;
+	fprintf(file, "%d\n", pnum);
+	for (int i = 0; i < pnum; i++) {
+		fprintf(file, "%f, %f\n", points[i].x, points[i].y);
+	}
+	fclose(file);
+}
+
+void load_curve(Vector2 points[MAX_RES], int *pnum)
+{
+	FILE *file = fopen("Trab4GuilhermeEinloft/curva.txt", "r");
+	if (file == NULL) return;
+	fscanf(file, "%d", pnum);
+	for (int i = 0; i < *pnum; i++) {
+		fscanf(file, "%f, %f", &points[i].x, &points[i].y);
+	}
+	fclose(file);
+}

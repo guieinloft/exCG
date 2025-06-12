@@ -45,6 +45,13 @@ protected:
 	//checa posicao do barril gerado com GenerateEntities()
 	bool checkValidPosition(int i);
 
+	char levelpath[512];
+	char score_names[10][255];
+	int scores[10];
+
+	void saveScore();
+	void showScores();
+
 public:
 	Game();
 	//update
