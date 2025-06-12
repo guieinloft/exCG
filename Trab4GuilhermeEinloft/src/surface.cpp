@@ -384,6 +384,8 @@ void update_z_buffer(Vector3 v[MAX_RES][MAX_RES], Vector3 vn[MAX_RES][MAX_RES],
 void draw_z_buffer(float colors[MAX_SW][MAX_SH], int screenW, int screenH)
 {
 	float color;
+	screenW = screenW * (screenW < MAX_SW) + MAX_SW * (screenW >= MAX_SW);
+	screenH = screenH * (screenH < MAX_SH) + MAX_SH * (screenH >= MAX_SH);
 	int screenW_2 = screenW * 0.5;
 	int screenH_2 = screenH * 0.5;
 	for (int y = 0; y < screenH; y++) {

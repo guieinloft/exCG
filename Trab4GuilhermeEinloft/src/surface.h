@@ -3,8 +3,8 @@
  * possui funções relativas a superfícies e normais
  */
 
-#define MAX_SW 1920
-#define MAX_SH 1080
+#define MAX_SW 3840
+#define MAX_SH 2160
 
 /* rotaciona ponto nos eixos x, y e z */
 Vector3 rotate(Vector3 p, Vector3 a);

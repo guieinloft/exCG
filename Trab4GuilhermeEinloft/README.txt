@@ -14,6 +14,8 @@
 - Z-buffer com iluminação por pixel (Phong)
 - Salvamento e carregamento de curvas
 
+## OBS: para alterar a resoluçãp
+
 # Manual
 ## Modo de visualização
 ### Translação:
