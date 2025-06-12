@@ -395,7 +395,8 @@ void draw_z_buffer(float colors[MAX_SW][MAX_SH], int screenW, int screenH)
 			if (color > 100000000)
 				continue;
 			CV::color(color * 0.5, color * 0.75, color);
-			CV::point(x - screenW_2, y - screenH_2);
+			CV::rectFill(x - screenW_2, y - screenH_2,
+					x - screenW_2 + 1, y - screenH_2 + 1);
 		}
 	}
 }

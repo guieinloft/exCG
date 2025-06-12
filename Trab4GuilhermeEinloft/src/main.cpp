@@ -155,6 +155,6 @@ int main(void)
 	edit_init(in, m, n, d);
 	prev_init();
 	prev_update(in, out, out_proj, m, n, d);
-	CV::init(&screenWidth, &screenHeight, "PROJETO EM BRANCO");
+	CV::init(&screenWidth, &screenHeight, "Trabalho 4 - Guilherme Einloft");
 	CV::run();
 }
