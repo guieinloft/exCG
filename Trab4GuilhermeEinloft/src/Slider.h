@@ -2,6 +2,7 @@
 #define SLIDER_H
 
 #include "Button.h"
+#include <stdint.h>
 
 class Slider {
     public:

@@ -2,7 +2,6 @@
 #include "Vector3.h"
 #include "bezier.h"
 #include "surface.h"
-#include "Keys.h"
 #include "Button.h"
 
 #define INIT_Z 1.5
@@ -15,8 +14,8 @@ float light_x = 0;
 bool perp = 1;
 bool culling = 0;
 bool zbuffer = 0;
-bool update = 1;
 bool show_normals = 0;
+bool update = 1;
 
 Vector3 normals[MAX_RES][MAX_RES][2];
 Vector3 normals_proj[MAX_RES][MAX_RES][2][2];
@@ -34,6 +33,7 @@ Button bt_reset_light(0, 0, 256, 32);
 float z_depth[MAX_SW][MAX_SH];
 float colors[MAX_SW][MAX_SH];
 
+/* renderiza apenas os botões */
 void prev_render_buttons(int screenW, int screenH)
 {
 	bt_reset_ang.changePosition(-screenW/2 + 4, screenH/2 - 36);
@@ -64,26 +64,29 @@ void prev_render_buttons(int screenW, int screenH)
 	CV::text(-screenW/2 + 264, screenH/2 - 4, info);
 }
 
-void prev_render(Vector3 in[MAX_RES][MAX_RES],
-		Vector3 out[MAX_RES][MAX_RES],
+void prev_update(Vector3 in[MAX_RES][MAX_RES], Vector3 out[MAX_RES][MAX_RES],
+		Vector3 out_proj[MAX_RES][MAX_RES], int m, int n, int d)
+{
+	transform_surface(in, out, m, n, t, ang);
+	project_surface(out, out_proj, m, n, d, perp);
+	generate_face_normals(out, normals, m, n);
+	project_face_normals(out, normals, normals_proj, m, n, d, perp);
+	if (zbuffer) {
+		generate_vertex_normals(normals, v_normals, m, n);
+		update_z_buffer(out_proj, v_normals, m, n, z_depth,
+				colors, lightdir);
+	}
+}
+
+void prev_render(Vector3 in[MAX_RES][MAX_RES], Vector3 out[MAX_RES][MAX_RES],
 		Vector3 out_proj[MAX_RES][MAX_RES],
 		int m, int n, int d, int screenW, int screenH)
 {
+	if (update)
+		prev_update(in, out, out_proj, m, n, d);
 	CV::color(0, 0, 0);
-	if (update) {
-		transform_surface(in, out, m, n, t, ang);
-		project_surface(out, out_proj, m, n, d, perp);
-		generate_face_normals(out, normals, m, n);
-		project_face_normals(out, normals, normals_proj, m, n, d, perp);
-		if (zbuffer) {
-			generate_vertex_normals(normals, v_normals, m, n);
-			update_z_buffer(out_proj, v_normals, m, n, z_depth,
-					colors, lightdir);
-			update = 0;
-		}
-	}
 	if (zbuffer) {
-		draw_light(colors, screenW, screenH);
+		draw_z_buffer(colors, screenW, screenH);
 	} else if (culling) {
 		draw_surface_culled(out_proj, m, n);
 	} else {
@@ -96,8 +99,8 @@ void prev_render(Vector3 in[MAX_RES][MAX_RES],
 		else
 			draw_face_normals(out_proj, normals_proj, m, n);
 	}
-	update = 0;
 	prev_render_buttons(screenW, screenH);
+	update = 0;
 }
 
 void prev_check_keypress(int key, bool shift, bool ctrl)
@@ -206,9 +209,4 @@ void prev_init()
 	bt_culling.changeText("ATIVAR CULLING");
 	bt_zbuffer.changeText("ATIVAR Z-BUFFER");
 	bt_reset_light.changeText("RESETAR DIRECAO DA LUZ");
-}
-
-void prev_update()
-{
-	update = 1;
 }

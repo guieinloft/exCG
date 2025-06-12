@@ -5,6 +5,10 @@
 #include "bezier.h"
 #include "surface.h"
 
+/*
+ * retorna true se o triângulo estiver em sentido anti-horário
+ * usada no back-face culling
+ */
 bool is_ccw(Vector3 v0, Vector3 v1, Vector3 v2)
 {
 	float a = (v1.x - v0.x) * (v2.y - v0.y);
@@ -12,6 +16,10 @@ bool is_ccw(Vector3 v0, Vector3 v1, Vector3 v2)
 	return (a < b);
 }
 
+/*
+ * retorna true se o ponto está no triângulo
+ * usada no cálculo do z-buffer
+ */
 bool point_in_triangle(Vector3 a, Vector3 b, Vector3 c,
 		Vector3 p, Vector3 *weights)
 {
@@ -291,6 +299,7 @@ void generate_vertex_normals(Vector3 normals[MAX_RES][MAX_RES][2],
 	}
 }
 
+/* acha o ponto mínimo do triângulo (ou da tela) */
 Vector2 find_min_point(Vector3 a, Vector3 b, Vector3 c)
 {
 	Vector2 point(fmax(fmin(a.x, fmin(b.x, c.x)), -MAX_SW / 2),
@@ -298,6 +307,7 @@ Vector2 find_min_point(Vector3 a, Vector3 b, Vector3 c)
 	return point;
 }
 
+/* acha o ponto máximo do triângulo (ou da tela) */
 Vector2 find_max_point(Vector3 a, Vector3 b, Vector3 c)
 {
 	Vector2 point(fmin(fmax(a.x, fmax(b.x, c.x)), MAX_SW / 2), 
@@ -305,15 +315,17 @@ Vector2 find_max_point(Vector3 a, Vector3 b, Vector3 c)
 	return point;
 }
 
-float calc_light(Vector3 normal, Vector3 light_source)
+/* calcula a iluminação baseada na normal e da direção da fonte de luz */
+float calc_light(Vector3 normal, Vector3 lightdir)
 {
 	normal.normalize();
-	float light_intensity = (normal.dot(light_source) + 1) * 0.5;
+	float light_intensity = (normal.dot(lightdir) + 1) * 0.5;
 	return light_intensity;
 }
 
+/* calcula o z-buffer e a iluminação para cada triângulo */
 void update_tri_z_buffer(Vector3 a, Vector3 b, Vector3 c,
-		Vector3 an, Vector3 bn, Vector3 cn, Vector3 light_source,
+		Vector3 an, Vector3 bn, Vector3 cn, Vector3 lightdir,
 		float z_depth[MAX_SW][MAX_SH], float colors[MAX_SW][MAX_SH])
 {
 	Vector3 weights;
@@ -340,7 +352,7 @@ void update_tri_z_buffer(Vector3 a, Vector3 b, Vector3 c,
 				normal += bn * weights.y;
 				normal += cn * weights.z;
 				colors[x_adj][y_adj] = calc_light(normal,
-						light_source);
+						lightdir);
 			}
 		}
 	}
@@ -348,7 +360,7 @@ void update_tri_z_buffer(Vector3 a, Vector3 b, Vector3 c,
 
 void update_z_buffer(Vector3 v[MAX_RES][MAX_RES], Vector3 vn[MAX_RES][MAX_RES],
 		int m, int n, float z_depth[MAX_SW][MAX_SH],
-		float colors[MAX_SW][MAX_SH], Vector3 light_source)
+		float colors[MAX_SW][MAX_SH], Vector3 lightdir)
 {
 	memset(z_depth, 0x7f, sizeof(float) * MAX_SW * MAX_SH);
 	memset(colors, 0x7f, sizeof(float) * MAX_SW * MAX_SH);
@@ -358,36 +370,18 @@ void update_z_buffer(Vector3 v[MAX_RES][MAX_RES], Vector3 vn[MAX_RES][MAX_RES],
 					v[i + 1][j + 1],
 					vn[i][j], vn[i + 1][j],
 					vn[i + 1][j + 1],
-					light_source, z_depth, colors);
+					lightdir, z_depth, colors);
 			update_tri_z_buffer(v[i][j], v[i + 1][j + 1],
 					v[i][j + 1],
 					vn[i][j], vn[i + 1][j + 1],
 					vn[i][j + 1],
-					light_source, z_depth, colors);
+					lightdir, z_depth, colors);
 		}
 	}
 	
 }
 
-void draw_z_buffer(float z_depth[MAX_SW][MAX_SH], int screenW, int screenH)
-{
-	float depth, color;
-	int screenW_2 = screenW * 0.5;
-	int screenH_2 = screenH * 0.5;
-	for (int y = 0; y < screenH; y++) {
-		for (int x = 0; x < screenW; x++) {
-			depth = z_depth[x - screenW_2 + MAX_SW / 2]
-					[y - screenH_2 + MAX_SH / 2];
-			if (depth > 100000000)
-				continue;
-			color = 1 - depth / 2;
-			CV::color(color, color, color);
-			CV::point(x - screenW_2, y - screenH_2);
-		}
-	}
-}
-
-void draw_light(float colors[MAX_SW][MAX_SH], int screenW, int screenH)
+void draw_z_buffer(float colors[MAX_SW][MAX_SH], int screenW, int screenH)
 {
 	float color;
 	int screenW_2 = screenW * 0.5;

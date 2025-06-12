@@ -1,6 +1,5 @@
 #include "Button.h"
 #include "gl_canvas2d.h"
-#include "Image.h"
 #include "Mouse.h"
 
 #include <string.h>
@@ -14,7 +13,6 @@ Button::Button(int x, int y, int w, int h, bool sticky) {
 	this->pressed = false;
 	this->selected = false;
 	this->hovered = false;
-	this->iconCur = false;
 	this->sticky = sticky;
 }
 
@@ -52,10 +50,6 @@ void Button::Render() {
 	CV::rectFill(this->x, this->y, this->x + this->w, this->y + this->h);
 	CV::color(0, 0, 0);
 	CV::rect(this->x, this->y, this->x + this->w, this->y + this->h);
-	if (iconCur)
-		this->icon2.render(this->x, this->y, 255);
-	else
-		this->icon1.render(this->x, this->y, 255);
 	CV::text(this->x + 4, this->y + this->h - 4, this->text);
 }
 
@@ -71,16 +65,6 @@ bool Button::isSelected() {
 
 void Button::select(bool s) {
 	this->selected = s;
-}
-
-void Button::loadIcons(const char *path1, const char *path2) {
-	icon1.bmp_load(path1);
-	if (path2 != NULL)
-		icon2.bmp_load(path2);
-}
-
-void Button::changeIcon() {
-	iconCur = !iconCur;
 }
 
 void Button::changeText(const char *text) {

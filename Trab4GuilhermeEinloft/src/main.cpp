@@ -1,17 +1,19 @@
-/*********************************************************************
-// Canvas para desenho, criada sobre a API OpenGL. Nao eh necessario conhecimentos de OpenGL para usar.
-//  Autor: Cesar Tadeu Pozzer
-//			02/2025
-//
-//  Pode ser utilizada para fazer desenhos, animacoes, e jogos simples.
-//  Tem tratamento de mouse e teclado
-//  Estude o OpenGL antes de tentar compreender o arquivo gl_canvas.cpp
-//
-//  Versao 2.1
-//
-//  Instruções:
-//	  Para alterar a animacao, digite numeros entre 1 e 3
-// *********************************************************************/
+/*
+ * main.cpp
+ * Requisitos:
+ * - Edição da curva Bezier em tempo real
+ * - Atualização instantânea do modelo
+ * - Parametrização do número de vértices do objeto
+ * - Translação no eixo Y para fazer molas
+ * - Visualização do objeto em diferentes posições/ângulos
+ * - Projeções ortográfica e em perspectiva
+ * Extras:
+ * - Adição e remoção de pontos na curva
+ * - Geração e exibição de normais de cada face
+ * - Back-face culling (remoção de faces ocultas)
+ * - Z-buffer com iluminação por pixel (Phong)
+ * - Salvamento e carregamento de curvas
+ */
 
 #include <GL/glut.h>
 #include <GL/freeglut_ext.h> //callback da wheel do mouse.
@@ -28,7 +30,6 @@
 #include "bezier.h"
 #include "surface.h"
 
-#include "Keys.h"
 #include "Mouse.h"
 #include "Button.h"
 
@@ -96,7 +97,7 @@ void keyboard(int key)
 			bt_edit.changeText("VISUALIZAR");
 		else {
 			bt_edit.changeText("EDITAR");
-			prev_update();
+			prev_update(in, out, out_proj, m, n, d);
 		}
 	}
 	if (!edit)
@@ -143,7 +144,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 			bt_edit.changeText("VISUALIZAR");
 		} else {
 			bt_edit.changeText("EDITAR");
-			prev_update();
+			prev_update(in, out, out_proj, m, n, d);
 		}
 	}
 }
@@ -153,6 +154,7 @@ int main(void)
 	bt_edit.changeText("EDITAR");
 	edit_init(in, m, n, d);
 	prev_init();
+	prev_update(in, out, out_proj, m, n, d);
 	CV::init(&screenWidth, &screenHeight, "PROJETO EM BRANCO");
 	CV::run();
 }

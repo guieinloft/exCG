@@ -1,3 +1,8 @@
+/*
+ * mouse.h
+ * struct auxiliar contendo informações do mouse
+ */
+
 #ifndef MOUSE_H
 #define MOUSE_H
 

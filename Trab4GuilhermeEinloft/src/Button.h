@@ -1,9 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Image.h"
 #include "Mouse.h"
-#include <stdlib.h>
 
 class Button {
     public:
@@ -19,10 +17,6 @@ class Button {
     bool isSelected();
     //seleciona/desseleciona o botão
     void select(bool s);
-    //muda ícone caso o botão tenha 2 ícones
-    void changeIcon();
-    //carrega os ícones definidos nos paths
-    void loadIcons(const char *path1, const char *path2 = NULL);
     //muda o texto do botão
     void changeText(const char *text);
     //muda a posição do botão
@@ -33,11 +27,7 @@ class Button {
     int x, y;
     //largura
     int w, h;
-    //ícones
-    Image icon1;
-    Image icon2;
     //texto
-    bool iconCur;
     char text[256];
     //true se o botão está selecionado, c.c. falso
     bool selected;
