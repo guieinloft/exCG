@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Trab4GuilhermeEinloft" />
+		<Option title="Canvas 2D" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -41,27 +41,18 @@
 			<Add library="../lib/libopengl32.a" />
 			<Add library="../lib/libglu32.a" />
 		</Linker>
-		<Unit filename="src/Button.cpp" />
-		<Unit filename="src/Button.h" />
-		<Unit filename="src/Image.cpp" />
-		<Unit filename="src/Image.h" />
-		<Unit filename="src/Keys.h" />
-		<Unit filename="src/Mouse.h" />
-		<Unit filename="src/Slider.cpp" />
-		<Unit filename="src/Slider.h" />
 		<Unit filename="src/Vector2.h" />
-		<Unit filename="src/Vector3.h" />
-		<Unit filename="src/bezier.cpp" />
-		<Unit filename="src/bezier.h" />
-		<Unit filename="src/edit.cpp" />
-		<Unit filename="src/edit.h" />
+		<Unit filename="src/barrel.h" />
+		<Unit filename="src/bullet.h" />
+		<Unit filename="src/curve.h" />
+		<Unit filename="src/enemy.h" />
+		<Unit filename="src/fps.h" />
 		<Unit filename="src/gl_canvas2d.cpp" />
 		<Unit filename="src/gl_canvas2d.h" />
 		<Unit filename="src/main.cpp" />
-		<Unit filename="src/preview.cpp" />
-		<Unit filename="src/preview.h" />
-		<Unit filename="src/surface.cpp" />
-		<Unit filename="src/surface.h" />
+		<Unit filename="src/power_ups.h" />
+		<Unit filename="src/score.h" />
+		<Unit filename="src/tank.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
