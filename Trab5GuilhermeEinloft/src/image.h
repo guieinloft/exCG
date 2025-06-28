@@ -1,8 +1,8 @@
 struct image {
-	uint8_t *img;
-	int w;
-	int h;
+	unsigned char *img;
+	unsigned int w;
+	unsigned int h;
 };
 
 void image_close(struct image *self);
-bool image_load(struct image *self, char *path);
+int image_load(struct image *self, char *path);

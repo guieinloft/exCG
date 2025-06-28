@@ -11,7 +11,7 @@ struct camera {
 void camera_init(struct camera *cam, struct vec3 pos, int screenW, int screenH);
 void camera_display(struct camera *cam, int screenW, int screenH);
 void camera_update(struct camera *cam, float deltatime);
-void camera_check_key_press(struct camera *cam, unsigned char key);
-void camera_check_key_release(struct camera *cam, unsigned char key);
+void camera_check_key_press(struct camera *cam, int key);
+void camera_check_key_release(struct camera *cam, int key);
 void camera_check_mouse(struct camera *cam, int x, int y,
 		int screenW, int screenH);

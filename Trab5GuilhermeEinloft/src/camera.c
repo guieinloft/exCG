@@ -65,11 +65,12 @@ void camera_update(struct camera *cam, float deltatime)
 		cam->speed_inc = SPEED_INC * cam->speed_dir;
 	else
 		cam->speed_inc = SPEED_INC *
-				((cam->speed < -SPEED_INC) -
-				(cam->speed > SPEED_INC));
+				((cam->speed < 0) -
+				(cam->speed > 0));
 	cam->speed += cam->speed_inc *
-			((cam->speed < SPEED && cam->speed > -SPEED)
-			|| cam->speed_dir == 0);
+			((cam->speed < SPEED * deltatime
+			&& cam->speed > -SPEED * deltatime)
+			|| cam->speed_dir == 0) * deltatime;
 	if (cam->speed_inc == 0)
 		cam->speed = 0;
 	cam->yaw += cam->yaw_inc * deltatime;
@@ -81,12 +82,12 @@ void camera_update(struct camera *cam, float deltatime)
 	cam->dir = vset(cos(cam->yaw) * cos(cam->pitch),
 			sin(cam->pitch),
 			sin(cam->yaw) * cos(cam->pitch));
-	cam->pos = vadd(cam->pos, vset(cam->dir.x * cam->speed * deltatime,
-			cam->dir.y * cam->speed * deltatime,
-			cam->dir.z * cam->speed * deltatime));
+	cam->pos = vadd(cam->pos, vset(cam->dir.x * cam->speed,
+			cam->dir.y * cam->speed,
+			cam->dir.z * cam->speed));
 }
 
-void camera_check_key_press(struct camera *cam, unsigned char key)
+void camera_check_key_press(struct camera *cam, int key)
 {
 	switch (key) {
 	case 'w':
@@ -98,7 +99,7 @@ void camera_check_key_press(struct camera *cam, unsigned char key)
 	}
 }
 
-void camera_check_key_release(struct camera *cam, unsigned char key)
+void camera_check_key_release(struct camera *cam, int key)
 {
 	switch (key) {
 	case 'w':

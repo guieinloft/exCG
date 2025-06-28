@@ -4,15 +4,18 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include "image.h"
+#include "vec2.h"
 #include "vec3.h"
 #include "model.h"
 
-void model_load(struct model *model, char *path)
+void model_load_obj(struct model *model, char *path)
 {
 	char str_buf[60];
 	int v_size, vn_size, vt_size, f_size;
 	int v_cur, vn_cur, vt_cur, f_cur;
-	struct vec3 *temp_v, *temp_vn, *temp_vt;
+	struct vec3 *temp_v, *temp_vn;
+	struct vec2 *temp_vt;
 	int *temp_f, *temp_fn, *temp_ft;
 	FILE *file = fopen(path, "r");
 	if (file == NULL) {
@@ -21,7 +24,6 @@ void model_load(struct model *model, char *path)
 	}
 
 	/* lendo tamanho do modelo */
-
 	v_size = 0;
 	vn_size = 0;
 	vt_size = 0;
@@ -43,7 +45,7 @@ void model_load(struct model *model, char *path)
 
 	temp_v = (struct vec3 *)malloc(sizeof(struct vec3) * v_size);
 	temp_vn = (struct vec3 *)malloc(sizeof(struct vec3) * vn_size);
-	temp_vt = (struct vec3 *)malloc(sizeof(struct vec3) * vt_size);
+	temp_vt = (struct vec2 *)malloc(sizeof(struct vec2) * vt_size);
 	temp_f = (int *)malloc(sizeof(int) * 3 * f_size);
 	temp_ft = (int *)malloc(sizeof(int) * 3 * f_size);
 	temp_fn = (int *)malloc(sizeof(int) * 3 * f_size);
@@ -68,7 +70,7 @@ void model_load(struct model *model, char *path)
 		} else if (strcmp(str_buf, "vt") == 0) {
 			fscanf(file, "%f %f",
 					&temp_vt[vt_cur].x,
-					&temp_vt[vt_cur++].y);
+					&temp_vt[vt_cur].y);
 			vt_cur++;
 		} else if (strcmp(str_buf, "f") == 0) {
 			fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d",
@@ -89,68 +91,65 @@ void model_load(struct model *model, char *path)
 	fclose(file);
 
 	/* indexando o modelo */
-
-	model->v = (float *)malloc(sizeof(float) * f_size * 9);
-	model->vt = (float *)malloc(sizeof(float) * f_size * 6);
-	model->vn = (float *)malloc(sizeof(float) * f_size * 9);
+	model->v = (struct vec3 *)malloc(sizeof(struct vec3) * f_size * 3);
+	model->vt = (struct vec2 *)malloc(sizeof(struct vec2) * f_size * 3);
+	model->vn = (struct vec3 *)malloc(sizeof(struct vec3) * f_size * 3);
 
 	for (int i = 0; i < f_size; i++) {
 		for (int j = 0; j < 3; j++) {
-			model->v[i * 9 + j * 3 + 0] = temp_v[temp_f[i * 3 + j] - 1].x;
-			model->v[i * 9 + j * 3 + 1] = temp_v[temp_f[i * 3 + j] - 1].y;
-			model->v[i * 9 + j * 3 + 2] = temp_v[temp_f[i * 3 + j] - 1].z;
-			model->vn[i * 9 + j * 3 + 0] = temp_vn[temp_fn[i * 3 + j] - 1].x;
-			model->vn[i * 9 + j * 3 + 1] = temp_vn[temp_fn[i * 3 + j] - 1].y;
-			model->vn[i * 9 + j * 3 + 2] = temp_vn[temp_fn[i * 3 + j] - 1].z;
-			model->vt[i * 6 + j * 2 + 0] = temp_vt[temp_ft[i * 3 + j] - 1].x;
-			model->vt[i * 6 + j * 2 + 1] = temp_vt[temp_ft[i * 3 + j] - 1].y;
+			model->v[i * 3 + j] = temp_v[temp_f[i * 3 + j] - 1];
+			model->vn[i * 3 + j] = temp_vn[temp_fn[i * 3 + j] - 1];
+			model->vt[i * 3 + j] = temp_vt[temp_ft[i * 3 + j] - 1];
 		}
 	}
 
 	free(temp_v);
 	free(temp_vt);
 	free(temp_vn);
+	free(temp_f);
 	free(temp_ft);
 	free(temp_fn);
 
 	model->size = f_size;
+}
 
-	/* criando buffers */
-	/*
-	glGenBuffers(1, &model->vbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, model->vbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(model->v), model->v,
-			GL_STATIC_DRAW);
-	
-	glGenBuffers(1, &model->vtbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, model->vtbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(model->vt), model->vt,
-			GL_STATIC_DRAW);
-	
-	glGenBuffers(1, &model->vnbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, model->vnbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(model->vn), model->vn,
-			GL_STATIC_DRAW);
-	*/
+void model_load_texture(struct model *model, char *path)
+{
+	struct image img;
+	image_load(&img, path);
+	glGenTextures(1, (GLuint*)&model->texture);
+	glBindTexture(GL_TEXTURE_2D, model->texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img.w, img.h, 0, GL_RGB,
+			GL_UNSIGNED_BYTE, img.img);
+	free(img.img);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void model_render(struct model *model)
 {
-	/*
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, model->vbuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glDrawArrays(GL_TRIANGLES, 0, model->size * 3);
-	glDisableVertexAttribArray(0);
-	*/
+	glBindTexture(GL_TEXTURE_2D, model->texture);
 	for (int i = 0; i < model->size; i++) {
 		glBegin(GL_TRIANGLES);
-		glVertex3f(model->v[i * 9], model->v[i * 9 + 1],
-				model->v[i * 9 + 2]);
-		glVertex3f(model->v[i * 9 + 3], model->v[i * 9 + 4],
-				model->v[i * 9 + 5]);
-		glVertex3f(model->v[i * 9 + 6], model->v[i * 9 + 7],
-				model->v[i * 9 + 8]);
+		glTexCoord2f(model->vt[3 * i].x, model->vt[3 * i].y);
+		glNormal3f(model->vn[3 * i].x, model->vn[3 * i].y,
+				model->vn[3 * i].z);
+		glVertex3f(model->v[3 * i].x, model->v[3 * i].y,
+				model->v[3 * i].z);
+		glTexCoord2f(model->vt[3 * i + 1].x, model->vt[3 * i + 1].y);
+		glNormal3f(model->vn[3 * i + 1].x, model->vn[3 * i + 1].y,
+				model->vn[3 * i + 1].z);
+		glVertex3f(model->v[3 * i + 1].x, model->v[3 * i + 1].y,
+				model->v[3 * i + 1].z);
+		glTexCoord2f(model->vt[3 * i + 2].x, model->vt[3 * i + 2].y);
+		glNormal3f(model->vn[3 * i + 2].x, model->vn[3 * i + 2].y,
+				model->vn[3 * i + 2].z);
+		glVertex3f(model->v[3 * i + 2].x, model->v[3 * i + 2].y,
+				model->v[3 * i + 2].z);
 		glEnd();
 	}
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

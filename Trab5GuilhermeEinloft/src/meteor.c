@@ -19,15 +19,8 @@ struct meteor meteor_init(struct model *model)
 
 void meteor_render(struct meteor meteor, struct vec3 cam_pos)
 {
-	struct vec3 dif = vset(cam_pos.x - meteor.pos.x,
-			cam_pos.y - meteor.pos.y,
-			cam_pos.z - meteor.pos.z);
-	float distance = dif.x * dif.x + dif.y * dif.y + dif.z * dif.z;
-	if (distance > 0xffff)
-		return;
-	int res = (8 * (1 / (distance / 0xfff + 1))) + 8;
 	glPushMatrix();
 	glTranslatef(meteor.pos.x, meteor.pos.y, meteor.pos.z);
-	glutSolidSphere(meteor.scale, res, res);
+	model_render(meteor.model);
 	glPopMatrix();
 }
