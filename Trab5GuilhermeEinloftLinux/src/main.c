@@ -17,7 +17,7 @@
 
 #define METEOR_MAX_NUMBER 256
 
-#define ENABLE_AUDIO 0
+#define ENABLE_AUDIO 1
 
 int screenW = 640, screenH = 480;
 

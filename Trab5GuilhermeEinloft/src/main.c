@@ -4,20 +4,14 @@
 #include <time.h>
 #include <unistd.h>
 #include <GL/glut.h>
-#include <libopenmpt/libopenmpt.h>
-#include <libopenmpt/libopenmpt_stream_callbacks_file.h>
-#include "portaudio.h"
 
 #include "vec3.h"
 #include "camera.h"
 #include "model.h"
 #include "meteor.h"
-#include "modplayer.h"
 #include "timer.h"
 
 #define METEOR_MAX_NUMBER 256
-
-#define ENABLE_AUDIO 0
 
 int screenW = 640, screenH = 480;
 
@@ -26,7 +20,6 @@ struct timer timer;
 struct model meteor_model;
 struct model sun_model;
 struct meteor meteors[METEOR_MAX_NUMBER];
-struct modplayer mp;
 
 int light = 1;
 int texture = 1;
@@ -48,7 +41,7 @@ int gl_init(char *name)
 	/* glut */
 	int argc = 0;
 	glutInit(&argc, NULL);
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(screenW, screenH);
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow(name);
@@ -113,8 +106,6 @@ void display()
 
 	camera_update(&cam, timer.deltatime);
 	timer_update(&timer);
-	if (ENABLE_AUDIO)
-		mod_play(&mp);
 	printf("DeltaTime: %f\r", timer.deltatime);
 }
 
@@ -175,12 +166,14 @@ int main(int argc, char **argv)
 	if (gl_init("TESTE") < 0)
 		exit(-1);
 	timer_init(&timer);
-	model_load_obj(&meteor_model, "./meteor.obj");
-	model_load_texture(&meteor_model, "./meteor_texture.bmp");
-	model_load_obj(&sun_model, "./sun.obj");
-	model_load_texture(&sun_model, "./sun_texture.bmp");
-	if (ENABLE_AUDIO)
-		mod_init(&mp, "./addiction.mod");
+	model_load_obj(&meteor_model,
+			"./Trab5GuilhermeEinloft/models/meteor.obj");
+	model_load_texture(&meteor_model,
+			"./Trab5GuilhermeEinloft/images/meteor_texture.bmp");
+	model_load_obj(&sun_model,
+			"./Trab5GuilhermeEinloft/models/sun.obj");
+	model_load_texture(&sun_model,
+			"./Trab5GuilhermeEinloft/images/sun_texture.bmp");
 	for (int i = 0; i < METEOR_MAX_NUMBER; i++)
 		meteors[i] = meteor_init(&meteor_model);
 	glutMainLoop();
