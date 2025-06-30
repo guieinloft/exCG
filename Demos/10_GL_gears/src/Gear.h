@@ -1,5 +1,5 @@
-#include <gl/glut.h> //gl utility toolkit
-#include <gl/gl.h>  //gl utility
+#include <GL/glut.h> //gl utility toolkit
+#include <GL/gl.h>  //gl utility
 #include <math.h>
 //#include "vetor.h"
 

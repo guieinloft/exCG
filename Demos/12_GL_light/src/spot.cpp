@@ -65,8 +65,8 @@ void init()
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
 
-   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-   //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
    glEnable(GL_DEPTH_TEST);
 }

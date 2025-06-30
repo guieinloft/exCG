@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <libopenmpt/libopenmpt.h>
+#include <libopenmpt/libopenmpt_stream_callbacks_file.h>
+
+#include "portaudio.h"
+
+#define BUFFERSIZE 480
+#define SAMPLERATE 44100
+
+int main()
+{
+	float left[BUFFERSIZE];
+	float right[BUFFERSIZE];
+
+	float *buffers[2] = {left, right};
+
+	FILE *file = fopen("addiction.mod", "rb");
+	openmpt_module *mod = openmpt_module_create2(
+			openmpt_stream_get_file_callbacks2(), file, NULL, NULL,
+			NULL, NULL, NULL, NULL, NULL);
+	fclose(file);
+
+	PaStream *stream;
+	Pa_Initialize();
+	Pa_OpenDefaultStream(&stream, 0, 2, paFloat32 | paNonInterleaved, SAMPLERATE, paFramesPerBufferUnspecified, NULL, NULL );
+	Pa_StartStream(stream);
+
+	size_t count = 0;
+	while (1) {
+		count = openmpt_module_read_float_stereo(mod, SAMPLERATE, BUFFERSIZE, left, right);
+		if (count == 0)
+			break;
+		Pa_WriteStream(stream, buffers, (unsigned long)count);
+	}
+	Pa_StopStream(stream);
+	Pa_CloseStream(stream);
+	Pa_Terminate();
+
+	return 0;
+}

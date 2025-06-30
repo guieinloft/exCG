@@ -14,7 +14,7 @@
 - Z-buffer com iluminação por pixel (Phong)
 - Salvamento e carregamento de curvas
 
-## OBS: para alterar a resoluçãp
+## OBS: insira os pontos da curva preferencialmente de cima para baixo
 
 # Manual
 ## Modo de visualização
@@ -28,13 +28,13 @@
     +y
 
 ### Rotação (Shift) / Direção da Luz (Ctrl):
-     -pitch
-        ^  PgUp: -yaw
-        |
--roll <- -> +roll
-        |
-        v  PgDn: +yaw
-     +pitch
+    -pitch
+       ^   PgUp: -roll
+       |
++yaw <- -> -yaw
+       |
+       v   PgDn: +roll
+    +pitch
 
 ## Modo de edição
 - Ctrl: encaixa pontos no grid

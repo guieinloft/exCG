@@ -20,7 +20,6 @@
 
 #include <GLFW/glfw3.h>
 
-#include <windows.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,6 +49,7 @@ Bola    *b = NULL;
 Relogio *r = NULL;
 Botao   *bt = NULL; //se a aplicacao tiver varios botoes, sugiro implementar um manager de botoes.
 
+bool tecla = 0;
 
 void DesenhaLinhaDegrade()
 {
@@ -80,8 +80,8 @@ void render(void)
    DesenhaLinhaDegrade();
 
    CV::circleFill(0,0, 30,30);
+	printf("\ntecla: %d", tecla);
 
-   Sleep(10); //nao eh controle de FPS. Somente um limitador de FPS.
 }
 
 
@@ -109,6 +109,7 @@ void scrollCallBack(GLFWwindow *w, double xoffset, double yoffset)
 //callback de keyboard
 void keyCallBack(GLFWwindow *w, int a, int b, int c, int d)
 {
+	tecla = c;
     printf("\nkeyboard %d %d %d %d", a, b, c, d);
 }
 

@@ -168,6 +168,7 @@ int main (int argc, char* argv[])
 	glutKeyboardFunc(keyboard);
 	glutKeyboardUpFunc(up);
 	glutMotionFunc(mouseMotionFunc);
+	glutPassiveMotionFunc(mouseMotionFunc);
 	glutMouseFunc(mouseFunc);
 	glutEntryFunc(entryFunc);
     glutMouseWheelFunc(mouseWheelCB);

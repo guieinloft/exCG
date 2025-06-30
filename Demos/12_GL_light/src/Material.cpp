@@ -45,7 +45,6 @@ void init(void)
 
 void display(void)
 {
-   Sleep(3);
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
    //ATENCAO ATENCAO ATENCAO

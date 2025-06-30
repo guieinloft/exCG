@@ -49,7 +49,7 @@ void init()
    glDisable(GL_CULL_FACE);
 
    //img1 = new Bmp("c:/tmp/snail.bmp");
-   img1 = new Bmp(".\\15_texture\\images\\img3.bmp");
+   img1 = new Bmp("../images/img3.bmp");
    img1->convertBGRtoRGB();
    data = img1->getImage();
 
@@ -190,7 +190,6 @@ void display(void)
       }
    }
 
-   Sleep(10);
    glutSwapBuffers();
 }
 

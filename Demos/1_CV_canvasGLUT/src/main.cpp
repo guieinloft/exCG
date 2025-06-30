@@ -36,6 +36,8 @@ Botao   *bt = NULL; //se a aplicacao tiver varios botoes, sugiro implementar um 
 int opcao  = 50;//variavel global para selecao do que sera exibido na canvas.
 int mouseX, mouseY; //variaveis globais do mouse para poder exibir dentro da render().
 
+bool tecla = 0;
+
 void DesenhaSenoide()
 {
    float x=0, y;
@@ -113,6 +115,8 @@ void render()
        DesenhaSenoide();
    }
 
+   printf("\ntecla: %d", tecla);
+
 
    usleep(10); //nao eh controle de FPS. Somente um limitador de FPS.
 }
@@ -142,12 +146,15 @@ void keyboard(int key)
          b->move(10);
 	  break;
    }
+
+   tecla = 1;
 }
 
 //funcao chamada toda vez que uma tecla for liberada
 void keyboardUp(int key)
 {
    printf("\nLiberou: %d" , key);
+   tecla = 0;
 }
 
 //funcao para tratamento de mouse: cliques, movimentos e arrastos

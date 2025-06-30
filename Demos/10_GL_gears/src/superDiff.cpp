@@ -18,7 +18,7 @@
 #include <ctype.h>
 
 #include "cilindro.h"
-#include "gear.h"
+#include "Gear.h"
 
 
 void display (void);

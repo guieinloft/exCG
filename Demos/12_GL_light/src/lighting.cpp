@@ -62,7 +62,6 @@ void init(void)
 void display(void)
 {
 
-   Sleep(3);
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -73,7 +72,7 @@ void display(void)
    glPushMatrix();
    glTranslated(4,0,0);
    glRotated(angObj+=0.1, 1, 1, 1);
-   glutSolidCube (5);
+   glutSolidCube (1);
    glPopMatrix();
 
 
@@ -81,7 +80,7 @@ void display(void)
    glPushMatrix();
    glTranslated(-4,0,0);
    glRotated(angObj+=0.1, 1, 1, 0);
-   glutSolidSphere (3.0, 20, 16);
+   glutSolidSphere (1.0, 20, 16);
    glPopMatrix();
 
 
@@ -92,8 +91,8 @@ void display(void)
    light_0_position[3] = 0; //w
    angLight+=0.004;
 
-   light_1_position[0] = cos(angLight/2.2)*9; //x
-   light_1_position[1] = sin(angLight/2.2)*9; //y
+   light_1_position[0] = 0; //x
+   light_1_position[1] = 0; //y
    light_1_position[2] = 0; //z
    light_1_position[3] = 0; //w
 

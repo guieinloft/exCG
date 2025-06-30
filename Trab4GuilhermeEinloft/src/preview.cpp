@@ -108,7 +108,7 @@ void prev_check_keypress(int key, bool shift, bool ctrl)
 	switch (key) {
 	case 200: // left
 		if (ctrl) lightdir = rotate(lightdir, Vector3(0, 0, -0.1));
-		else if (shift) ang.z -= 0.1;
+		else if (shift) ang.y += 0.1;
 		else t.x -= 0.1;
 		update = 1;
 		break;
@@ -120,7 +120,7 @@ void prev_check_keypress(int key, bool shift, bool ctrl)
 		break;
 	case 202: // right
 		if (ctrl) lightdir = rotate(lightdir, Vector3(0, 0, +0.1));
-		else if (shift) ang.z += 0.1;
+		else if (shift) ang.y -= 0.1;
 		else t.x += 0.1;
 		update = 1;
 		break;
@@ -132,13 +132,13 @@ void prev_check_keypress(int key, bool shift, bool ctrl)
 		break;
 	case 204: // pgup
 		if (ctrl) lightdir = rotate(lightdir, Vector3(0, -0.1, 0));
-		else if (shift) ang.y -= 0.1;
+		else if (shift) ang.z -= 0.1;
 		else t.z -= 0.1;
 		update = 1;
 		break;
 	case 205: // pgdown
 		if (ctrl) lightdir = rotate(lightdir, Vector3(0, +0.1, 0));
-		else if (shift) ang.y += 0.1;
+		else if (shift) ang.z += 0.1;
 		else t.z += 0.1;
 		update = 1;
 		break;
