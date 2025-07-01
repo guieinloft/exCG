@@ -1,0 +1,74 @@
+# depslib dependency file v1.0
+1749693018 source:c:\users\user\excg\trab4guilhermeeinloft\src\bezier.cpp
+	<stdlib.h>
+	"gl_canvas2d.h"
+	"Vector2.h"
+	"bezier.h"
+
+1749693018 c:\users\user\excg\trab4guilhermeeinloft\src\gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1744075576 c:\users\user\excg\include\gl\glut.h
+	"freeglut_std.h"
+
+1744075576 c:\users\user\excg\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1744075576 c:\users\user\excg\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1749693017 c:\users\user\excg\trab4guilhermeeinloft\src\vector2.h
+	<stdio.h>
+	<math.h>
+
+1749766380 c:\users\user\excg\trab4guilhermeeinloft\src\bezier.h
+
+1749693018 source:c:\users\user\excg\trab4guilhermeeinloft\src\edit.cpp
+	<unistd.h>
+	"gl_canvas2d.h"
+	"Vector2.h"
+	"Vector3.h"
+	"bezier.h"
+	"surface.h"
+	"Mouse.h"
+	"Slider.h"
+	"edit.h"
+
+1749693017 c:\users\user\excg\trab4guilhermeeinloft\src\vector3.h
+
+1749766380 c:\users\user\excg\trab4guilhermeeinloft\src\surface.h
+
+1749766380 c:\users\user\excg\trab4guilhermeeinloft\src\mouse.h
+
+1749766380 c:\users\user\excg\trab4guilhermeeinloft\src\slider.h
+	"Button.h"
+	<stdint.h>
+
+1749766380 c:\users\user\excg\trab4guilhermeeinloft\src\button.h
+	"Mouse.h"
+
+1749766380 c:\users\user\excg\trab4guilhermeeinloft\src\edit.h
+
+1749693018 source:c:\users\user\excg\trab4guilhermeeinloft\src\gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1749693017 source:c:\users\user\excg\trab4guilhermeeinloft\src\slider.cpp
+	"Button.h"
+	"Slider.h"
+	"gl_canvas2d.h"
+

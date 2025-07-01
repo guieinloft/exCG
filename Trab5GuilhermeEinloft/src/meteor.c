@@ -12,7 +12,6 @@ struct meteor meteor_init(struct model *model)
 	meteor.pos.x = ((rand() & 0xfff) - (rand() & 0xfff)) * 0.125;
 	meteor.pos.y = ((rand() & 0xff) - (rand() & 0xff)) * 0.125;
 	meteor.pos.z = ((rand() & 0xfff) - (rand() & 0xfff)) * 0.125;
-	meteor.scale = ((rand() & 0xff) - (rand() & 0xff)) / 127.5 + 3;
 	meteor.model = model;
 	return meteor;
 }

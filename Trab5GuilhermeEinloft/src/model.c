@@ -125,7 +125,7 @@ void model_load_texture(struct model *model, char *path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img.w, img.h, 0, GL_RGB,
 			GL_UNSIGNED_BYTE, img.img);
-	free(img.img);
+	image_close(&img);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -152,4 +152,11 @@ void model_render(struct model *model)
 		glEnd();
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void model_close(struct model *model)
+{
+    free(model->v);
+    free(model->vn);
+    free(model->vt);
 }

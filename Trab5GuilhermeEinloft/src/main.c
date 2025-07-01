@@ -1,3 +1,17 @@
+/*
+ * Trab5GuilhermeEinloft
+ * requisitos:
+ * - vetores e operações com vetores
+ * - vetor posição e direção na câmera
+ * - modelos 3d com vetores normais
+ * - controle de fps
+ * - visualização com wireframe e preenchimento
+ * bônus:
+ * - texturas
+ * - carregamento de modelos
+ * - modelagem de asteroides (feitos no blender por *minha pessoa*)
+ */
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,9 +48,8 @@ void mouseFunc(int button, int state, int x, int y);
 void keyboardFunc(unsigned char key, int x, int y);
 void keyboardUpFunc(unsigned char key, int x, int y);
 
-/* audio */
-
-int gl_init(char *name) 
+/* inicializa o opengl e a glut */
+int gl_init(char *name)
 {
 	/* glut */
 	int argc = 0;
@@ -72,7 +85,7 @@ int gl_init(char *name)
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, (GLfloat[]){0.2, 0.2, 0.5, 1});
 	glEnable(GL_LIGHT1);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, (GLfloat[]){1, 1, 0.5, 1});
-	
+
 	return 0;
 }
 
@@ -82,7 +95,7 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	camera_display(&cam, screenW, screenH);
-	
+
 	if (light)
 		glEnable(GL_LIGHTING);
 	glPushMatrix();
@@ -94,19 +107,18 @@ void display()
 	glColor3f(1, 1, 1);
 	for (int i = 0; i < METEOR_MAX_NUMBER; i++)
 		meteor_render(meteors[i], cam.pos);
-	
+
 	glDisable(GL_LIGHTING);
 	glPushMatrix();
 	glColor3f(1, 1, 1);
 	model_render(&sun_model);
 	glPopMatrix();
-	
+
 	glFlush();
 	glutSwapBuffers();
 
 	camera_update(&cam, timer.deltatime);
 	timer_update(&timer);
-	printf("DeltaTime: %f\r", timer.deltatime);
 }
 
 void reshape(int w, int h)
@@ -177,6 +189,8 @@ int main(int argc, char **argv)
 	for (int i = 0; i < METEOR_MAX_NUMBER; i++)
 		meteors[i] = meteor_init(&meteor_model);
 	glutMainLoop();
-	return 0;
+	model_close(&meteor_model);
+    model_close(&sun_model);
+return 0;
 }
 

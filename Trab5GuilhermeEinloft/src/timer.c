@@ -1,19 +1,22 @@
 #include <stdlib.h>
-#include <sys/time.h>
+#include <stdint.h>
+#include <Windows.h>
 #include "timer.h"
 
 void timer_init(struct timer *timer)
 {
-	gettimeofday(&(timer->t1), NULL);
-	timer->deltatime = 1000/60;
+    QueryPerformanceFrequency(&(timer->frequency));
+	QueryPerformanceCounter(&(timer->t1));
+	timer->deltatime = 0;
 }
 
 void timer_update(struct timer *timer)
 {
-	gettimeofday(&(timer->t2), NULL);
+    QueryPerformanceFrequency(&(timer->frequency));
+	QueryPerformanceCounter(&(timer->t2));
 
-	timer->deltatime = timer->t2.tv_sec - timer->t1.tv_sec
-			+ (timer->t2.tv_usec - timer->t1.tv_usec) / 1000000.0;
+	timer->deltatime = (float)(timer->t2.QuadPart - timer->t1.QuadPart)
+            / timer->frequency.QuadPart;
 
 	timer->t1 = timer->t2;
 }

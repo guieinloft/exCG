@@ -1,0 +1,85 @@
+# depslib dependency file v1.0
+1751330476 source:c:\users\user\excg\trab5guilhermeeinloft\src\camera.c
+	<GL/glut.h>
+	<math.h>
+	<stdio.h>
+	"vec3.h"
+	"camera.h"
+
+1744075576 c:\users\user\excg\include\gl\glut.h
+	"freeglut_std.h"
+
+1744075576 c:\users\user\excg\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1751321490 c:\users\user\excg\trab5guilhermeeinloft\src\vec3.h
+
+1751331019 c:\users\user\excg\trab5guilhermeeinloft\src\camera.h
+
+1751329712 source:c:\users\user\excg\trab5guilhermeeinloft\src\image.c
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	"image.h"
+
+1751321490 c:\users\user\excg\trab5guilhermeeinloft\src\image.h
+
+1751321490 source:c:\users\user\excg\trab5guilhermeeinloft\src\meteor.c
+	<stdlib.h>
+	<stdio.h>
+	<time.h>
+	<GL/glut.h>
+	"vec3.h"
+	"model.h"
+	"meteor.h"
+
+1751331179 c:\users\user\excg\trab5guilhermeeinloft\src\model.h
+
+1751321490 c:\users\user\excg\trab5guilhermeeinloft\src\meteor.h
+
+1751330558 source:c:\users\user\excg\trab5guilhermeeinloft\src\main.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<unistd.h>
+	<GL/glut.h>
+	"vec3.h"
+	"camera.h"
+	"model.h"
+	"meteor.h"
+	"timer.h"
+
+1751328602 c:\users\user\excg\trab5guilhermeeinloft\src\timer.h
+
+1751321490 source:c:\users\user\excg\trab5guilhermeeinloft\src\model.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	"image.h"
+	"vec2.h"
+	"vec3.h"
+	"model.h"
+
+1751321490 c:\users\user\excg\trab5guilhermeeinloft\src\vec2.h
+
+1751321490 source:c:\users\user\excg\trab5guilhermeeinloft\src\vec3.c
+	"vec3.h"
+
+1751330661 source:c:\users\user\excg\trab5guilhermeeinloft\src\timer.c
+	<stdlib.h>
+	<stdint.h>
+	<Windows.h>
+	"timer.h"
+

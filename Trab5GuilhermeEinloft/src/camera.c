@@ -75,10 +75,6 @@ void camera_update(struct camera *cam, float deltatime)
 		cam->speed = 0;
 	cam->yaw += cam->yaw_inc * deltatime;
 	cam->pitch += cam->pitch_inc * deltatime;
-	//if (cam->pitch > MAX_PITCH)
-	//	cam->pitch = MAX_PITCH;
-	//else if (cam->pitch < -MAX_PITCH)
-	//	cam->pitch = -MAX_PITCH;
 	cam->dir = vset(cos(cam->yaw) * cos(cam->pitch),
 			sin(cam->pitch),
 			sin(cam->yaw) * cos(cam->pitch));
@@ -106,10 +102,10 @@ void camera_check_key_release(struct camera *cam, int key)
 {
 	switch (key) {
 	case 'w':
-		cam->speed_dir -= 1;
+		cam->speed_dir = 0;
 		break;
 	case 's':
-		cam->speed_dir += 1;
+		cam->speed_dir = 0;
 		break;
 	}
 }
